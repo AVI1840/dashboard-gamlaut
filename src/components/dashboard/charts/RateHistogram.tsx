@@ -7,10 +7,10 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { Municipality, BenefitData, BenefitType } from "@/data/welfareData";
+import { BenefitType } from "@/data/welfareData";
 
 interface RateHistogramProps {
-  data: Array<{ municipality: Municipality; data: BenefitData }>;
+  data: Array<{ municipality: { name: string }; data: { ratePer1000: number } }>;
   benefitType: BenefitType;
 }
 

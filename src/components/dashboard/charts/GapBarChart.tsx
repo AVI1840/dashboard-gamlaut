@@ -8,10 +8,8 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import { Municipality, BenefitData } from "@/data/welfareData";
-
 interface GapBarChartProps {
-  data: Array<{ municipality: Municipality; data: BenefitData }>;
+  data: Array<{ municipality: { name: string }; data: { recipientPercent: number; recipients?: number } }>;
   maxBars?: number;
 }
 
@@ -24,7 +22,7 @@ export function GapBarChart({ data, maxBars = 20 }: GapBarChartProps) {
   const chartData = sortedData.map((item) => ({
     name: item.municipality.name,
     percent: item.data.recipientPercent,
-    recipients: item.data.recipients,
+    recipients: item.data.recipients ?? 0,
   }));
 
   const CustomTooltip = ({ active, payload }: any) => {

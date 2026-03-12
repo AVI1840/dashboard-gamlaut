@@ -1,0 +1,232 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap');
+
+/* 
+  Israeli Welfare Benefits Gap Analysis Dashboard
+  Design System: Professional Hebrew RTL layout
+  Color Scheme: Red (high gaps), Green (low gaps), Blue (headers/navigation)
+*/
+
+@layer base {
+  :root {
+    /* Core backgrounds */
+    --background: 220 20% 97%;
+    --foreground: 220 20% 10%;
+
+    /* Cards & containers */
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 10%;
+
+    /* Primary: Deep Blue - for headers, navigation */
+    --primary: 210 53% 24%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary: Soft blue-gray */
+    --secondary: 215 30% 92%;
+    --secondary-foreground: 215 80% 25%;
+
+    /* Muted: Light gray backgrounds */
+    --muted: 220 15% 94%;
+    --muted-foreground: 220 10% 45%;
+
+    /* Accent: Deep blue tint */
+    --accent: 215 60% 95%;
+    --accent-foreground: 215 80% 30%;
+
+    /* Destructive / High Gap: Red */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Success / Low Gap: Green */
+    --success: 142 72% 35%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning / Medium Gap: Amber */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 10%;
+
+    /* Gap Colors - Semantic */
+    --gap-high: 0 72% 51%;
+    --gap-medium: 38 92% 50%;
+    --gap-low: 142 72% 35%;
+    --gap-neutral: 220 15% 55%;
+
+    /* Chart colors */
+    --chart-1: 215 80% 45%;
+    --chart-2: 0 72% 55%;
+    --chart-3: 142 72% 40%;
+    --chart-4: 38 92% 55%;
+    --chart-5: 280 70% 55%;
+
+    /* Borders & inputs */
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 215 80% 45%;
+
+    --radius: 0.625rem;
+
+    /* Sidebar */
+    --sidebar-background: 215 80% 20%;
+    --sidebar-foreground: 215 20% 95%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 215 80% 20%;
+    --sidebar-accent: 215 60% 30%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 215 60% 30%;
+    --sidebar-ring: 215 80% 60%;
+
+    /* Dashboard specific */
+    --dashboard-header: 215 80% 25%;
+    --kpi-bg: 0 0% 100%;
+    --kpi-border: 220 15% 90%;
+  }
+
+  .dark {
+    --background: 220 25% 8%;
+    --foreground: 220 15% 95%;
+
+    --card: 220 25% 12%;
+    --card-foreground: 220 15% 95%;
+
+    --popover: 220 25% 12%;
+    --popover-foreground: 220 15% 95%;
+
+    --primary: 215 75% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 25% 18%;
+    --secondary-foreground: 220 15% 90%;
+
+    --muted: 220 25% 18%;
+    --muted-foreground: 220 15% 60%;
+
+    --accent: 220 25% 22%;
+    --accent-foreground: 220 15% 95%;
+
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 65% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 85% 55%;
+    --warning-foreground: 0 0% 10%;
+
+    --gap-high: 0 65% 55%;
+    --gap-medium: 38 85% 55%;
+    --gap-low: 142 65% 45%;
+    --gap-neutral: 220 15% 60%;
+
+    --border: 220 25% 22%;
+    --input: 220 25% 22%;
+    --ring: 215 75% 55%;
+
+    --sidebar-background: 220 30% 6%;
+    --sidebar-foreground: 220 15% 90%;
+    --sidebar-primary: 215 75% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 25% 15%;
+    --sidebar-accent-foreground: 220 15% 95%;
+    --sidebar-border: 220 25% 18%;
+    --sidebar-ring: 215 75% 55%;
+
+    --dashboard-header: 220 30% 12%;
+    --kpi-bg: 220 25% 14%;
+    --kpi-border: 220 25% 22%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    direction: rtl;
+    font-family: 'Heebo', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01", "ss02";
+  }
+}
+
+@layer utilities {
+  /* Gap severity classes */
+  .gap-high {
+    @apply bg-destructive text-destructive-foreground;
+  }
+  
+  .gap-medium {
+    @apply bg-warning text-warning-foreground;
+  }
+  
+  .gap-low {
+    @apply bg-success text-success-foreground;
+  }
+
+  /* Text gap colors */
+  .text-gap-high {
+    color: hsl(var(--gap-high));
+  }
+  
+  .text-gap-medium {
+    color: hsl(var(--gap-medium));
+  }
+  
+  .text-gap-low {
+    color: hsl(var(--gap-low));
+  }
+
+  /* Dashboard card styles */
+  .dashboard-card {
+    @apply bg-card rounded-lg border border-border shadow-sm transition-shadow hover:shadow-md;
+  }
+
+  .kpi-card {
+    @apply bg-card rounded-xl border border-border p-6 shadow-sm;
+  }
+
+  /* Hebrew text alignment */
+  .text-rtl {
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* Chart container */
+  .chart-container {
+    @apply w-full h-full min-h-[300px];
+  }
+
+  /* Gradient backgrounds */
+  .gradient-primary {
+    background: linear-gradient(135deg, hsl(215 80% 35%), hsl(215 80% 45%));
+  }
+
+  .gradient-header {
+    background: linear-gradient(135deg, hsl(210 53% 24%), hsl(210 53% 35%));
+  }
+
+  /* Animation */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

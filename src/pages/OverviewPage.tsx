@@ -4,17 +4,19 @@ import { MunicipalityTable } from "@/components/dashboard/MunicipalityTable";
 import { BenefitTypeCard } from "@/components/dashboard/BenefitTypeCard";
 import { TrendPanel } from "@/components/dashboard/TrendPanel";
 import { useViewMode } from "@/context/ViewModeContext";
+import { useSnapshotData, getTopByGap } from "@/hooks/useSnapshotData";
 import {
   nationalStats,
   benefitTypes,
-  getTopMunicipalitiesByGap,
   formatNumber,
 } from "@/data/welfareData";
 
 
 export default function OverviewPage() {
   const { viewMode } = useViewMode();
-  const topMunicipalitiesByDisability = getTopMunicipalitiesByGap("disability", 10);
+  const { municipalities, benefitData, loading } = useSnapshotData();
+
+  const topMunicipalitiesByDisability = getTopByGap(benefitData, municipalities, "disability", 10);
   const totalRecipients = benefitTypes.reduce(
     (sum, b) => sum + b.nationalRecipients,
     0
@@ -25,12 +27,20 @@ export default function OverviewPage() {
     return (
       <div className="space-y-8 animate-fade-in">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">מגמות 2023–2025</h1>
+          <h1 className="text-2xl font-bold text-foreground">מגמות דצמבר 2023–2025</h1>
           <p className="text-muted-foreground mt-1">
             ניתוח שינויים מצטברים לפי יישוב וסוג גמלה
           </p>
         </div>
         <TrendPanel />
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-16 text-muted-foreground">
+        <span className="animate-pulse">טוען נתונים...</span>
       </div>
     );
   }
@@ -41,7 +51,7 @@ export default function OverviewPage() {
       <div>
         <h1 className="text-2xl font-bold text-foreground">סקירה כללית</h1>
         <p className="text-muted-foreground mt-1">
-          ניתוח פערי גמלאות רווחה ברשויות המקומיות בישראל • עדכון: {nationalStats.lastUpdated}
+          ניתוח פערי גמלאות רווחה ברשויות המקומיות בישראל • נתונים: דצמבר 2023 | דצמבר 2024 | דצמבר 2025
         </p>
       </div>
 
@@ -56,7 +66,7 @@ export default function OverviewPage() {
         />
         <KPICard
           title="רשויות מקומיות"
-          value={formatNumber(nationalStats.totalMunicipalities)}
+          value={formatNumber(municipalities.length || nationalStats.totalMunicipalities)}
           subtitle="בניתוח"
           icon={Building2}
           variant="default"
@@ -81,7 +91,7 @@ export default function OverviewPage() {
       <div>
         <h2 className="text-lg font-semibold mb-4">גמלאות לפי סוג</h2>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {benefitTypes.slice(0, 6).map((benefit) => (
+          {benefitTypes.map((benefit) => (
             <BenefitTypeCard key={benefit.id} benefit={benefit} />
           ))}
         </div>

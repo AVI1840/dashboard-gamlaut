@@ -8,10 +8,10 @@ import {
   ResponsiveContainer,
   ReferenceLine,
 } from "recharts";
-import { Municipality, BenefitData, BenefitType, getGapColor } from "@/data/welfareData";
+import { BenefitType, getGapColor } from "@/data/welfareData";
 
 interface PopulationScatterChartProps {
-  data: Array<{ municipality: Municipality; data: BenefitData }>;
+  data: Array<{ municipality: { name: string; population: number }; data: { ratePer1000: number; gapPercentage: number } }>;
   benefitType: BenefitType;
 }
 

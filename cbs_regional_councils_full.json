@@ -1,0 +1,5246 @@
+{
+  "אל קסום": {
+    "district": "הדרום",
+    "nafa": "באר שבע",
+    "totalPop2021": 17270,
+    "settlementCount": 7,
+    "settlements": [
+      {
+        "name": "אום בטין",
+        "population": 4705
+      },
+      {
+        "name": "אל סייד",
+        "population": 6288
+      },
+      {
+        "name": "דריג'את",
+        "population": 1308
+      },
+      {
+        "name": "כחלה",
+        "population": 455
+      },
+      {
+        "name": "מכחול",
+        "population": 1126
+      },
+      {
+        "name": "סעוה",
+        "population": 2149
+      },
+      {
+        "name": "תרבין א-צאנע (יישוב)*",
+        "population": 1239
+      }
+    ]
+  },
+  "אל-בטוף": {
+    "district": "הצפון",
+    "nafa": "כנרת",
+    "totalPop2021": 8409,
+    "settlementCount": 4,
+    "settlements": [
+      {
+        "name": "חמאם",
+        "population": 1561
+      },
+      {
+        "name": "עוזייר",
+        "population": 3432
+      },
+      {
+        "name": "רומאנה",
+        "population": 1262
+      },
+      {
+        "name": "רומת הייב",
+        "population": 2154
+      }
+    ]
+  },
+  "אלונה": {
+    "district": "חיפה",
+    "nafa": "חדרה",
+    "totalPop2021": 2275,
+    "settlementCount": 5,
+    "settlements": [
+      {
+        "name": "אביאל",
+        "population": 820
+      },
+      {
+        "name": "אזור חדרה מ\"א 45",
+        "population": 0
+      },
+      {
+        "name": "גבעת ניל\"י",
+        "population": 715
+      },
+      {
+        "name": "הר אלכסנדר מ\"א 45",
+        "population": 0
+      },
+      {
+        "name": "עמיקם",
+        "population": 740
+      }
+    ]
+  },
+  "אשכול": {
+    "district": "הדרום",
+    "nafa": "באר שבע",
+    "totalPop2021": 15203,
+    "settlementCount": 34,
+    "settlements": [
+      {
+        "name": "אבשלום",
+        "population": 345
+      },
+      {
+        "name": "אוהד",
+        "population": 412
+      },
+      {
+        "name": "אורים",
+        "population": 504
+      },
+      {
+        "name": "אזור בשור מ\"א 38",
+        "population": 0
+      },
+      {
+        "name": "בארי",
+        "population": 1047
+      },
+      {
+        "name": "בני נצרים",
+        "population": 902
+      },
+      {
+        "name": "גבולות",
+        "population": 400
+      },
+      {
+        "name": "דקל",
+        "population": 380
+      },
+      {
+        "name": "חולית",
+        "population": 203
+      },
+      {
+        "name": "יבול",
+        "population": 352
+      },
+      {
+        "name": "ישע",
+        "population": 429
+      },
+      {
+        "name": "יתד",
+        "population": 563
+      },
+      {
+        "name": "כיסופים",
+        "population": 292
+      },
+      {
+        "name": "כרם שלום",
+        "population": 194
+      },
+      {
+        "name": "מבטחים",
+        "population": 463
+      },
+      {
+        "name": "מגן",
+        "population": 537
+      },
+      {
+        "name": "מפעלי מעון",
+        "population": 0
+      },
+      {
+        "name": "נווה",
+        "population": 1327
+      },
+      {
+        "name": "ניר יצחק",
+        "population": 649
+      },
+      {
+        "name": "ניר עוז",
+        "population": 392
+      },
+      {
+        "name": "נירים",
+        "population": 408
+      },
+      {
+        "name": "סופה",
+        "population": 227
+      },
+      {
+        "name": "עין הבשור",
+        "population": 1113
+      },
+      {
+        "name": "עין השלושה",
+        "population": 369
+      },
+      {
+        "name": "עמיעוז",
+        "population": 208
+      },
+      {
+        "name": "פרי גן",
+        "population": 252
+      },
+      {
+        "name": "צאלים",
+        "population": 470
+      },
+      {
+        "name": "צוחר",
+        "population": 475
+      },
+      {
+        "name": "רעים",
+        "population": 433
+      },
+      {
+        "name": "שדה ניצן",
+        "population": 387
+      },
+      {
+        "name": "שדי אברהם",
+        "population": 367
+      },
+      {
+        "name": "שלומית",
+        "population": 443
+      },
+      {
+        "name": "תלמי אליהו",
+        "population": 321
+      },
+      {
+        "name": "תלמי יוסף",
+        "population": 339
+      }
+    ]
+  },
+  "באר טוביה": {
+    "district": "הדרום",
+    "nafa": "אשקלון",
+    "totalPop2021": 23556,
+    "settlementCount": 30,
+    "settlements": [
+      {
+        "name": "אביגדור",
+        "population": 806
+      },
+      {
+        "name": "אורות",
+        "population": 472
+      },
+      {
+        "name": "אזור אשדוד מ\"א 33",
+        "population": 0
+      },
+      {
+        "name": "אזור מלאכי מ\"א 33",
+        "population": 0
+      },
+      {
+        "name": "אחווה",
+        "population": 279
+      },
+      {
+        "name": "אמונים",
+        "population": 1011
+      },
+      {
+        "name": "באר טוביה",
+        "population": 1294
+      },
+      {
+        "name": "ביצרון",
+        "population": 1248
+      },
+      {
+        "name": "בית עזרא",
+        "population": 1104
+      },
+      {
+        "name": "גבעתי",
+        "population": 1071
+      },
+      {
+        "name": "חצב",
+        "population": 1517
+      },
+      {
+        "name": "חצור-אשדוד",
+        "population": 673
+      },
+      {
+        "name": "ינון",
+        "population": 1215
+      },
+      {
+        "name": "כנות",
+        "population": 441
+      },
+      {
+        "name": "כפר אחים",
+        "population": 892
+      },
+      {
+        "name": "כפר ורבורג",
+        "population": 1161
+      },
+      {
+        "name": "מחנה מרים*",
+        "population": 0
+      },
+      {
+        "name": "מפעלי כנות",
+        "population": 0
+      },
+      {
+        "name": "מפעלי צומת מלאכי",
+        "population": 0
+      },
+      {
+        "name": "נווה מבטח",
+        "population": 690
+      },
+      {
+        "name": "ניר בנים",
+        "population": 726
+      },
+      {
+        "name": "עד הלום",
+        "population": 0
+      },
+      {
+        "name": "עזר",
+        "population": 810
+      },
+      {
+        "name": "עזריקם",
+        "population": 1530
+      },
+      {
+        "name": "ערוגות",
+        "population": 1145
+      },
+      {
+        "name": "שדה עוזיהו",
+        "population": 1586
+      },
+      {
+        "name": "שתולים",
+        "population": 2121
+      },
+      {
+        "name": "תימורים",
+        "population": 743
+      },
+      {
+        "name": "תלמי יחיאל",
+        "population": 1021
+      },
+      {
+        "name": "תעשיון מבצע*",
+        "population": 0
+      }
+    ]
+  },
+  "בוסתן אל-מרג'": {
+    "district": "הצפון",
+    "nafa": "יזרעאל",
+    "totalPop2021": 8137,
+    "settlementCount": 4,
+    "settlements": [
+      {
+        "name": "דחי",
+        "population": 712
+      },
+      {
+        "name": "כפר מצר",
+        "population": 2805
+      },
+      {
+        "name": "ניין",
+        "population": 1959
+      },
+      {
+        "name": "סולם",
+        "population": 2661
+      }
+    ]
+  },
+  "בני שמעון": {
+    "district": "הדרום",
+    "nafa": "באר שבע",
+    "totalPop2021": 11417,
+    "settlementCount": 18,
+    "settlements": [
+      {
+        "name": "אזור באר שבע מ\"א 41",
+        "population": 0
+      },
+      {
+        "name": "אזור גרר מ\"א 41",
+        "population": 0
+      },
+      {
+        "name": "אזור לכיש מ\"א 41",
+        "population": 0
+      },
+      {
+        "name": "בית קמה",
+        "population": 1420
+      },
+      {
+        "name": "ברוש",
+        "population": 595
+      },
+      {
+        "name": "גבעות בר",
+        "population": 1307
+      },
+      {
+        "name": "דבירה",
+        "population": 1045
+      },
+      {
+        "name": "חצרים",
+        "population": 857
+      },
+      {
+        "name": "כרמים",
+        "population": 526
+      },
+      {
+        "name": "להב",
+        "population": 656
+      },
+      {
+        "name": "מפעלי אבשלו\"ם",
+        "population": 0
+      },
+      {
+        "name": "משמר הנגב",
+        "population": 1085
+      },
+      {
+        "name": "נבטים",
+        "population": 1067
+      },
+      {
+        "name": "עידן הנגב",
+        "population": 0
+      },
+      {
+        "name": "שובל",
+        "population": 870
+      },
+      {
+        "name": "שומרייה",
+        "population": 828
+      },
+      {
+        "name": "תאשור",
+        "population": 459
+      },
+      {
+        "name": "תדהר",
+        "population": 702
+      }
+    ]
+  },
+  "ברנר": {
+    "district": "המרכז",
+    "nafa": "רחובות",
+    "totalPop2021": 7629,
+    "settlementCount": 8,
+    "settlements": [
+      {
+        "name": "אזור רחובות מ\"א 28",
+        "population": 0
+      },
+      {
+        "name": "בית אלעזרי",
+        "population": 1576
+      },
+      {
+        "name": "בניה",
+        "population": 764
+      },
+      {
+        "name": "גבעת ברנר",
+        "population": 2694
+      },
+      {
+        "name": "גיבתון",
+        "population": 390
+      },
+      {
+        "name": "גן שלמה",
+        "population": 590
+      },
+      {
+        "name": "מחנה תל נוף*",
+        "population": 0
+      },
+      {
+        "name": "קדרון",
+        "population": 1615
+      }
+    ]
+  },
+  "גדרות": {
+    "district": "המרכז",
+    "nafa": "רחובות",
+    "totalPop2021": 5191,
+    "settlementCount": 8,
+    "settlements": [
+      {
+        "name": "אזור רחובות מ\"א 32",
+        "population": 0
+      },
+      {
+        "name": "גן הדרום",
+        "population": 633
+      },
+      {
+        "name": "כפר אביב",
+        "population": 822
+      },
+      {
+        "name": "כפר מרדכי",
+        "population": 657
+      },
+      {
+        "name": "מישר",
+        "population": 811
+      },
+      {
+        "name": "משגב דב",
+        "population": 714
+      },
+      {
+        "name": "עשרת",
+        "population": 968
+      },
+      {
+        "name": "שדמה",
+        "population": 586
+      }
+    ]
+  },
+  "גולן": {
+    "district": "הצפון",
+    "nafa": "גולן",
+    "totalPop2021": 19186,
+    "settlementCount": 36,
+    "settlements": [
+      {
+        "name": "אבני איתן",
+        "population": 811
+      },
+      {
+        "name": "אודם",
+        "population": 176
+      },
+      {
+        "name": "אורטל",
+        "population": 369
+      },
+      {
+        "name": "אל -רום",
+        "population": 442
+      },
+      {
+        "name": "אלוני הבשן",
+        "population": 472
+      },
+      {
+        "name": "אלי-עד",
+        "population": 484
+      },
+      {
+        "name": "אניעם",
+        "population": 502
+      },
+      {
+        "name": "אפיק",
+        "population": 356
+      },
+      {
+        "name": "בני יהודה",
+        "population": 1129
+      },
+      {
+        "name": "גבעת יואב",
+        "population": 728
+      },
+      {
+        "name": "גולן דרומי מ\"א 71",
+        "population": 0
+      },
+      {
+        "name": "גולן צפוני מ\"א 71",
+        "population": 0
+      },
+      {
+        "name": "גולן תיכון מ\"א 71",
+        "population": 0
+      },
+      {
+        "name": "גשור",
+        "population": 309
+      },
+      {
+        "name": "חד-נס",
+        "population": 876
+      },
+      {
+        "name": "חספין",
+        "population": 2071
+      },
+      {
+        "name": "חרמון מ\"א 71",
+        "population": 0
+      },
+      {
+        "name": "יונתן",
+        "population": 802
+      },
+      {
+        "name": "כנף",
+        "population": 465
+      },
+      {
+        "name": "כפר חרוב",
+        "population": 478
+      },
+      {
+        "name": "מבוא חמה",
+        "population": 459
+      },
+      {
+        "name": "מיצר",
+        "population": 324
+      },
+      {
+        "name": "מעלה גמלא",
+        "population": 573
+      },
+      {
+        "name": "מרום גולן",
+        "population": 754
+      },
+      {
+        "name": "נאות גולן",
+        "population": 669
+      },
+      {
+        "name": "נוב",
+        "population": 1026
+      },
+      {
+        "name": "נווה אטי\"ב",
+        "population": 141
+      },
+      {
+        "name": "נטור",
+        "population": 910
+      },
+      {
+        "name": "נמרוד",
+        "population": 0
+      },
+      {
+        "name": "עין זיוון",
+        "population": 426
+      },
+      {
+        "name": "קדמת צבי",
+        "population": 537
+      },
+      {
+        "name": "קלע",
+        "population": 390
+      },
+      {
+        "name": "קשת",
+        "population": 863
+      },
+      {
+        "name": "רמות",
+        "population": 544
+      },
+      {
+        "name": "רמת מגשימים",
+        "population": 784
+      },
+      {
+        "name": "שעל",
+        "population": 316
+      }
+    ]
+  },
+  "גוש עציון": {
+    "district": "אזור יהודה ושומרון",
+    "nafa": "בית לחם",
+    "totalPop2021": 25691,
+    "settlementCount": 15,
+    "settlements": [
+      {
+        "name": "אלון שבות",
+        "population": 3061
+      },
+      {
+        "name": "אלעזר",
+        "population": 2561
+      },
+      {
+        "name": "אספר",
+        "population": 1114
+      },
+      {
+        "name": "בת עין",
+        "population": 1673
+      },
+      {
+        "name": "הר גילה",
+        "population": 1647
+      },
+      {
+        "name": "כפר עציון",
+        "population": 1279
+      },
+      {
+        "name": "כרמי צור",
+        "population": 964
+      },
+      {
+        "name": "מגדל עוז",
+        "population": 566
+      },
+      {
+        "name": "מעלה עמוס",
+        "population": 822
+      },
+      {
+        "name": "נווה דניאל",
+        "population": 2360
+      },
+      {
+        "name": "נוקדים",
+        "population": 2764
+      },
+      {
+        "name": "נפת בית לחם מ\"א 76",
+        "population": 0
+      },
+      {
+        "name": "קדר",
+        "population": 1617
+      },
+      {
+        "name": "ראש צורים",
+        "population": 948
+      },
+      {
+        "name": "תקוע",
+        "population": 4315
+      }
+    ]
+  },
+  "גזר": {
+    "district": "המרכז",
+    "nafa": "רמלה",
+    "totalPop2021": 27621,
+    "settlementCount": 28,
+    "settlements": [
+      {
+        "name": "אזור מודיעין מ\"א 30",
+        "population": 0
+      },
+      {
+        "name": "אזור רחובות מ\"א 30",
+        "population": 0
+      },
+      {
+        "name": "אזור רמלה מ\"א 30",
+        "population": 0
+      },
+      {
+        "name": "בית חשמונאי",
+        "population": 2166
+      },
+      {
+        "name": "בית עוזיאל",
+        "population": 649
+      },
+      {
+        "name": "גזר",
+        "population": 311
+      },
+      {
+        "name": "גני הדר",
+        "population": 354
+      },
+      {
+        "name": "גני יוחנן",
+        "population": 602
+      },
+      {
+        "name": "חולדה",
+        "population": 1169
+      },
+      {
+        "name": "יד רמב\"ם",
+        "population": 1139
+      },
+      {
+        "name": "יציץ",
+        "population": 826
+      },
+      {
+        "name": "ישרש",
+        "population": 983
+      },
+      {
+        "name": "כפר ביל\"ו",
+        "population": 1252
+      },
+      {
+        "name": "כפר בן נון",
+        "population": 742
+      },
+      {
+        "name": "כפר שמואל",
+        "population": 969
+      },
+      {
+        "name": "כרמי יוסף",
+        "population": 1757
+      },
+      {
+        "name": "מצליח",
+        "population": 1343
+      },
+      {
+        "name": "משמר איילון",
+        "population": 573
+      },
+      {
+        "name": "משמר דוד",
+        "population": 1304
+      },
+      {
+        "name": "נוף איילון",
+        "population": 2081
+      },
+      {
+        "name": "נען",
+        "population": 1771
+      },
+      {
+        "name": "נצר סרני",
+        "population": 946
+      },
+      {
+        "name": "סתרייה",
+        "population": 1092
+      },
+      {
+        "name": "עזריה",
+        "population": 1238
+      },
+      {
+        "name": "פדיה",
+        "population": 827
+      },
+      {
+        "name": "פתחיה",
+        "population": 886
+      },
+      {
+        "name": "רמות מאיר",
+        "population": 755
+      },
+      {
+        "name": "שעלבים",
+        "population": 1886
+      }
+    ]
+  },
+  "גן רווה": {
+    "district": "המרכז",
+    "nafa": "רחובות",
+    "totalPop2021": 6261,
+    "settlementCount": 11,
+    "settlements": [
+      {
+        "name": "אזור ראשל\"צ מ\"א 27",
+        "population": 0
+      },
+      {
+        "name": "אירוס",
+        "population": 830
+      },
+      {
+        "name": "בית חנן",
+        "population": 523
+      },
+      {
+        "name": "בית עובד",
+        "population": 253
+      },
+      {
+        "name": "גאליה",
+        "population": 942
+      },
+      {
+        "name": "גן שורק",
+        "population": 702
+      },
+      {
+        "name": "כפר הנגיד",
+        "population": 1223
+      },
+      {
+        "name": "מחנה הילה*",
+        "population": 0
+      },
+      {
+        "name": "נטעים",
+        "population": 637
+      },
+      {
+        "name": "עיינות",
+        "population": 408
+      },
+      {
+        "name": "פלמחים",
+        "population": 743
+      }
+    ]
+  },
+  "דרום השרון": {
+    "district": "המרכז",
+    "nafa": "פתח תקווה",
+    "totalPop2021": 34322,
+    "settlementCount": 35,
+    "settlements": [
+      {
+        "name": "אזור פתח תקווה מ\"א 20",
+        "population": 0
+      },
+      {
+        "name": "אייל",
+        "population": 549
+      },
+      {
+        "name": "אלישמע",
+        "population": 1167
+      },
+      {
+        "name": "בית ברל",
+        "population": 226
+      },
+      {
+        "name": "גבעת השלושה",
+        "population": 900
+      },
+      {
+        "name": "גבעת ח\"ן",
+        "population": 363
+      },
+      {
+        "name": "גן חיים",
+        "population": 811
+      },
+      {
+        "name": "גני עם",
+        "population": 234
+      },
+      {
+        "name": "גת רימון",
+        "population": 318
+      },
+      {
+        "name": "דרום השרון מ\"א 20",
+        "population": 0
+      },
+      {
+        "name": "חגור",
+        "population": 1152
+      },
+      {
+        "name": "חורשים",
+        "population": 350
+      },
+      {
+        "name": "ירחיב",
+        "population": 1088
+      },
+      {
+        "name": "ירקונה",
+        "population": 357
+      },
+      {
+        "name": "כפר מל\"ל",
+        "population": 324
+      },
+      {
+        "name": "כפר סירקין",
+        "population": 1543
+      },
+      {
+        "name": "מגשימים",
+        "population": 1090
+      },
+      {
+        "name": "מעש",
+        "population": 835
+      },
+      {
+        "name": "מתן",
+        "population": 3631
+      },
+      {
+        "name": "נווה ימין",
+        "population": 1065
+      },
+      {
+        "name": "נווה ירק",
+        "population": 1271
+      },
+      {
+        "name": "נחשונים",
+        "population": 435
+      },
+      {
+        "name": "ניר אליהו",
+        "population": 563
+      },
+      {
+        "name": "נירית",
+        "population": 952
+      },
+      {
+        "name": "עדנים",
+        "population": 509
+      },
+      {
+        "name": "עינת",
+        "population": 842
+      },
+      {
+        "name": "צופית",
+        "population": 1326
+      },
+      {
+        "name": "צור יצחק",
+        "population": 6855
+      },
+      {
+        "name": "צור נתן",
+        "population": 298
+      },
+      {
+        "name": "רמות השבים",
+        "population": 1695
+      },
+      {
+        "name": "רמת הכובש",
+        "population": 1184
+      },
+      {
+        "name": "שדה ורבורג",
+        "population": 1436
+      },
+      {
+        "name": "שדי חמד",
+        "population": 953
+      },
+      {
+        "name": "תעשיון בינימין*",
+        "population": 0
+      },
+      {
+        "name": "תעשיון חצב*",
+        "population": 0
+      }
+    ]
+  },
+  "הגלבוע": {
+    "district": "הצפון",
+    "nafa": "יזרעאל",
+    "totalPop2021": 31682,
+    "settlementCount": 37,
+    "settlements": [
+      {
+        "name": "אביטל",
+        "population": 489
+      },
+      {
+        "name": "אדירים",
+        "population": 278
+      },
+      {
+        "name": "אומן",
+        "population": 559
+      },
+      {
+        "name": "בית אלפא",
+        "population": 1356
+      },
+      {
+        "name": "בית השיטה",
+        "population": 1258
+      },
+      {
+        "name": "ברק",
+        "population": 395
+      },
+      {
+        "name": "גבע",
+        "population": 605
+      },
+      {
+        "name": "גדיש",
+        "population": 414
+      },
+      {
+        "name": "גדעונה",
+        "population": 505
+      },
+      {
+        "name": "גן נר",
+        "population": 2672
+      },
+      {
+        "name": "דבורה",
+        "population": 219
+      },
+      {
+        "name": "חבר",
+        "population": 800
+      },
+      {
+        "name": "חפצי-בה",
+        "population": 757
+      },
+      {
+        "name": "טייבה (בעמק)",
+        "population": 1965
+      },
+      {
+        "name": "טמרה (יזרעאל)",
+        "population": 1656
+      },
+      {
+        "name": "יזרעאל",
+        "population": 535
+      },
+      {
+        "name": "יעל",
+        "population": 0
+      },
+      {
+        "name": "כפר יחזקאל",
+        "population": 1255
+      },
+      {
+        "name": "מגן שאול",
+        "population": 734
+      },
+      {
+        "name": "מולדת",
+        "population": 1096
+      },
+      {
+        "name": "מוקייבלה",
+        "population": 4261
+      },
+      {
+        "name": "מיטב",
+        "population": 460
+      },
+      {
+        "name": "מלאה",
+        "population": 375
+      },
+      {
+        "name": "נאעורה",
+        "population": 2393
+      },
+      {
+        "name": "נורית",
+        "population": 244
+      },
+      {
+        "name": "נחל תבור מ\"א 8",
+        "population": 0
+      },
+      {
+        "name": "ניר יפה",
+        "population": 730
+      },
+      {
+        "name": "עין חרוד (איחוד)",
+        "population": 540
+      },
+      {
+        "name": "עין חרוד (מאוחד)",
+        "population": 780
+      },
+      {
+        "name": "עמק חרוד מ\"א 8",
+        "population": 0
+      },
+      {
+        "name": "עמק יזרעאל מ\"א 8",
+        "population": 0
+      },
+      {
+        "name": "פרזון",
+        "population": 361
+      },
+      {
+        "name": "צנדלה",
+        "population": 1678
+      },
+      {
+        "name": "רם-און",
+        "population": 984
+      },
+      {
+        "name": "רמת כוכב מ\"א 8",
+        "population": 0
+      },
+      {
+        "name": "רמת צבי",
+        "population": 764
+      },
+      {
+        "name": "תל יוסף",
+        "population": 564
+      }
+    ]
+  },
+  "הגליל העליון": {
+    "district": "הצפון",
+    "nafa": "צפת",
+    "totalPop2021": 19442,
+    "settlementCount": 35,
+    "settlements": [
+      {
+        "name": "אזור חצור מ\"א 1",
+        "population": 0
+      },
+      {
+        "name": "אזור כנרות מ\"א 1",
+        "population": 0
+      },
+      {
+        "name": "איילת השחר",
+        "population": 1138
+      },
+      {
+        "name": "ברעם",
+        "population": 646
+      },
+      {
+        "name": "גדות",
+        "population": 447
+      },
+      {
+        "name": "גונן",
+        "population": 369
+      },
+      {
+        "name": "גליל עליון מז מ\"א 1",
+        "population": 0
+      },
+      {
+        "name": "דן",
+        "population": 781
+      },
+      {
+        "name": "דפנה",
+        "population": 1025
+      },
+      {
+        "name": "הגושרים",
+        "population": 1009
+      },
+      {
+        "name": "חולתה",
+        "population": 719
+      },
+      {
+        "name": "יפתח",
+        "population": 607
+      },
+      {
+        "name": "יראון",
+        "population": 407
+      },
+      {
+        "name": "כפר בלום",
+        "population": 765
+      },
+      {
+        "name": "כפר גלעדי",
+        "population": 689
+      },
+      {
+        "name": "כפר הנשיא",
+        "population": 979
+      },
+      {
+        "name": "כפר סאלד",
+        "population": 716
+      },
+      {
+        "name": "להבות הבשן",
+        "population": 922
+      },
+      {
+        "name": "מחניים",
+        "population": 815
+      },
+      {
+        "name": "מלכייה",
+        "population": 436
+      },
+      {
+        "name": "מנרה",
+        "population": 266
+      },
+      {
+        "name": "מעיין ברוך",
+        "population": 724
+      },
+      {
+        "name": "מפעלי גליל עליון",
+        "population": 0
+      },
+      {
+        "name": "משגב עם",
+        "population": 358
+      },
+      {
+        "name": "נאות מרדכי",
+        "population": 675
+      },
+      {
+        "name": "סאסא",
+        "population": 411
+      },
+      {
+        "name": "עמיעד",
+        "population": 483
+      },
+      {
+        "name": "עמיר",
+        "population": 600
+      },
+      {
+        "name": "עמק חולה מ\"א 1",
+        "population": 0
+      },
+      {
+        "name": "צבעון",
+        "population": 338
+      },
+      {
+        "name": "קדרים",
+        "population": 293
+      },
+      {
+        "name": "שדה נחמיה",
+        "population": 1272
+      },
+      {
+        "name": "שמיר",
+        "population": 911
+      },
+      {
+        "name": "שניר",
+        "population": 641
+      },
+      {
+        "name": "תל חי (מכללה)",
+        "population": 0
+      }
+    ]
+  },
+  "הגליל התחתון": {
+    "district": "הצפון",
+    "nafa": "כנרת",
+    "totalPop2021": 12796,
+    "settlementCount": 25,
+    "settlements": [
+      {
+        "name": "אזור כינרות מ\"א 3",
+        "population": 0
+      },
+      {
+        "name": "אילנייה",
+        "population": 485
+      },
+      {
+        "name": "ארבל",
+        "population": 766
+      },
+      {
+        "name": "בית קשת",
+        "population": 714
+      },
+      {
+        "name": "בית רימון",
+        "population": 908
+      },
+      {
+        "name": "בקעת תירען מ\"א 3",
+        "population": 0
+      },
+      {
+        "name": "גאון הירדן מ\"א 3",
+        "population": 0
+      },
+      {
+        "name": "גבעת אבני",
+        "population": 2098
+      },
+      {
+        "name": "גליל תחתון מז מ\"א 3",
+        "population": 0
+      },
+      {
+        "name": "הודיות",
+        "population": 303
+      },
+      {
+        "name": "הזורעים",
+        "population": 1108
+      },
+      {
+        "name": "כדורי",
+        "population": 215
+      },
+      {
+        "name": "כפר זיתים",
+        "population": 793
+      },
+      {
+        "name": "כפר חיטים",
+        "population": 618
+      },
+      {
+        "name": "כפר קיש",
+        "population": 685
+      },
+      {
+        "name": "לביא",
+        "population": 616
+      },
+      {
+        "name": "מסד",
+        "population": 387
+      },
+      {
+        "name": "מצפה",
+        "population": 128
+      },
+      {
+        "name": "מצפה נטופה",
+        "population": 1054
+      },
+      {
+        "name": "מרכז אזורי כדורי",
+        "population": 0
+      },
+      {
+        "name": "נחל יפתחאל מ\"א 3",
+        "population": 0
+      },
+      {
+        "name": "שדה אילן",
+        "population": 658
+      },
+      {
+        "name": "שדמות דבורה",
+        "population": 687
+      },
+      {
+        "name": "שרונה",
+        "population": 573
+      },
+      {
+        "name": "תעשיות גליל תחתון",
+        "population": 0
+      }
+    ]
+  },
+  "הערבה התיכונה": {
+    "district": "הדרום",
+    "nafa": "באר שבע",
+    "totalPop2021": 3725,
+    "settlementCount": 12,
+    "settlements": [
+      {
+        "name": "הערבה מ\"א 54",
+        "population": 0
+      },
+      {
+        "name": "הר הנגב הדרומי מ\"א 54",
+        "population": 0
+      },
+      {
+        "name": "הר הנגב הצפוני מ\"א 54",
+        "population": 0
+      },
+      {
+        "name": "חצבה",
+        "population": 694
+      },
+      {
+        "name": "מפעלי צין - ערבה",
+        "population": 0
+      },
+      {
+        "name": "ספיר",
+        "population": 503
+      },
+      {
+        "name": "עידן",
+        "population": 407
+      },
+      {
+        "name": "עין יהב",
+        "population": 803
+      },
+      {
+        "name": "עיר אובות",
+        "population": 0
+      },
+      {
+        "name": "פארן",
+        "population": 508
+      },
+      {
+        "name": "צופר",
+        "population": 464
+      },
+      {
+        "name": "צוקים",
+        "population": 346
+      }
+    ]
+  },
+  "הר חברון": {
+    "district": "אזור יהודה ושומרון",
+    "nafa": "חברון",
+    "totalPop2021": 10079,
+    "settlementCount": 16,
+    "settlements": [
+      {
+        "name": "אדורה",
+        "population": 474
+      },
+      {
+        "name": "אשכולות",
+        "population": 609
+      },
+      {
+        "name": "חגי",
+        "population": 701
+      },
+      {
+        "name": "טנא",
+        "population": 964
+      },
+      {
+        "name": "כרמל",
+        "population": 467
+      },
+      {
+        "name": "מעון",
+        "population": 592
+      },
+      {
+        "name": "מצדות יהודה",
+        "population": 634
+      },
+      {
+        "name": "נגוהות",
+        "population": 468
+      },
+      {
+        "name": "נפת חברון מ\"א 78",
+        "population": 0
+      },
+      {
+        "name": "סוסיה",
+        "population": 1376
+      },
+      {
+        "name": "סנסנה",
+        "population": 665
+      },
+      {
+        "name": "עתניאל",
+        "population": 994
+      },
+      {
+        "name": "פני חבר",
+        "population": 729
+      },
+      {
+        "name": "שמעה",
+        "population": 886
+      },
+      {
+        "name": "תלם",
+        "population": 520
+      },
+      {
+        "name": "תעשיון מיתרים",
+        "population": 0
+      }
+    ]
+  },
+  "זבולון": {
+    "district": "חיפה",
+    "nafa": "חיפה",
+    "totalPop2021": 13696,
+    "settlementCount": 15,
+    "settlements": [
+      {
+        "name": "אבטין",
+        "population": 2900
+      },
+      {
+        "name": "אורנים",
+        "population": 61
+      },
+      {
+        "name": "אושה",
+        "population": 589
+      },
+      {
+        "name": "אזור חיפה מ\"א 12",
+        "population": 0
+      },
+      {
+        "name": "ח'ואלד",
+        "population": 729
+      },
+      {
+        "name": "יגור",
+        "population": 1654
+      },
+      {
+        "name": "כפר ביאליק",
+        "population": 852
+      },
+      {
+        "name": "כפר המכבי",
+        "population": 410
+      },
+      {
+        "name": "כפר הנוער הדתי",
+        "population": 376
+      },
+      {
+        "name": "כפר חסידים א'",
+        "population": 814
+      },
+      {
+        "name": "כפר חסידים ב'",
+        "population": 305
+      },
+      {
+        "name": "נופית",
+        "population": 2550
+      },
+      {
+        "name": "ראס עלי",
+        "population": 656
+      },
+      {
+        "name": "רמת יוחנן",
+        "population": 1030
+      },
+      {
+        "name": "שער העמקים",
+        "population": 770
+      }
+    ]
+  },
+  "חבל אילות": {
+    "district": "הדרום",
+    "nafa": "באר שבע",
+    "totalPop2021": 4461,
+    "settlementCount": 17,
+    "settlements": [
+      {
+        "name": "אילות",
+        "population": 362
+      },
+      {
+        "name": "אליפז",
+        "population": 166
+      },
+      {
+        "name": "באר אורה",
+        "population": 1220
+      },
+      {
+        "name": "גרופית",
+        "population": 253
+      },
+      {
+        "name": "הערבה מ\"א 53",
+        "population": 0
+      },
+      {
+        "name": "הר הנגב הדרומי מ\"א 53",
+        "population": 0
+      },
+      {
+        "name": "הר הנגב הצפוני מ\"א 53",
+        "population": 0
+      },
+      {
+        "name": "יהל",
+        "population": 232
+      },
+      {
+        "name": "יטבתה",
+        "population": 735
+      },
+      {
+        "name": "לוטן",
+        "population": 202
+      },
+      {
+        "name": "מחנה יוכבד*",
+        "population": 0
+      },
+      {
+        "name": "נאות סמדר",
+        "population": 228
+      },
+      {
+        "name": "נווה חריף",
+        "population": 107
+      },
+      {
+        "name": "סמר",
+        "population": 270
+      },
+      {
+        "name": "קטורה",
+        "population": 507
+      },
+      {
+        "name": "שחרות",
+        "population": 179
+      },
+      {
+        "name": "שיטים",
+        "population": 0
+      }
+    ]
+  },
+  "חבל יבנה": {
+    "district": "הדרום",
+    "nafa": "אשקלון",
+    "totalPop2021": 6864,
+    "settlementCount": 11,
+    "settlements": [
+      {
+        "name": "אזור אשדוד מ\"א 29",
+        "population": 0
+      },
+      {
+        "name": "אזור רחובות מ\"א 29",
+        "population": 0
+      },
+      {
+        "name": "בית גמליאל",
+        "population": 1026
+      },
+      {
+        "name": "בית רבן",
+        "population": 922
+      },
+      {
+        "name": "בן זכאי",
+        "population": 1085
+      },
+      {
+        "name": "בני דרום",
+        "population": 949
+      },
+      {
+        "name": "כרם יבנה (ישיבה)",
+        "population": 538
+      },
+      {
+        "name": "ניר גלים",
+        "population": 1387
+      },
+      {
+        "name": "צופייה",
+        "population": 0
+      },
+      {
+        "name": "קבוצת יבנה",
+        "population": 957
+      },
+      {
+        "name": "תעשיון חבל יבנה",
+        "population": 0
+      }
+    ]
+  },
+  "חבל מודיעין": {
+    "district": "המרכז",
+    "nafa": "רמלה",
+    "totalPop2021": 24105,
+    "settlementCount": 30,
+    "settlements": [
+      {
+        "name": "אזור מודיעין מ\"א 25",
+        "population": 0
+      },
+      {
+        "name": "אזור פתח תקווה מ\"א 25",
+        "population": 0
+      },
+      {
+        "name": "אזור רמלה מ\"א 25",
+        "population": 0
+      },
+      {
+        "name": "אחיסמך",
+        "population": 1418
+      },
+      {
+        "name": "בארות יצחק",
+        "population": 469
+      },
+      {
+        "name": "בית נחמיה",
+        "population": 893
+      },
+      {
+        "name": "בית עריף",
+        "population": 1202
+      },
+      {
+        "name": "בן שמן (כפר נוער)",
+        "population": 667
+      },
+      {
+        "name": "בן שמן (מושב)",
+        "population": 876
+      },
+      {
+        "name": "בני עטרות",
+        "population": 961
+      },
+      {
+        "name": "ברקת",
+        "population": 2192
+      },
+      {
+        "name": "גבעת כ\"ח",
+        "population": 887
+      },
+      {
+        "name": "גינתון",
+        "population": 920
+      },
+      {
+        "name": "גמזו",
+        "population": 1198
+      },
+      {
+        "name": "חדיד",
+        "population": 913
+      },
+      {
+        "name": "טירת יהודה",
+        "population": 1210
+      },
+      {
+        "name": "כפר דניאל",
+        "population": 683
+      },
+      {
+        "name": "כפר טרומן",
+        "population": 908
+      },
+      {
+        "name": "כפר רות",
+        "population": 285
+      },
+      {
+        "name": "כרם בן שמן",
+        "population": 87
+      },
+      {
+        "name": "לפיד",
+        "population": 2322
+      },
+      {
+        "name": "מבוא מודיעים",
+        "population": 247
+      },
+      {
+        "name": "מזור",
+        "population": 1329
+      },
+      {
+        "name": "מפעלי חבל מודיעים",
+        "population": 0
+      },
+      {
+        "name": "מרכז אזורי שוהם",
+        "population": 0
+      },
+      {
+        "name": "נופך",
+        "population": 610
+      },
+      {
+        "name": "נחלים",
+        "population": 1848
+      },
+      {
+        "name": "קרית תעופה",
+        "population": 0
+      },
+      {
+        "name": "רינתיה",
+        "population": 1192
+      },
+      {
+        "name": "שילת",
+        "population": 788
+      }
+    ]
+  },
+  "חוף אשקלון": {
+    "district": "הדרום",
+    "nafa": "אשקלון",
+    "totalPop2021": 19293,
+    "settlementCount": 22,
+    "settlements": [
+      {
+        "name": "אזור אשקלון מ\"א 36",
+        "population": 0
+      },
+      {
+        "name": "באר גנים",
+        "population": 1966
+      },
+      {
+        "name": "בית שקמה",
+        "population": 878
+      },
+      {
+        "name": "ברכיה",
+        "population": 1252
+      },
+      {
+        "name": "בת הדר",
+        "population": 771
+      },
+      {
+        "name": "גברעם",
+        "population": 669
+      },
+      {
+        "name": "גיאה",
+        "population": 980
+      },
+      {
+        "name": "הודייה",
+        "population": 616
+      },
+      {
+        "name": "זיקים",
+        "population": 894
+      },
+      {
+        "name": "חלץ",
+        "population": 486
+      },
+      {
+        "name": "יד מרדכי",
+        "population": 792
+      },
+      {
+        "name": "כוכב מיכאל",
+        "population": 1105
+      },
+      {
+        "name": "כפר סילבר",
+        "population": 405
+      },
+      {
+        "name": "כרמייה",
+        "population": 651
+      },
+      {
+        "name": "מבקיעים",
+        "population": 508
+      },
+      {
+        "name": "משען",
+        "population": 1069
+      },
+      {
+        "name": "ניצן",
+        "population": 2660
+      },
+      {
+        "name": "ניצן ב'",
+        "population": 376
+      },
+      {
+        "name": "ניצנים",
+        "population": 613
+      },
+      {
+        "name": "ניר ישראל",
+        "population": 893
+      },
+      {
+        "name": "נתיב העשרה",
+        "population": 900
+      },
+      {
+        "name": "תלמי יפה",
+        "population": 809
+      }
+    ]
+  },
+  "חוף הכרמל": {
+    "district": "חיפה",
+    "nafa": "חדרה",
+    "totalPop2021": 35278,
+    "settlementCount": 30,
+    "settlements": [
+      {
+        "name": "אזור זכרון יעקב מ\"א 15",
+        "population": 0
+      },
+      {
+        "name": "אזור חדרה מ\"א 15",
+        "population": 0
+      },
+      {
+        "name": "בית אורן",
+        "population": 560
+      },
+      {
+        "name": "בית חנניה",
+        "population": 924
+      },
+      {
+        "name": "בית צבי",
+        "population": 310
+      },
+      {
+        "name": "בת שלמה",
+        "population": 648
+      },
+      {
+        "name": "גבע כרמל",
+        "population": 1192
+      },
+      {
+        "name": "דור",
+        "population": 450
+      },
+      {
+        "name": "הבונים",
+        "population": 386
+      },
+      {
+        "name": "החותרים",
+        "population": 914
+      },
+      {
+        "name": "חוף הכרמל מ\"א 15",
+        "population": 0
+      },
+      {
+        "name": "כפר גלים",
+        "population": 381
+      },
+      {
+        "name": "כרם מהר\"ל",
+        "population": 767
+      },
+      {
+        "name": "מאיר שפיה",
+        "population": 352
+      },
+      {
+        "name": "מגדים",
+        "population": 1388
+      },
+      {
+        "name": "מעגן מיכאל",
+        "population": 2069
+      },
+      {
+        "name": "מעיין צבי",
+        "population": 762
+      },
+      {
+        "name": "מרכז מיר\"ב*",
+        "population": 0
+      },
+      {
+        "name": "נווה ים",
+        "population": 237
+      },
+      {
+        "name": "נחשולים",
+        "population": 700
+      },
+      {
+        "name": "ניר עציון",
+        "population": 971
+      },
+      {
+        "name": "עופר",
+        "population": 660
+      },
+      {
+        "name": "עין איילה",
+        "population": 1159
+      },
+      {
+        "name": "עין הוד",
+        "population": 666
+      },
+      {
+        "name": "עין חוד",
+        "population": 318
+      },
+      {
+        "name": "עין כרמל",
+        "population": 930
+      },
+      {
+        "name": "עתלית",
+        "population": 10474
+      },
+      {
+        "name": "צרופה",
+        "population": 1151
+      },
+      {
+        "name": "קיסריה",
+        "population": 5782
+      },
+      {
+        "name": "שדות ים",
+        "population": 1127
+      }
+    ]
+  },
+  "חוף השרון": {
+    "district": "המרכז",
+    "nafa": "השרון",
+    "totalPop2021": 13418,
+    "settlementCount": 16,
+    "settlements": [
+      {
+        "name": "אודים",
+        "population": 1405
+      },
+      {
+        "name": "אזור גלילות מ\"א 19",
+        "population": 0
+      },
+      {
+        "name": "ארסוף",
+        "population": 174
+      },
+      {
+        "name": "בית יהושע",
+        "population": 1118
+      },
+      {
+        "name": "בני ציון",
+        "population": 1334
+      },
+      {
+        "name": "בצרה",
+        "population": 1205
+      },
+      {
+        "name": "גליל ים",
+        "population": 542
+      },
+      {
+        "name": "געש",
+        "population": 921
+      },
+      {
+        "name": "חרוצים",
+        "population": 907
+      },
+      {
+        "name": "יקום",
+        "population": 794
+      },
+      {
+        "name": "כפר נטר",
+        "population": 1159
+      },
+      {
+        "name": "מערב השרון מ\"א 19",
+        "population": 0
+      },
+      {
+        "name": "קריית שלמה",
+        "population": 207
+      },
+      {
+        "name": "רשפון",
+        "population": 1484
+      },
+      {
+        "name": "שפיים",
+        "population": 1346
+      },
+      {
+        "name": "תל יצחק",
+        "population": 822
+      }
+    ]
+  },
+  "יואב": {
+    "district": "הדרום",
+    "nafa": "אשקלון",
+    "totalPop2021": 9130,
+    "settlementCount": 17,
+    "settlements": [
+      {
+        "name": "אזור לכיש מ\"א 35",
+        "population": 0
+      },
+      {
+        "name": "אזור מלאכי מ\"א 35",
+        "population": 0
+      },
+      {
+        "name": "אל -עזי",
+        "population": 196
+      },
+      {
+        "name": "בית גוברין",
+        "population": 446
+      },
+      {
+        "name": "בית ניר",
+        "population": 616
+      },
+      {
+        "name": "גלאון",
+        "population": 603
+      },
+      {
+        "name": "גת (קיבוץ)",
+        "population": 966
+      },
+      {
+        "name": "ורדון",
+        "population": 264
+      },
+      {
+        "name": "כפר הרי\"ף",
+        "population": 844
+      },
+      {
+        "name": "כפר מנחם",
+        "population": 1366
+      },
+      {
+        "name": "נגבה",
+        "population": 967
+      },
+      {
+        "name": "נחלה",
+        "population": 706
+      },
+      {
+        "name": "סגולה",
+        "population": 737
+      },
+      {
+        "name": "קדמה",
+        "population": 0
+      },
+      {
+        "name": "רבדים",
+        "population": 825
+      },
+      {
+        "name": "שדה יואב",
+        "population": 594
+      },
+      {
+        "name": "תעשיון ראם*",
+        "population": 0
+      }
+    ]
+  },
+  "לב השרון": {
+    "district": "המרכז",
+    "nafa": "השרון",
+    "totalPop2021": 23671,
+    "settlementCount": 23,
+    "settlements": [
+      {
+        "name": "בני דרור",
+        "population": 1201
+      },
+      {
+        "name": "גאולים",
+        "population": 986
+      },
+      {
+        "name": "גנות הדר",
+        "population": 963
+      },
+      {
+        "name": "דרום השרון מ\"א 18",
+        "population": 0
+      },
+      {
+        "name": "חירות",
+        "population": 1260
+      },
+      {
+        "name": "ינוב",
+        "population": 953
+      },
+      {
+        "name": "יעף",
+        "population": 315
+      },
+      {
+        "name": "כפר הס",
+        "population": 1582
+      },
+      {
+        "name": "כפר יעבץ",
+        "population": 676
+      },
+      {
+        "name": "כפר עבודה",
+        "population": 212
+      },
+      {
+        "name": "מזרח השרון מ\"א 18",
+        "population": 0
+      },
+      {
+        "name": "מערב השרון מ\"א 18",
+        "population": 0
+      },
+      {
+        "name": "משמרת",
+        "population": 1048
+      },
+      {
+        "name": "נורדייה",
+        "population": 1924
+      },
+      {
+        "name": "ניצני עוז",
+        "population": 1114
+      },
+      {
+        "name": "עזריאל",
+        "population": 872
+      },
+      {
+        "name": "עין ורד",
+        "population": 1567
+      },
+      {
+        "name": "עין שריד",
+        "population": 1648
+      },
+      {
+        "name": "פורת",
+        "population": 1284
+      },
+      {
+        "name": "צור משה",
+        "population": 3264
+      },
+      {
+        "name": "שער אפרים",
+        "population": 1956
+      },
+      {
+        "name": "תנובות",
+        "population": 846
+      },
+      {
+        "name": "תעשיון השרון",
+        "population": 0
+      }
+    ]
+  },
+  "לכיש": {
+    "district": "הדרום",
+    "nafa": "אשקלון",
+    "totalPop2021": 13778,
+    "settlementCount": 21,
+    "settlements": [
+      {
+        "name": "אזור לכיש מ\"א 50",
+        "population": 0
+      },
+      {
+        "name": "אזור מלאכי מ\"א 50",
+        "population": 0
+      },
+      {
+        "name": "אחוזם",
+        "population": 551
+      },
+      {
+        "name": "אליאב",
+        "population": 691
+      },
+      {
+        "name": "אמציה",
+        "population": 219
+      },
+      {
+        "name": "בני דקלים",
+        "population": 1569
+      },
+      {
+        "name": "זוהר",
+        "population": 343
+      },
+      {
+        "name": "יד נתן",
+        "population": 637
+      },
+      {
+        "name": "כרמי קטיף",
+        "population": 649
+      },
+      {
+        "name": "לכיש",
+        "population": 800
+      },
+      {
+        "name": "מנוחה",
+        "population": 668
+      },
+      {
+        "name": "נהורה",
+        "population": 1195
+      },
+      {
+        "name": "נוגה",
+        "population": 579
+      },
+      {
+        "name": "נטע",
+        "population": 736
+      },
+      {
+        "name": "ניר ח\"ן",
+        "population": 578
+      },
+      {
+        "name": "עוצם",
+        "population": 753
+      },
+      {
+        "name": "שדה דוד",
+        "population": 632
+      },
+      {
+        "name": "שדה משה",
+        "population": 780
+      },
+      {
+        "name": "שחר",
+        "population": 880
+      },
+      {
+        "name": "שקף",
+        "population": 602
+      },
+      {
+        "name": "תלמים",
+        "population": 916
+      }
+    ]
+  },
+  "מבואות החרמון": {
+    "district": "הצפון",
+    "nafa": "צפת",
+    "totalPop2021": 7566,
+    "settlementCount": 17,
+    "settlements": [
+      {
+        "name": "אזור חצור מ\"א 55",
+        "population": 0
+      },
+      {
+        "name": "אליפלט",
+        "population": 695
+      },
+      {
+        "name": "אמנון",
+        "population": 455
+      },
+      {
+        "name": "בית הלל",
+        "population": 797
+      },
+      {
+        "name": "גליל עליון מז מ\"א 55",
+        "population": 0
+      },
+      {
+        "name": "דישון",
+        "population": 336
+      },
+      {
+        "name": "יובל",
+        "population": 644
+      },
+      {
+        "name": "כורזים",
+        "population": 339
+      },
+      {
+        "name": "כחל",
+        "population": 472
+      },
+      {
+        "name": "כרכום",
+        "population": 517
+      },
+      {
+        "name": "מרגליות",
+        "population": 416
+      },
+      {
+        "name": "מרכז כ\"ח",
+        "population": 0
+      },
+      {
+        "name": "משמר הירדן",
+        "population": 878
+      },
+      {
+        "name": "עמק חולה מ\"א 55",
+        "population": 0
+      },
+      {
+        "name": "רמות נפתלי",
+        "population": 545
+      },
+      {
+        "name": "שאר ישוב",
+        "population": 630
+      },
+      {
+        "name": "שדה אליעזר",
+        "population": 842
+      }
+    ]
+  },
+  "מגידו": {
+    "district": "הצפון",
+    "nafa": "יזרעאל",
+    "totalPop2021": 12153,
+    "settlementCount": 16,
+    "settlements": [
+      {
+        "name": "אזור יקנעם מ\"א 13",
+        "population": 0
+      },
+      {
+        "name": "אליקים",
+        "population": 968
+      },
+      {
+        "name": "גבעת עוז",
+        "population": 475
+      },
+      {
+        "name": "גלעד (אבן יצחק)",
+        "population": 497
+      },
+      {
+        "name": "דלייה",
+        "population": 843
+      },
+      {
+        "name": "הזורע",
+        "population": 932
+      },
+      {
+        "name": "יקנעם (מושבה)",
+        "population": 1375
+      },
+      {
+        "name": "מגידו",
+        "population": 858
+      },
+      {
+        "name": "מדרך עוז",
+        "population": 828
+      },
+      {
+        "name": "משמר העמק",
+        "population": 1268
+      },
+      {
+        "name": "עין העמק",
+        "population": 829
+      },
+      {
+        "name": "עין השופט",
+        "population": 882
+      },
+      {
+        "name": "עמק יזרעאל מ\"א 13",
+        "population": 0
+      },
+      {
+        "name": "רמות מנשה",
+        "population": 1232
+      },
+      {
+        "name": "רמת השופט",
+        "population": 1166
+      },
+      {
+        "name": "רמת מנשה מ\"א 13",
+        "population": 0
+      }
+    ]
+  },
+  "מגילות ים המלח": {
+    "district": "אזור יהודה ושומרון",
+    "nafa": "ירדן-יריחו",
+    "totalPop2021": 2058,
+    "settlementCount": 7,
+    "settlements": [
+      {
+        "name": "אבנת",
+        "population": 260
+      },
+      {
+        "name": "אלמוג",
+        "population": 256
+      },
+      {
+        "name": "בית הערבה",
+        "population": 451
+      },
+      {
+        "name": "ורד יריחו",
+        "population": 364
+      },
+      {
+        "name": "מצפה שלם",
+        "population": 238
+      },
+      {
+        "name": "נפת ירדן מ\"א 74",
+        "population": 0
+      },
+      {
+        "name": "קליה",
+        "population": 489
+      }
+    ]
+  },
+  "מטה אשר": {
+    "district": "הצפון",
+    "nafa": "עכו",
+    "totalPop2021": 30843,
+    "settlementCount": 40,
+    "settlements": [
+      {
+        "name": "אדמית",
+        "population": 265
+      },
+      {
+        "name": "אזור אילון מ\"א 4",
+        "population": 0
+      },
+      {
+        "name": "אזור יחיעם מ\"א 4",
+        "population": 0
+      },
+      {
+        "name": "אזור נהרייה מ\"א 4",
+        "population": 0
+      },
+      {
+        "name": "אזור עכו מ\"א 4",
+        "population": 0
+      },
+      {
+        "name": "אזור תעשייה אכזיב (מילואות)",
+        "population": 0
+      },
+      {
+        "name": "אזור תעשייה נעמן (מילואות)",
+        "population": 0
+      },
+      {
+        "name": "אחיהוד",
+        "population": 916
+      },
+      {
+        "name": "אילון",
+        "population": 1067
+      },
+      {
+        "name": "אפק",
+        "population": 762
+      },
+      {
+        "name": "אשרת",
+        "population": 584
+      },
+      {
+        "name": "בוסתן הגליל",
+        "population": 1305
+      },
+      {
+        "name": "בי\"ס אזורי מקיף (אשר)",
+        "population": 0
+      },
+      {
+        "name": "בית העמק",
+        "population": 730
+      },
+      {
+        "name": "בן עמי",
+        "population": 785
+      },
+      {
+        "name": "בצת",
+        "population": 369
+      },
+      {
+        "name": "בר-לב",
+        "population": 0
+      },
+      {
+        "name": "געתון",
+        "population": 699
+      },
+      {
+        "name": "גשר הזיו",
+        "population": 1593
+      },
+      {
+        "name": "חניתה",
+        "population": 744
+      },
+      {
+        "name": "יחיעם",
+        "population": 722
+      },
+      {
+        "name": "יסעור",
+        "population": 893
+      },
+      {
+        "name": "כברי",
+        "population": 1098
+      },
+      {
+        "name": "כליל",
+        "population": 829
+      },
+      {
+        "name": "כפר מסריק",
+        "population": 866
+      },
+      {
+        "name": "כפר ראש הנקרה",
+        "population": 1406
+      },
+      {
+        "name": "לוחמי הגיטאות",
+        "population": 816
+      },
+      {
+        "name": "לימן",
+        "population": 674
+      },
+      {
+        "name": "מצובה",
+        "population": 1157
+      },
+      {
+        "name": "נס עמים",
+        "population": 467
+      },
+      {
+        "name": "נתיב השיירה",
+        "population": 507
+      },
+      {
+        "name": "סער",
+        "population": 910
+      },
+      {
+        "name": "עברון",
+        "population": 863
+      },
+      {
+        "name": "עין המפרץ",
+        "population": 1258
+      },
+      {
+        "name": "עמקה",
+        "population": 822
+      },
+      {
+        "name": "עראמשה*",
+        "population": 1724
+      },
+      {
+        "name": "רגבה",
+        "population": 1102
+      },
+      {
+        "name": "שבי ציון",
+        "population": 1270
+      },
+      {
+        "name": "שייח' דנון",
+        "population": 2983
+      },
+      {
+        "name": "שמרת",
+        "population": 657
+      }
+    ]
+  },
+  "מטה בנימין": {
+    "district": "אזור יהודה ושומרון",
+    "nafa": "ראמאללה",
+    "totalPop2021": 73496,
+    "settlementCount": 29,
+    "settlements": [
+      {
+        "name": "בית חורון",
+        "population": 1468
+      },
+      {
+        "name": "גבע בנימין",
+        "population": 5857
+      },
+      {
+        "name": "גבעון החדשה",
+        "population": 1021
+      },
+      {
+        "name": "גני מודיעין",
+        "population": 2688
+      },
+      {
+        "name": "דולב",
+        "population": 1569
+      },
+      {
+        "name": "חשמונאים",
+        "population": 2646
+      },
+      {
+        "name": "טלמון",
+        "population": 5141
+      },
+      {
+        "name": "כוכב השחר",
+        "population": 2515
+      },
+      {
+        "name": "כוכב יעקב",
+        "population": 9524
+      },
+      {
+        "name": "כפר אדומים",
+        "population": 4927
+      },
+      {
+        "name": "כפר האורנים",
+        "population": 2607
+      },
+      {
+        "name": "מבוא חורון",
+        "population": 2694
+      },
+      {
+        "name": "מעלה לבונה",
+        "population": 976
+      },
+      {
+        "name": "מעלה מכמש",
+        "population": 1691
+      },
+      {
+        "name": "מצפה יריחו",
+        "population": 2638
+      },
+      {
+        "name": "מתתיהו",
+        "population": 922
+      },
+      {
+        "name": "נווה צוף",
+        "population": 1543
+      },
+      {
+        "name": "נחליאל",
+        "population": 737
+      },
+      {
+        "name": "ניל\"י",
+        "population": 1878
+      },
+      {
+        "name": "נעלה",
+        "population": 2608
+      },
+      {
+        "name": "נפת ראמאללה מ\"א 73",
+        "population": 0
+      },
+      {
+        "name": "עטרת",
+        "population": 954
+      },
+      {
+        "name": "עלי",
+        "population": 4613
+      },
+      {
+        "name": "עלמון",
+        "population": 1441
+      },
+      {
+        "name": "עמיחי",
+        "population": 238
+      },
+      {
+        "name": "עפרה",
+        "population": 3025
+      },
+      {
+        "name": "פסגות",
+        "population": 2077
+      },
+      {
+        "name": "רימונים",
+        "population": 715
+      },
+      {
+        "name": "שילה",
+        "population": 4783
+      }
+    ]
+  },
+  "מטה יהודה": {
+    "district": "ירושלים",
+    "nafa": "ירושלים",
+    "totalPop2021": 62441,
+    "settlementCount": 68,
+    "settlements": [
+      {
+        "name": "אביעזר",
+        "population": 890
+      },
+      {
+        "name": "אבן ספיר",
+        "population": 686
+      },
+      {
+        "name": "אדרת",
+        "population": 922
+      },
+      {
+        "name": "אורה",
+        "population": 1298
+      },
+      {
+        "name": "איתנים",
+        "population": 60
+      },
+      {
+        "name": "אשתאול",
+        "population": 1230
+      },
+      {
+        "name": "בית זית",
+        "population": 1655
+      },
+      {
+        "name": "בית מאיר",
+        "population": 818
+      },
+      {
+        "name": "בית נקופה",
+        "population": 758
+      },
+      {
+        "name": "בקוע",
+        "population": 826
+      },
+      {
+        "name": "בר גיורא",
+        "population": 716
+      },
+      {
+        "name": "גבעת יערים",
+        "population": 1398
+      },
+      {
+        "name": "גבעת ישעיהו",
+        "population": 807
+      },
+      {
+        "name": "גבעת שמש",
+        "population": 56
+      },
+      {
+        "name": "גיזו",
+        "population": 207
+      },
+      {
+        "name": "גפן",
+        "population": 422
+      },
+      {
+        "name": "דייר ראפאת",
+        "population": 99
+      },
+      {
+        "name": "הראל",
+        "population": 269
+      },
+      {
+        "name": "הרי יהודה מ\"א 26",
+        "population": 0
+      },
+      {
+        "name": "זכריה",
+        "population": 1145
+      },
+      {
+        "name": "זנוח",
+        "population": 539
+      },
+      {
+        "name": "טל שחר",
+        "population": 1375
+      },
+      {
+        "name": "יד השמונה",
+        "population": 294
+      },
+      {
+        "name": "ידידה",
+        "population": 224
+      },
+      {
+        "name": "ישעי",
+        "population": 857
+      },
+      {
+        "name": "כסלון",
+        "population": 487
+      },
+      {
+        "name": "כפר אוריה",
+        "population": 914
+      },
+      {
+        "name": "כפר זוהרים",
+        "population": 149
+      },
+      {
+        "name": "לוזית",
+        "population": 862
+      },
+      {
+        "name": "מבוא ביתר",
+        "population": 1013
+      },
+      {
+        "name": "מוצא עילית",
+        "population": 1524
+      },
+      {
+        "name": "מחסיה",
+        "population": 493
+      },
+      {
+        "name": "מטע",
+        "population": 961
+      },
+      {
+        "name": "מסילת ציון",
+        "population": 1214
+      },
+      {
+        "name": "מעלה החמישה",
+        "population": 846
+      },
+      {
+        "name": "מפעלי נחם הרטוב",
+        "population": 0
+      },
+      {
+        "name": "נווה אילן",
+        "population": 996
+      },
+      {
+        "name": "נווה אילן*",
+        "population": 0
+      },
+      {
+        "name": "נווה מיכאל",
+        "population": 871
+      },
+      {
+        "name": "נווה שלום",
+        "population": 357
+      },
+      {
+        "name": "נחושה",
+        "population": 1505
+      },
+      {
+        "name": "נחם",
+        "population": 561
+      },
+      {
+        "name": "נחשון",
+        "population": 602
+      },
+      {
+        "name": "נטף",
+        "population": 478
+      },
+      {
+        "name": "נס הרים",
+        "population": 1472
+      },
+      {
+        "name": "נתיב הל\"ה",
+        "population": 670
+      },
+      {
+        "name": "עגור",
+        "population": 552
+      },
+      {
+        "name": "עין כרם-בי\"ס חקלאי",
+        "population": 164
+      },
+      {
+        "name": "עין נקובא",
+        "population": 3680
+      },
+      {
+        "name": "עין ראפה",
+        "population": 1276
+      },
+      {
+        "name": "עמינדב",
+        "population": 1119
+      },
+      {
+        "name": "צובה",
+        "population": 623
+      },
+      {
+        "name": "צור הדסה",
+        "population": 11929
+      },
+      {
+        "name": "צלפון",
+        "population": 1081
+      },
+      {
+        "name": "צפרירים",
+        "population": 416
+      },
+      {
+        "name": "צרעה",
+        "population": 947
+      },
+      {
+        "name": "קריית יערים (מוסד)",
+        "population": 169
+      },
+      {
+        "name": "קריית ענבים",
+        "population": 456
+      },
+      {
+        "name": "רמת רזיאל",
+        "population": 662
+      },
+      {
+        "name": "רמת רחל",
+        "population": 557
+      },
+      {
+        "name": "שדות מיכה",
+        "population": 390
+      },
+      {
+        "name": "שואבה",
+        "population": 601
+      },
+      {
+        "name": "שורש",
+        "population": 1176
+      },
+      {
+        "name": "שפלת יהודה מ\"א 26",
+        "population": 0
+      },
+      {
+        "name": "שריגים (לי-און)",
+        "population": 1045
+      },
+      {
+        "name": "תירוש",
+        "population": 454
+      },
+      {
+        "name": "תעוז",
+        "population": 648
+      },
+      {
+        "name": "תרום",
+        "population": 970
+      }
+    ]
+  },
+  "מנשה": {
+    "district": "חיפה",
+    "nafa": "חדרה",
+    "totalPop2021": 21713,
+    "settlementCount": 28,
+    "settlements": [
+      {
+        "name": "אום אל-קוטוף",
+        "population": 1169
+      },
+      {
+        "name": "אזור חדרה מ\"א 14",
+        "population": 0
+      },
+      {
+        "name": "אל -עריאן",
+        "population": 191
+      },
+      {
+        "name": "אלוני יצחק",
+        "population": 305
+      },
+      {
+        "name": "ברקאי",
+        "population": 546
+      },
+      {
+        "name": "גבעת חביבה",
+        "population": 0
+      },
+      {
+        "name": "גן השומרון",
+        "population": 839
+      },
+      {
+        "name": "גן שמואל",
+        "population": 948
+      },
+      {
+        "name": "הר אלכסנדר מ\"א 14",
+        "population": 0
+      },
+      {
+        "name": "כפר גליקסון",
+        "population": 352
+      },
+      {
+        "name": "כפר פינס",
+        "population": 1106
+      },
+      {
+        "name": "להבות חביבה",
+        "population": 1062
+      },
+      {
+        "name": "מאור",
+        "population": 1442
+      },
+      {
+        "name": "מגל",
+        "population": 1177
+      },
+      {
+        "name": "מי עמי",
+        "population": 363
+      },
+      {
+        "name": "מייסר",
+        "population": 2084
+      },
+      {
+        "name": "מענית",
+        "population": 874
+      },
+      {
+        "name": "מפעלי גרנות",
+        "population": 0
+      },
+      {
+        "name": "מצפה אילן",
+        "population": 752
+      },
+      {
+        "name": "מצר",
+        "population": 389
+      },
+      {
+        "name": "משמרות",
+        "population": 1233
+      },
+      {
+        "name": "עין עירון",
+        "population": 587
+      },
+      {
+        "name": "עין שמר",
+        "population": 635
+      },
+      {
+        "name": "קציר",
+        "population": 2934
+      },
+      {
+        "name": "רגבים",
+        "population": 528
+      },
+      {
+        "name": "שדה יצחק",
+        "population": 736
+      },
+      {
+        "name": "שער מנשה",
+        "population": 511
+      },
+      {
+        "name": "תלמי אלעזר",
+        "population": 950
+      }
+    ]
+  },
+  "מעלה יוסף": {
+    "district": "הצפון",
+    "nafa": "עכו",
+    "totalPop2021": 11604,
+    "settlementCount": 24,
+    "settlements": [
+      {
+        "name": "אבירים",
+        "population": 296
+      },
+      {
+        "name": "אבן מנחם",
+        "population": 278
+      },
+      {
+        "name": "אזור אילון מ\"א 52",
+        "population": 0
+      },
+      {
+        "name": "אזור יחיעם מ\"א 52",
+        "population": 0
+      },
+      {
+        "name": "אלקוש",
+        "population": 279
+      },
+      {
+        "name": "גורן",
+        "population": 686
+      },
+      {
+        "name": "גורנות הגליל",
+        "population": 244
+      },
+      {
+        "name": "גיתה",
+        "population": 300
+      },
+      {
+        "name": "הילה",
+        "population": 562
+      },
+      {
+        "name": "חוסן",
+        "population": 1199
+      },
+      {
+        "name": "יערה",
+        "population": 808
+      },
+      {
+        "name": "כפר רוזנואלד (זרעית)",
+        "population": 237
+      },
+      {
+        "name": "לפידות",
+        "population": 129
+      },
+      {
+        "name": "מנות",
+        "population": 497
+      },
+      {
+        "name": "מעונה",
+        "population": 974
+      },
+      {
+        "name": "מתת",
+        "population": 222
+      },
+      {
+        "name": "נווה זיו",
+        "population": 1012
+      },
+      {
+        "name": "נטועה",
+        "population": 326
+      },
+      {
+        "name": "עבדון",
+        "population": 685
+      },
+      {
+        "name": "עין יעקב",
+        "population": 1215
+      },
+      {
+        "name": "פקיעין חדשה",
+        "population": 577
+      },
+      {
+        "name": "צוריאל",
+        "population": 392
+      },
+      {
+        "name": "שומרה",
+        "population": 366
+      },
+      {
+        "name": "שתולה",
+        "population": 320
+      }
+    ]
+  },
+  "מרום הגליל": {
+    "district": "הצפון",
+    "nafa": "צפת",
+    "totalPop2021": 15056,
+    "settlementCount": 30,
+    "settlements": [
+      {
+        "name": "אביבים",
+        "population": 470
+      },
+      {
+        "name": "אור הגנוז",
+        "population": 600
+      },
+      {
+        "name": "אזור יחיעם מ\"א 2",
+        "population": 0
+      },
+      {
+        "name": "אזור כרמיאל מ\"א 2",
+        "population": 0
+      },
+      {
+        "name": "אמירים",
+        "population": 871
+      },
+      {
+        "name": "בירייה",
+        "population": 849
+      },
+      {
+        "name": "בר יוחאי",
+        "population": 1086
+      },
+      {
+        "name": "גליל עליון מז מ\"א 2",
+        "population": 0
+      },
+      {
+        "name": "גליל תחתון מז מ\"א 2",
+        "population": 0
+      },
+      {
+        "name": "דוב\"ב",
+        "population": 478
+      },
+      {
+        "name": "דלתון",
+        "population": 870
+      },
+      {
+        "name": "חזון",
+        "population": 290
+      },
+      {
+        "name": "טפחות",
+        "population": 521
+      },
+      {
+        "name": "כדיתה",
+        "population": 179
+      },
+      {
+        "name": "כלנית",
+        "population": 258
+      },
+      {
+        "name": "כפר חושן",
+        "population": 805
+      },
+      {
+        "name": "כפר חנניה",
+        "population": 762
+      },
+      {
+        "name": "כפר שמאי",
+        "population": 575
+      },
+      {
+        "name": "כרם בן זמרה",
+        "population": 529
+      },
+      {
+        "name": "לבנים",
+        "population": 473
+      },
+      {
+        "name": "מירון",
+        "population": 1091
+      },
+      {
+        "name": "מרכז אזורי מרום הגליל",
+        "population": 0
+      },
+      {
+        "name": "עין אל-אסד",
+        "population": 903
+      },
+      {
+        "name": "עלמה",
+        "population": 705
+      },
+      {
+        "name": "עמוקה",
+        "population": 158
+      },
+      {
+        "name": "פרוד",
+        "population": 605
+      },
+      {
+        "name": "ריחאנייה",
+        "population": 1228
+      },
+      {
+        "name": "שזור",
+        "population": 315
+      },
+      {
+        "name": "שפר",
+        "population": 435
+      },
+      {
+        "name": "תעשיון דלתון",
+        "population": 0
+      }
+    ]
+  },
+  "מרחבים": {
+    "district": "הדרום",
+    "nafa": "באר שבע",
+    "totalPop2021": 13927,
+    "settlementCount": 21,
+    "settlements": [
+      {
+        "name": "אזור בשור מ\"א 42",
+        "population": 0
+      },
+      {
+        "name": "אזור גרר מ\"א 42",
+        "population": 0
+      },
+      {
+        "name": "אשבול",
+        "population": 630
+      },
+      {
+        "name": "אשל הנשיא",
+        "population": 140
+      },
+      {
+        "name": "בטחה",
+        "population": 790
+      },
+      {
+        "name": "גילת",
+        "population": 1558
+      },
+      {
+        "name": "מבועים",
+        "population": 1250
+      },
+      {
+        "name": "מחנה יפה*",
+        "population": 0
+      },
+      {
+        "name": "מסלול",
+        "population": 902
+      },
+      {
+        "name": "ניר משה",
+        "population": 607
+      },
+      {
+        "name": "ניר עקיבא",
+        "population": 709
+      },
+      {
+        "name": "פדויים",
+        "population": 503
+      },
+      {
+        "name": "פטיש",
+        "population": 998
+      },
+      {
+        "name": "פעמי תש\"ז",
+        "population": 586
+      },
+      {
+        "name": "קלחים",
+        "population": 679
+      },
+      {
+        "name": "קריית חינוך מרחבים*",
+        "population": 0
+      },
+      {
+        "name": "רנן",
+        "population": 717
+      },
+      {
+        "name": "שבי דרום",
+        "population": 405
+      },
+      {
+        "name": "שדה צבי",
+        "population": 688
+      },
+      {
+        "name": "תלמי ביל\"ו",
+        "population": 534
+      },
+      {
+        "name": "תפרח",
+        "population": 2231
+      }
+    ]
+  },
+  "משגב": {
+    "district": "הצפון",
+    "nafa": "עכו",
+    "totalPop2021": 30053,
+    "settlementCount": 43,
+    "settlements": [
+      {
+        "name": "אבטליון",
+        "population": 475
+      },
+      {
+        "name": "אזור יחיעם מ\"א 56",
+        "population": 0
+      },
+      {
+        "name": "אזור כרמיאל מ\"א 56",
+        "population": 0
+      },
+      {
+        "name": "אזור עכו מ\"א 56",
+        "population": 0
+      },
+      {
+        "name": "אזור שפרעם מ\"א 56",
+        "population": 0
+      },
+      {
+        "name": "אזור תעסוקה משגב(תרדיון)",
+        "population": 0
+      },
+      {
+        "name": "אשבל",
+        "population": 140
+      },
+      {
+        "name": "אשחר",
+        "population": 984
+      },
+      {
+        "name": "בקעת נטופה מ\"א 56",
+        "population": 0
+      },
+      {
+        "name": "גילון",
+        "population": 1127
+      },
+      {
+        "name": "דמיידה",
+        "population": 548
+      },
+      {
+        "name": "הררית",
+        "population": 640
+      },
+      {
+        "name": "חוג'ייראת (ד'הרה) (שבט)",
+        "population": 0
+      },
+      {
+        "name": "חוסנייה",
+        "population": 823
+      },
+      {
+        "name": "חלוץ",
+        "population": 537
+      },
+      {
+        "name": "חרשים",
+        "population": 377
+      },
+      {
+        "name": "טל-אל",
+        "population": 1216
+      },
+      {
+        "name": "יובלים",
+        "population": 1102
+      },
+      {
+        "name": "יודפת",
+        "population": 910
+      },
+      {
+        "name": "יעד",
+        "population": 728
+      },
+      {
+        "name": "כישור",
+        "population": 215
+      },
+      {
+        "name": "כמאנה",
+        "population": 1620
+      },
+      {
+        "name": "כמון",
+        "population": 1412
+      },
+      {
+        "name": "לבון",
+        "population": 727
+      },
+      {
+        "name": "לוטם",
+        "population": 783
+      },
+      {
+        "name": "מורן",
+        "population": 497
+      },
+      {
+        "name": "מורשת",
+        "population": 1592
+      },
+      {
+        "name": "מכמנים",
+        "population": 597
+      },
+      {
+        "name": "מנוף",
+        "population": 858
+      },
+      {
+        "name": "מצפה אבי\"ב",
+        "population": 1076
+      },
+      {
+        "name": "מרכז אזורי משגב",
+        "population": 0
+      },
+      {
+        "name": "סלמה",
+        "population": 3478
+      },
+      {
+        "name": "עצמון שגב",
+        "population": 1204
+      },
+      {
+        "name": "ערב אל נעים",
+        "population": 848
+      },
+      {
+        "name": "פלך",
+        "population": 196
+      },
+      {
+        "name": "צביה",
+        "population": 327
+      },
+      {
+        "name": "צורית",
+        "population": 943
+      },
+      {
+        "name": "קורנית",
+        "population": 915
+      },
+      {
+        "name": "ראס אל-עין",
+        "population": 410
+      },
+      {
+        "name": "רקפת",
+        "population": 1057
+      },
+      {
+        "name": "שורשים",
+        "population": 566
+      },
+      {
+        "name": "שכניה",
+        "population": 781
+      },
+      {
+        "name": "תובל",
+        "population": 344
+      }
+    ]
+  },
+  "נווה מדבר": {
+    "district": "הדרום",
+    "nafa": "באר שבע",
+    "totalPop2021": 13309,
+    "settlementCount": 4,
+    "settlements": [
+      {
+        "name": "אבו קורינאת (יישוב)",
+        "population": 2081
+      },
+      {
+        "name": "אבו תלול",
+        "population": 2330
+      },
+      {
+        "name": "ביר הדאג'",
+        "population": 6167
+      },
+      {
+        "name": "קצר א-סר",
+        "population": 2731
+      }
+    ]
+  },
+  "נחל שורק": {
+    "district": "המרכז",
+    "nafa": "רחובות",
+    "totalPop2021": 10187,
+    "settlementCount": 8,
+    "settlements": [
+      {
+        "name": "אזור רחובות מ\"א 31",
+        "population": 0
+      },
+      {
+        "name": "בית חלקיה",
+        "population": 1446
+      },
+      {
+        "name": "בני ראם",
+        "population": 1415
+      },
+      {
+        "name": "גני טל",
+        "population": 909
+      },
+      {
+        "name": "חפץ חיים",
+        "population": 586
+      },
+      {
+        "name": "יד בנימין",
+        "population": 4271
+      },
+      {
+        "name": "יסודות",
+        "population": 1016
+      },
+      {
+        "name": "נצר חזני",
+        "population": 544
+      }
+    ]
+  },
+  "עמק הירדן": {
+    "district": "הצפון",
+    "nafa": "כנרת",
+    "totalPop2021": 14181,
+    "settlementCount": 27,
+    "settlements": [
+      {
+        "name": "אזור כנרות מ\"א 6",
+        "population": 0
+      },
+      {
+        "name": "אלומות",
+        "population": 436
+      },
+      {
+        "name": "אלמגור",
+        "population": 423
+      },
+      {
+        "name": "אפיקים",
+        "population": 1497
+      },
+      {
+        "name": "אשדות יעקב (איחוד)",
+        "population": 1019
+      },
+      {
+        "name": "אשדות יעקב (מאוחד)",
+        "population": 645
+      },
+      {
+        "name": "בית זרע",
+        "population": 639
+      },
+      {
+        "name": "בית חולים פוריה",
+        "population": 0
+      },
+      {
+        "name": "גינוסר",
+        "population": 597
+      },
+      {
+        "name": "גליל תחתון מז מ\"א 6",
+        "population": 0
+      },
+      {
+        "name": "דגניה א'",
+        "population": 524
+      },
+      {
+        "name": "דגניה ב'",
+        "population": 689
+      },
+      {
+        "name": "האון",
+        "population": 183
+      },
+      {
+        "name": "חוקוק",
+        "population": 628
+      },
+      {
+        "name": "כנרת (מושבה)",
+        "population": 687
+      },
+      {
+        "name": "כנרת (קבוצה)",
+        "population": 701
+      },
+      {
+        "name": "מסדה",
+        "population": 376
+      },
+      {
+        "name": "מעגן",
+        "population": 394
+      },
+      {
+        "name": "מפעלי צמח",
+        "population": 0
+      },
+      {
+        "name": "עין גב",
+        "population": 670
+      },
+      {
+        "name": "פארק הירדן מ\"א 6",
+        "population": 0
+      },
+      {
+        "name": "פורייה - כפר עבודה",
+        "population": 379
+      },
+      {
+        "name": "פורייה - נווה עובד",
+        "population": 1290
+      },
+      {
+        "name": "פורייה עילית",
+        "population": 1234
+      },
+      {
+        "name": "רביד",
+        "population": 143
+      },
+      {
+        "name": "שער הגולן",
+        "population": 527
+      },
+      {
+        "name": "תל קציר",
+        "population": 500
+      }
+    ]
+  },
+  "עמק המעיינות": {
+    "district": "הצפון",
+    "nafa": "יזרעאל",
+    "totalPop2021": 14375,
+    "settlementCount": 27,
+    "settlements": [
+      {
+        "name": "בית יוסף",
+        "population": 488
+      },
+      {
+        "name": "גשר",
+        "population": 455
+      },
+      {
+        "name": "חמדיה",
+        "population": 420
+      },
+      {
+        "name": "טירת צבי",
+        "population": 975
+      },
+      {
+        "name": "ירדנה",
+        "population": 370
+      },
+      {
+        "name": "כפר רופין",
+        "population": 526
+      },
+      {
+        "name": "מירב",
+        "population": 744
+      },
+      {
+        "name": "מלכישוע",
+        "population": 243
+      },
+      {
+        "name": "מנחמיה",
+        "population": 1065
+      },
+      {
+        "name": "מסילות",
+        "population": 463
+      },
+      {
+        "name": "מעוז חיים",
+        "population": 502
+      },
+      {
+        "name": "מעלה גלבוע",
+        "population": 830
+      },
+      {
+        "name": "מפעלי שאן",
+        "population": 0
+      },
+      {
+        "name": "נווה אור",
+        "population": 350
+      },
+      {
+        "name": "נווה איתן",
+        "population": 306
+      },
+      {
+        "name": "ניר דוד (תל עמל)",
+        "population": 743
+      },
+      {
+        "name": "עין הנצי\"ב",
+        "population": 621
+      },
+      {
+        "name": "עמק בית שאן מ\"א 7",
+        "population": 0
+      },
+      {
+        "name": "רוויה",
+        "population": 444
+      },
+      {
+        "name": "רחוב",
+        "population": 406
+      },
+      {
+        "name": "רמת כוכב מ\"א 7",
+        "population": 0
+      },
+      {
+        "name": "רשפים",
+        "population": 1200
+      },
+      {
+        "name": "שדה אליהו",
+        "population": 694
+      },
+      {
+        "name": "שדה נחום",
+        "population": 992
+      },
+      {
+        "name": "שדי תרומות",
+        "population": 478
+      },
+      {
+        "name": "שלוחות",
+        "population": 457
+      },
+      {
+        "name": "תל תאומים",
+        "population": 603
+      }
+    ]
+  },
+  "עמק חפר": {
+    "district": "המרכז",
+    "nafa": "השרון",
+    "totalPop2021": 42672,
+    "settlementCount": 48,
+    "settlements": [
+      {
+        "name": "אביחיל",
+        "population": 1402
+      },
+      {
+        "name": "אומץ",
+        "population": 824
+      },
+      {
+        "name": "אחיטוב",
+        "population": 1091
+      },
+      {
+        "name": "אלישיב",
+        "population": 716
+      },
+      {
+        "name": "בארותיים",
+        "population": 1155
+      },
+      {
+        "name": "בורגתה",
+        "population": 1147
+      },
+      {
+        "name": "בחן",
+        "population": 1140
+      },
+      {
+        "name": "בית הלוי",
+        "population": 840
+      },
+      {
+        "name": "בית חירות",
+        "population": 904
+      },
+      {
+        "name": "בית ינאי",
+        "population": 363
+      },
+      {
+        "name": "בית יצחק-שער חפר",
+        "population": 2144
+      },
+      {
+        "name": "ביתן אהרן",
+        "population": 142
+      },
+      {
+        "name": "בת חן",
+        "population": 430
+      },
+      {
+        "name": "בת חפר",
+        "population": 5241
+      },
+      {
+        "name": "גאולי תימן",
+        "population": 358
+      },
+      {
+        "name": "גבעת חיים (איחוד)",
+        "population": 1207
+      },
+      {
+        "name": "גבעת חיים (מאוחד)",
+        "population": 1062
+      },
+      {
+        "name": "גבעת שפירא",
+        "population": 418
+      },
+      {
+        "name": "גן יאשיה",
+        "population": 1019
+      },
+      {
+        "name": "הדר עם",
+        "population": 696
+      },
+      {
+        "name": "המעפיל",
+        "population": 870
+      },
+      {
+        "name": "העוגן",
+        "population": 952
+      },
+      {
+        "name": "חבצלת השרון",
+        "population": 485
+      },
+      {
+        "name": "חגלה",
+        "population": 868
+      },
+      {
+        "name": "חופית",
+        "population": 824
+      },
+      {
+        "name": "חיבת ציון",
+        "population": 844
+      },
+      {
+        "name": "חניאל",
+        "population": 903
+      },
+      {
+        "name": "חרב לאת",
+        "population": 933
+      },
+      {
+        "name": "יד חנה",
+        "population": 985
+      },
+      {
+        "name": "כפר הרא\"ה",
+        "population": 1483
+      },
+      {
+        "name": "כפר ויתקין",
+        "population": 1982
+      },
+      {
+        "name": "כפר חיים",
+        "population": 639
+      },
+      {
+        "name": "כפר ידידיה",
+        "population": 751
+      },
+      {
+        "name": "כפר מונש",
+        "population": 926
+      },
+      {
+        "name": "מבואות ים",
+        "population": 365
+      },
+      {
+        "name": "מדרשת רופין",
+        "population": 228
+      },
+      {
+        "name": "מזרח השרון מ\"א 16",
+        "population": 0
+      },
+      {
+        "name": "מכמורת",
+        "population": 1504
+      },
+      {
+        "name": "מעברות",
+        "population": 983
+      },
+      {
+        "name": "מערב השרון מ\"א 16",
+        "population": 0
+      },
+      {
+        "name": "משמר השרון",
+        "population": 613
+      },
+      {
+        "name": "נעורים",
+        "population": 404
+      },
+      {
+        "name": "עולש",
+        "population": 1184
+      },
+      {
+        "name": "עין החורש",
+        "population": 854
+      },
+      {
+        "name": "עמק חפר מזרח מ\"א 16",
+        "population": 0
+      },
+      {
+        "name": "פארק תעשיות עמק חפר",
+        "population": 0
+      },
+      {
+        "name": "צוקי ים",
+        "population": 301
+      },
+      {
+        "name": "שושנת העמקים",
+        "population": 492
+      }
+    ]
+  },
+  "עמק יזרעאל": {
+    "district": "הצפון",
+    "nafa": "יזרעאל",
+    "totalPop2021": 39813,
+    "settlementCount": 48,
+    "settlements": [
+      {
+        "name": "אזור יקנעם מ\"א 9",
+        "population": 0
+      },
+      {
+        "name": "אזור שפרעם מ\"א 9",
+        "population": 0
+      },
+      {
+        "name": "אזור תעשיה אכסאל מ\"א 9",
+        "population": 0
+      },
+      {
+        "name": "אחוזת ברק",
+        "population": 2426
+      },
+      {
+        "name": "אילון תבור*",
+        "population": 0
+      },
+      {
+        "name": "אלון הגליל",
+        "population": 1132
+      },
+      {
+        "name": "אלוני אבא",
+        "population": 1000
+      },
+      {
+        "name": "אלונים",
+        "population": 548
+      },
+      {
+        "name": "בית זיד",
+        "population": 76
+      },
+      {
+        "name": "בית לחם הגלילית",
+        "population": 823
+      },
+      {
+        "name": "בית שערים",
+        "population": 814
+      },
+      {
+        "name": "בלפוריה",
+        "population": 530
+      },
+      {
+        "name": "גבעת אלה",
+        "population": 1886
+      },
+      {
+        "name": "גבת",
+        "population": 959
+      },
+      {
+        "name": "גזית",
+        "population": 804
+      },
+      {
+        "name": "גיניגר",
+        "population": 667
+      },
+      {
+        "name": "דברת",
+        "population": 554
+      },
+      {
+        "name": "הושעיה",
+        "population": 2092
+      },
+      {
+        "name": "היוגב",
+        "population": 790
+      },
+      {
+        "name": "הסוללים",
+        "population": 989
+      },
+      {
+        "name": "הרדוף",
+        "population": 1117
+      },
+      {
+        "name": "הרי נצרת-תירען מ\"א 9",
+        "population": 0
+      },
+      {
+        "name": "חנתון",
+        "population": 1008
+      },
+      {
+        "name": "יערות גבעת המורה מ\"א 9",
+        "population": 0
+      },
+      {
+        "name": "יפעת",
+        "population": 1211
+      },
+      {
+        "name": "כפר ברוך",
+        "population": 667
+      },
+      {
+        "name": "כפר גדעון",
+        "population": 351
+      },
+      {
+        "name": "כפר החורש",
+        "population": 736
+      },
+      {
+        "name": "כפר יהושע",
+        "population": 1244
+      },
+      {
+        "name": "מזרע",
+        "population": 792
+      },
+      {
+        "name": "מחנה יהודית*",
+        "population": 0
+      },
+      {
+        "name": "מנשית זבדה",
+        "population": 1471
+      },
+      {
+        "name": "מפעלי העמק (יזרעאל)",
+        "population": 0
+      },
+      {
+        "name": "מרחביה (מושב)",
+        "population": 663
+      },
+      {
+        "name": "מרחביה (קיבוץ)",
+        "population": 1298
+      },
+      {
+        "name": "נהלל",
+        "population": 1255
+      },
+      {
+        "name": "סואעד (חמרייה)*",
+        "population": 198
+      },
+      {
+        "name": "עדי",
+        "population": 1868
+      },
+      {
+        "name": "עין דור",
+        "population": 1054
+      },
+      {
+        "name": "עמק יזרעאל מ\"א 9",
+        "population": 0
+      },
+      {
+        "name": "ציפורי",
+        "population": 1013
+      },
+      {
+        "name": "רמת דוד",
+        "population": 542
+      },
+      {
+        "name": "רמת כוכב מ\"א 9",
+        "population": 0
+      },
+      {
+        "name": "שדה יעקב",
+        "population": 1095
+      },
+      {
+        "name": "שמשית",
+        "population": 2481
+      },
+      {
+        "name": "שריד",
+        "population": 875
+      },
+      {
+        "name": "תל עדשים",
+        "population": 1527
+      },
+      {
+        "name": "תמרת",
+        "population": 1257
+      }
+    ]
+  },
+  "ערבות הירדן": {
+    "district": "אזור יהודה ושומרון",
+    "nafa": "ירדן-יריחו",
+    "totalPop2021": 6133,
+    "settlementCount": 23,
+    "settlements": [
+      {
+        "name": "ארגמן",
+        "population": 133
+      },
+      {
+        "name": "בקעות",
+        "population": 186
+      },
+      {
+        "name": "גיתית",
+        "population": 498
+      },
+      {
+        "name": "גלגל",
+        "population": 223
+      },
+      {
+        "name": "חמדת",
+        "population": 343
+      },
+      {
+        "name": "חמרה",
+        "population": 273
+      },
+      {
+        "name": "ייט\"ב",
+        "population": 296
+      },
+      {
+        "name": "יפית",
+        "population": 221
+      },
+      {
+        "name": "מבואות יריחו",
+        "population": 228
+      },
+      {
+        "name": "מחולה",
+        "population": 649
+      },
+      {
+        "name": "מכורה",
+        "population": 185
+      },
+      {
+        "name": "משואה",
+        "population": 263
+      },
+      {
+        "name": "משכיות",
+        "population": 341
+      },
+      {
+        "name": "נעמ\"ה",
+        "population": 197
+      },
+      {
+        "name": "נערן",
+        "population": 104
+      },
+      {
+        "name": "נפת ירדן מ\"א 75",
+        "population": 0
+      },
+      {
+        "name": "נתיב הגדוד",
+        "population": 220
+      },
+      {
+        "name": "פצאל",
+        "population": 361
+      },
+      {
+        "name": "רועי",
+        "population": 171
+      },
+      {
+        "name": "רותם",
+        "population": 262
+      },
+      {
+        "name": "שדמות מחולה",
+        "population": 677
+      },
+      {
+        "name": "שלומציון",
+        "population": 0
+      },
+      {
+        "name": "תומר",
+        "population": 302
+      }
+    ]
+  },
+  "רמת נגב": {
+    "district": "הדרום",
+    "nafa": "באר שבע",
+    "totalPop2021": 7796,
+    "settlementCount": 20,
+    "settlements": [
+      {
+        "name": "אורון",
+        "population": 0
+      },
+      {
+        "name": "אשלים",
+        "population": 681
+      },
+      {
+        "name": "באר מילכה",
+        "population": 197
+      },
+      {
+        "name": "הר הנגב הדרומי מ\"א 48",
+        "population": 0
+      },
+      {
+        "name": "הר הנגב הצפוני מ\"א 48",
+        "population": 0
+      },
+      {
+        "name": "טללים",
+        "population": 591
+      },
+      {
+        "name": "כמהין",
+        "population": 251
+      },
+      {
+        "name": "מדרשת בן גוריון",
+        "population": 1956
+      },
+      {
+        "name": "מחנה טלי*",
+        "population": 0
+      },
+      {
+        "name": "מרחב עם",
+        "population": 521
+      },
+      {
+        "name": "משאבי שדה",
+        "population": 474
+      },
+      {
+        "name": "ניצנה (קהילת חינוך)",
+        "population": 408
+      },
+      {
+        "name": "ניצני סיני",
+        "population": 297
+      },
+      {
+        "name": "עזוז",
+        "population": 82
+      },
+      {
+        "name": "רביבים",
+        "population": 1094
+      },
+      {
+        "name": "רוח מדבר",
+        "population": 68
+      },
+      {
+        "name": "רתמים",
+        "population": 608
+      },
+      {
+        "name": "שדה בוקר",
+        "population": 469
+      },
+      {
+        "name": "שיזף",
+        "population": 99
+      },
+      {
+        "name": "שלווה במדבר",
+        "population": 0
+      }
+    ]
+  },
+  "שדות דן": {
+    "district": "המרכז",
+    "nafa": "רמלה",
+    "totalPop2021": 15986,
+    "settlementCount": 11,
+    "settlements": [
+      {
+        "name": "אזור רמלה מ\"א 40",
+        "population": 0
+      },
+      {
+        "name": "אחיעזר",
+        "population": 1947
+      },
+      {
+        "name": "גנות",
+        "population": 585
+      },
+      {
+        "name": "זיתן",
+        "population": 1031
+      },
+      {
+        "name": "חמ\"ד",
+        "population": 1355
+      },
+      {
+        "name": "יגל",
+        "population": 919
+      },
+      {
+        "name": "כפר חב\"ד",
+        "population": 6797
+      },
+      {
+        "name": "משמר השבעה",
+        "population": 1044
+      },
+      {
+        "name": "ניר צבי",
+        "population": 1273
+      },
+      {
+        "name": "צפרייה",
+        "population": 1035
+      },
+      {
+        "name": "תעשיון צריפין",
+        "population": 0
+      }
+    ]
+  },
+  "שדות נגב": {
+    "district": "הדרום",
+    "nafa": "באר שבע",
+    "totalPop2021": 11060,
+    "settlementCount": 19,
+    "settlements": [
+      {
+        "name": "אזור בשור מ\"א 39",
+        "population": 0
+      },
+      {
+        "name": "אזור גרר מ\"א 39",
+        "population": 0
+      },
+      {
+        "name": "בית הגדי",
+        "population": 887
+      },
+      {
+        "name": "גבעולים",
+        "population": 422
+      },
+      {
+        "name": "זמרת",
+        "population": 684
+      },
+      {
+        "name": "זרועה",
+        "population": 503
+      },
+      {
+        "name": "יושיביה",
+        "population": 733
+      },
+      {
+        "name": "כפר מימון",
+        "population": 427
+      },
+      {
+        "name": "מלילות",
+        "population": 381
+      },
+      {
+        "name": "מעגלים",
+        "population": 2058
+      },
+      {
+        "name": "סעד",
+        "population": 846
+      },
+      {
+        "name": "עלומים",
+        "population": 531
+      },
+      {
+        "name": "קרית חינוך עזתה",
+        "population": 0
+      },
+      {
+        "name": "שובה",
+        "population": 722
+      },
+      {
+        "name": "שוקדה",
+        "population": 634
+      },
+      {
+        "name": "שיבולים",
+        "population": 291
+      },
+      {
+        "name": "שרשרת",
+        "population": 345
+      },
+      {
+        "name": "תושייה",
+        "population": 859
+      },
+      {
+        "name": "תקומה",
+        "population": 737
+      }
+    ]
+  },
+  "שומרון": {
+    "district": "אזור יהודה ושומרון",
+    "nafa": "טול כרם",
+    "totalPop2021": 49958,
+    "settlementCount": 32,
+    "settlements": [
+      {
+        "name": "אבני חפץ",
+        "population": 2223
+      },
+      {
+        "name": "איתמר",
+        "population": 1355
+      },
+      {
+        "name": "אלון מורה",
+        "population": 2009
+      },
+      {
+        "name": "ברוכין",
+        "population": 2129
+      },
+      {
+        "name": "ברכה",
+        "population": 3062
+      },
+      {
+        "name": "ברקן",
+        "population": 2005
+      },
+      {
+        "name": "חיננית",
+        "population": 1512
+      },
+      {
+        "name": "חרמש",
+        "population": 236
+      },
+      {
+        "name": "יצהר",
+        "population": 2020
+      },
+      {
+        "name": "יקיר",
+        "population": 2485
+      },
+      {
+        "name": "כפר תפוח",
+        "population": 1522
+      },
+      {
+        "name": "מבוא דותן",
+        "population": 509
+      },
+      {
+        "name": "מגדלים",
+        "population": 543
+      },
+      {
+        "name": "מפעלי ברקן",
+        "population": 0
+      },
+      {
+        "name": "נופים",
+        "population": 1042
+      },
+      {
+        "name": "נפת ג'נין מ\"א 72",
+        "population": 0
+      },
+      {
+        "name": "נפת ראמאללה מ\"א 73",
+        "population": 0
+      },
+      {
+        "name": "נפת שכם מ\"א 72",
+        "population": 0
+      },
+      {
+        "name": "סלעית",
+        "population": 1426
+      },
+      {
+        "name": "עלי זהב",
+        "population": 4279
+      },
+      {
+        "name": "ענב",
+        "population": 983
+      },
+      {
+        "name": "עץ אפרים",
+        "population": 2518
+      },
+      {
+        "name": "פדואל",
+        "population": 2098
+      },
+      {
+        "name": "צופים",
+        "population": 2489
+      },
+      {
+        "name": "קריית נטפים",
+        "population": 991
+      },
+      {
+        "name": "רבבה",
+        "population": 2908
+      },
+      {
+        "name": "רחלים",
+        "population": 975
+      },
+      {
+        "name": "ריחן",
+        "population": 384
+      },
+      {
+        "name": "שבי שומרון",
+        "population": 1050
+      },
+      {
+        "name": "שערי תקווה",
+        "population": 6124
+      },
+      {
+        "name": "שקד",
+        "population": 1081
+      },
+      {
+        "name": "תעשיון שח\"ק",
+        "population": 0
+      }
+    ]
+  },
+  "שער הנגב": {
+    "district": "הדרום",
+    "nafa": "אשקלון",
+    "totalPop2021": 9071,
+    "settlementCount": 14,
+    "settlements": [
+      {
+        "name": "אור הנר",
+        "population": 808
+      },
+      {
+        "name": "אזור אשקלון מ\"א 37",
+        "population": 0
+      },
+      {
+        "name": "איבים",
+        "population": 721
+      },
+      {
+        "name": "ארז",
+        "population": 609
+      },
+      {
+        "name": "ברור חיל",
+        "population": 1014
+      },
+      {
+        "name": "גבים",
+        "population": 617
+      },
+      {
+        "name": "דורות",
+        "population": 870
+      },
+      {
+        "name": "יכיני",
+        "population": 724
+      },
+      {
+        "name": "כפר עזה",
+        "population": 765
+      },
+      {
+        "name": "מפלסים",
+        "population": 1038
+      },
+      {
+        "name": "נחל עוז",
+        "population": 470
+      },
+      {
+        "name": "ניר עם",
+        "population": 684
+      },
+      {
+        "name": "פארק תעשיות ספירים",
+        "population": 0
+      },
+      {
+        "name": "רוחמה",
+        "population": 751
+      }
+    ]
+  },
+  "שפיר": {
+    "district": "הדרום",
+    "nafa": "אשקלון",
+    "totalPop2021": 12853,
+    "settlementCount": 16,
+    "settlements": [
+      {
+        "name": "אבן שמואל",
+        "population": 2279
+      },
+      {
+        "name": "אזור לכיש מ\"א 34",
+        "population": 0
+      },
+      {
+        "name": "אזור מלאכי מ\"א 34",
+        "population": 0
+      },
+      {
+        "name": "איתן",
+        "population": 520
+      },
+      {
+        "name": "אלומה",
+        "population": 1163
+      },
+      {
+        "name": "זבדיאל",
+        "population": 616
+      },
+      {
+        "name": "זרחיה",
+        "population": 755
+      },
+      {
+        "name": "מרכז שפירא",
+        "population": 2589
+      },
+      {
+        "name": "משואות יצחק",
+        "population": 685
+      },
+      {
+        "name": "נועם",
+        "population": 360
+      },
+      {
+        "name": "עוזה",
+        "population": 407
+      },
+      {
+        "name": "עין צורים",
+        "population": 861
+      },
+      {
+        "name": "קוממיות",
+        "population": 555
+      },
+      {
+        "name": "רווחה",
+        "population": 567
+      },
+      {
+        "name": "שלווה",
+        "population": 586
+      },
+      {
+        "name": "שפיר",
+        "population": 910
+      }
+    ]
+  },
+  "תמר": {
+    "district": "הדרום",
+    "nafa": "באר שבע",
+    "totalPop2021": 1520,
+    "settlementCount": 13,
+    "settlements": [
+      {
+        "name": "אזור באר שבע מ\"א 51",
+        "population": 0
+      },
+      {
+        "name": "אזור ים המלח מ\"א 51",
+        "population": 0
+      },
+      {
+        "name": "הערבה מ\"א 51",
+        "population": 0
+      },
+      {
+        "name": "הר הנגב הצפוני מ\"א 51",
+        "population": 0
+      },
+      {
+        "name": "הר עמשא",
+        "population": 240
+      },
+      {
+        "name": "ים המלח - בתי מלון",
+        "population": 0
+      },
+      {
+        "name": "מפעלי ים המלח(סדום)",
+        "population": 0
+      },
+      {
+        "name": "מפעלי מישור רותם",
+        "population": 0
+      },
+      {
+        "name": "נאות הכיכר",
+        "population": 442
+      },
+      {
+        "name": "נווה זוהר",
+        "population": 52
+      },
+      {
+        "name": "עין גדי",
+        "population": 588
+      },
+      {
+        "name": "עין חצבה",
+        "population": 0
+      },
+      {
+        "name": "עין תמר",
+        "population": 198
+      }
+    ]
+  }
+}

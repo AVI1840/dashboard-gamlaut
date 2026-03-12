@@ -51,7 +51,7 @@ export const nationalStats: NationalStats = {
   population65Plus: 1264063,
   population18To64: 5317732,
   population0To17: 3164661,
-  totalMunicipalities: 280,
+  totalMunicipalities: 340,
   lastUpdated: "דצמבר 2025",
 };
 
@@ -136,9 +136,9 @@ export const benefitTypes: BenefitType[] = [
   },
   {
     id: "old-age",
-    name: "קצבת זקנה ושאירים",
-    nameEn: "Old Age & Survivors",
-    description: "קצבה לאזרחים ותיקים (65+) ושאיריהם",
+    name: "קצבת זקנה",
+    nameEn: "Old Age Pension",
+    description: "קצבה לאזרחים ותיקים (65+)",
     targetPopulation: "בני 65+",
     nationalRecipients: 1203511,
     nationalRatePer1000: 952.10,
@@ -155,6 +155,28 @@ export const benefitTypes: BenefitType[] = [
     nationalRatePer1000: 131.58,
     nationalAverageBenefit: 457,
     icon: "👶",
+  },
+  {
+    id: "work-disability",
+    name: "נכות מעבודה",
+    nameEn: "Work Disability",
+    description: "קצבת נכות ותלויים לנפגעי עבודה (גיל 18-64)",
+    targetPopulation: "בני 18-64",
+    nationalRecipients: 82317,
+    nationalRatePer1000: 15.48,
+    nationalAverageBenefit: 0,
+    icon: "🏗️",
+  },
+  {
+    id: "work-injury",
+    name: "דמי פגיעה",
+    nameEn: "Work Injury",
+    description: "דמי פגיעה בעבודה (גיל 18-64)",
+    targetPopulation: "בני 18-64",
+    nationalRecipients: 5890,
+    nationalRatePer1000: 1.11,
+    nationalAverageBenefit: 0,
+    icon: "🩹",
   },
 ];
 
@@ -849,6 +871,8 @@ export const benefitData: Record<string, Record<string, BenefitData>> = {
   "alimony": alimonyData,
   "old-age": oldAgeData,
   "child-support": childSupportData,
+  "work-disability": {},
+  "work-injury": {},
 };
 
 // ============================================================

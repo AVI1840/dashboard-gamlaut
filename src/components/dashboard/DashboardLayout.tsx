@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ViewModeToggle } from "@/components/dashboard/ViewModeToggle";
+import { BranchFilter } from "@/components/dashboard/BranchFilter";
 import { FeedbackModal } from "@/components/FeedbackModal";
 
 
@@ -43,6 +44,8 @@ const iconMap: Record<string, React.ElementType> = {
   "disabled-child": Baby,
   "mobility": Car,
   "alimony": Scale,
+  "work-disability": Accessibility,
+  "work-injury": Accessibility,
 };
 
 const navItems = [
@@ -98,7 +101,7 @@ function DesktopSidebar() {
           </div>
           <div>
             <h1 className="text-lg font-bold">דשבורד פערי גמלאות</h1>
-            <p className="text-xs text-white/70">אביעד יצחקי, מינהל גמלאות</p>
+            <p className="text-xs text-white/70">מינהל גמלאות | ביטוח לאומי</p>
           </div>
         </div>
       </div>
@@ -136,7 +139,7 @@ function MobileNavigation() {
               <SheetTitle className="text-lg font-bold text-white text-right">
                 דשבורד פערי גמלאות
               </SheetTitle>
-              <p className="text-xs text-white/70 text-right">אביעד יצחקי, מינהל גמלאות</p>
+              <p className="text-xs text-white/70 text-right">מינהל גמלאות | ביטוח לאומי</p>
             </div>
           </div>
         </SheetHeader>
@@ -171,7 +174,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             <h2 className="text-base sm:text-lg font-semibold truncate">
               {isMobile ? "פערי גמלאות רווחה" : "ניתוח פערי גמלאות רווחה ברשויות המקומיות"}
             </h2>
-            <p className="text-xs text-muted-foreground hidden sm:block">אביעד יצחקי, מינהל גמלאות | ביטוח לאומי</p>
+            <p className="text-xs text-muted-foreground hidden sm:block">מינהל גמלאות | ביטוח לאומי</p>
           </div>
           <Button
             variant="outline"
@@ -182,6 +185,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             <MessageCircle className="h-4 w-4" />
             משוב פיילוט
           </Button>
+          <BranchFilter />
           <Button
             variant="ghost"
             size="icon"

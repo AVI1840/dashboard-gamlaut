@@ -1,4 +1,4 @@
-import { memo, useMemo, useState } from "react";
+import { memo, useMemo, useState, Fragment } from "react";
 import { FlatDataRow } from "@/data/flatData";
 import {
   Table,
@@ -9,10 +9,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { Search, ChevronUp, ChevronDown, ArrowUpDown } from "lucide-react";
+import { Search, ChevronUp, ChevronDown, ArrowUpDown, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { TrendSparkline, TrendArrow } from "./TrendSparkline";
+import regionalCouncils from "@/data/regionalCouncilSettlements.json";
 
 interface TrendTableProps {
   rows: FlatDataRow[];
@@ -92,6 +93,16 @@ export const TrendTable = memo(function TrendTable({ rows }: TrendTableProps) {
   const [search, setSearch] = useState("");
   const [sortField, setSortField] = useState<SortField>("abs_gap");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
+  const [expandedCouncils, setExpandedCouncils] = useState<Set<string>>(new Set());
+
+  const toggleCouncil = (name: string) => {
+    setExpandedCouncils((prev) => {
+      const next = new Set(prev);
+      if (next.has(name)) next.delete(name);
+      else next.add(name);
+      return next;
+    });
+  };
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -203,9 +214,14 @@ export const TrendTable = memo(function TrendTable({ rows }: TrendTableProps) {
               {displayed.map((row, idx) => {
                 const emphasized = isEmphasized(row);
                 const { label: sLabel, colorClass: sColor } = statusDisplay(row);
+                const isRegionalCouncil = row.Entity_Type === "מועצה אזורית";
+                const councilChildren = isRegionalCouncil
+                  ? (regionalCouncils as Record<string, string[]>)[row.Municipality] || []
+                  : [];
+                const isExpanded = expandedCouncils.has(row.Municipality);
                 return (
+                  <Fragment key={`${row.Municipality}-${row.Benefit_Type}-${idx}`}>
                   <TableRow
-                    key={`${row.Municipality}-${row.Benefit_Type}-${idx}`}
                     className={cn(
                       emphasized
                         ? "bg-amber-50/60 dark:bg-amber-950/20 hover:bg-amber-100/60 dark:hover:bg-amber-950/30"
@@ -218,33 +234,75 @@ export const TrendTable = memo(function TrendTable({ rows }: TrendTableProps) {
                       {emphasized && (
                         <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5 mb-0.5" />
                       )}
-                      {row.Municipality}
+                      {isRegionalCouncil ? (
+                        <button
+                          type="button"
+                          className="inline-flex items-center gap-1 hover:text-primary transition-colors"
+                          onClick={() => toggleCouncil(row.Municipality)}
+                        >
+                          <ChevronLeft className={cn("h-3.5 w-3.5 transition-transform", expandedCouncils.has(row.Municipality) && "-rotate-90")} />
+                          {row.Municipality}
+                        </button>
+                      ) : (
+                        row.Municipality
+                      )}
+                      {isRegionalCouncil && (
+                        <span className="mr-1.5 inline-flex items-center rounded-full bg-violet-100 dark:bg-violet-900/40 px-1.5 py-0.5 text-[10px] font-medium text-violet-700 dark:text-violet-300">
+                          מ.א.
+                        </span>
+                      )}
                     </TableCell>
                     <TableCell className="py-2 text-muted-foreground text-sm">
                       {row.Cluster !== null ? row.Cluster : "ללא סיווג"}
                     </TableCell>
-                    <TableCell className="py-2 text-sm font-semibold tabular-nums">
-                      {formatRate(row.Rate_2025)}
-                    </TableCell>
-                    <TableCell className={cn("py-2 text-sm tabular-nums font-semibold", changeColorClass(row.Gap_from_Cluster_Pct))}>
-                      {formatChange(row.Gap_from_Cluster_Pct)}
-                    </TableCell>
-                    <TableCell className={cn("py-2 text-sm tabular-nums", changeColorClass(row.Cumulative_Change_Pct))}>
-                      {formatChange(row.Cumulative_Change_Pct)}
-                    </TableCell>
-                    <TableCell className="py-2">
-                      <div className="flex items-center gap-2">
-                        <TrendSparkline
-                          values={[row.Rate_2023, row.Rate_2024, row.Rate_2025]}
-                          change={row.Cumulative_Change_Pct}
-                        />
-                        <TrendArrow change={row.Cumulative_Change_Pct} />
-                      </div>
-                    </TableCell>
-                    <TableCell className={cn("py-2 text-sm", sColor)}>
-                      {sLabel}
-                    </TableCell>
+                    {isRegionalCouncil ? (
+                      <>
+                        <TableCell className="py-2 text-sm font-semibold tabular-nums">
+                          {formatRate(row.Rate_2024)}
+                        </TableCell>
+                        <TableCell className="py-2 text-xs text-muted-foreground" colSpan={4}>
+                          נתונים זמינים: דצמבר 2024 בלבד
+                        </TableCell>
+                      </>
+                    ) : (
+                      <>
+                        <TableCell className="py-2 text-sm font-semibold tabular-nums">
+                          {formatRate(row.Rate_2025)}
+                        </TableCell>
+                        <TableCell className={cn("py-2 text-sm tabular-nums font-semibold", changeColorClass(row.Gap_from_Cluster_Pct))}>
+                          {formatChange(row.Gap_from_Cluster_Pct)}
+                        </TableCell>
+                        <TableCell className={cn("py-2 text-sm tabular-nums", changeColorClass(row.Cumulative_Change_Pct))}>
+                          {formatChange(row.Cumulative_Change_Pct)}
+                        </TableCell>
+                        <TableCell className="py-2">
+                          <div className="flex items-center gap-2">
+                            <TrendSparkline
+                              values={[row.Rate_2023, row.Rate_2024, row.Rate_2025]}
+                              change={row.Cumulative_Change_Pct}
+                            />
+                            <TrendArrow change={row.Cumulative_Change_Pct} />
+                          </div>
+                        </TableCell>
+                        <TableCell className={cn("py-2 text-sm", sColor)}>
+                          {sLabel}
+                        </TableCell>
+                      </>
+                    )}
                   </TableRow>
+                  {isRegionalCouncil && isExpanded && councilChildren.length > 0 &&
+                    councilChildren.map((child, ci) => (
+                      <TableRow key={`${row.Municipality}-child-${ci}`} className="bg-violet-50/30 dark:bg-violet-950/10">
+                        <TableCell className="py-1.5 pr-8 sticky right-0 z-10 bg-violet-50/30 dark:bg-violet-950/10">
+                          <span className="text-xs text-muted-foreground">↳ {child}</span>
+                        </TableCell>
+                        <TableCell colSpan={6} className="py-1.5 text-xs text-muted-foreground">
+                          יישוב במועצה אזורית {row.Municipality}
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  }
+                  </Fragment>
                 );
               })}
               {displayed.length === 0 && (

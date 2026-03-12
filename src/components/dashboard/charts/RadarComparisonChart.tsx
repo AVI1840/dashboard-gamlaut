@@ -8,13 +8,13 @@ import {
   Legend,
   Tooltip,
 } from "recharts";
-import { BenefitType, BenefitData } from "@/data/welfareData";
+import { BenefitType } from "@/data/welfareData";
 
 interface RadarComparisonChartProps {
   municipalityName: string;
-  municipalityData: Array<{ benefit: BenefitType; data: BenefitData }>;
+  municipalityData: Array<{ benefit: BenefitType; data: { ratePer1000: number } }>;
   comparisonName?: string;
-  comparisonData?: Array<{ benefit: BenefitType; data: BenefitData }> | null;
+  comparisonData?: Array<{ benefit: BenefitType; data: { ratePer1000: number } }> | null;
 }
 
 export function RadarComparisonChart({

@@ -8,39 +8,40 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { RadarComparisonChart } from "@/components/dashboard/charts/RadarComparisonChart";
-import { GapBadge } from "@/components/dashboard/GapBadge";
+import { useSnapshotData, getMuniProfile } from "@/hooks/useSnapshotData";
 import {
-  municipalities,
-  getMunicipalityProfile,
-  getMunicipalityById,
   formatNumber,
-  BenefitType,
-  BenefitData,
+  benefitTypes,
 } from "@/data/welfareData";
 
 const NATIONAL_AVERAGE_ID = "__national__";
 
 export default function ComparePage() {
-  const [selectedMunicipality1, setSelectedMunicipality1] = useState<string>(
-    municipalities[0].id
-  );
-  const [selectedMunicipality2, setSelectedMunicipality2] = useState<string>(
-    NATIONAL_AVERAGE_ID
-  );
+  const { municipalities, benefitData, loading } = useSnapshotData();
+  const [selectedMunicipality1, setSelectedMunicipality1] = useState<string>("");
+  const [selectedMunicipality2, setSelectedMunicipality2] = useState<string>(NATIONAL_AVERAGE_ID);
 
-  const municipality1 = getMunicipalityById(selectedMunicipality1);
-  const municipality2 = selectedMunicipality2 !== NATIONAL_AVERAGE_ID 
-    ? getMunicipalityById(selectedMunicipality2) 
+  // Set default selection once data loads
+  if (municipalities.length > 0 && !selectedMunicipality1) {
+    setSelectedMunicipality1(municipalities[0].id);
+  }
+
+  const municipality1 = municipalities.find((m) => m.id === selectedMunicipality1);
+  const municipality2 = selectedMunicipality2 !== NATIONAL_AVERAGE_ID
+    ? municipalities.find((m) => m.id === selectedMunicipality2)
     : null;
-  
-  const profile1 = getMunicipalityProfile(selectedMunicipality1);
-  const profile2 = selectedMunicipality2 !== NATIONAL_AVERAGE_ID 
-    ? getMunicipalityProfile(selectedMunicipality2) 
+
+  const profile1 = selectedMunicipality1 ? getMuniProfile(benefitData, selectedMunicipality1) : [];
+  const profile2 = selectedMunicipality2 !== NATIONAL_AVERAGE_ID
+    ? getMuniProfile(benefitData, selectedMunicipality2)
     : null;
 
   const comparisonName = municipality2 ? municipality2.name : "ממוצע ארצי";
 
-  // Create comparison data for table - sorted by recipientPercent
+  // Display name with (מ.א.) suffix for regional councils
+  const displayName = (m: typeof municipalities[0]) =>
+    m.entityType === "מועצה אזורית" ? `${m.name} (מ.א.)` : m.name;
+
   const comparisonData = profile1.map((item1) => {
     const item2 = profile2?.find((p) => p.benefit.id === item1.benefit.id);
     return {
@@ -49,6 +50,14 @@ export default function ComparePage() {
       data2: item2?.data || null,
     };
   }).sort((a, b) => b.data1.recipientPercent - a.data1.recipientPercent);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-16 text-muted-foreground">
+        <span className="animate-pulse">טוען נתונים...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -70,7 +79,6 @@ export default function ComparePage() {
       {/* Municipality Selectors */}
       <div className="dashboard-card p-6">
         <div className="grid gap-6 md:grid-cols-2">
-          {/* First Municipality */}
           <div>
             <label className="block text-sm font-medium mb-2">רשות מקומית א׳</label>
             <Select value={selectedMunicipality1} onValueChange={setSelectedMunicipality1}>
@@ -79,19 +87,17 @@ export default function ComparePage() {
               </SelectTrigger>
               <SelectContent>
                 {municipalities.map((muni) => (
-                  <SelectItem 
-                    key={muni.id} 
+                  <SelectItem
+                    key={muni.id}
                     value={muni.id}
                     disabled={muni.id === selectedMunicipality2}
                   >
-                    {muni.name} • {muni.district}
+                    {displayName(muni)} - {muni.branch}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
-
-          {/* Second Municipality or National Average */}
           <div>
             <label className="block text-sm font-medium mb-2">רשות מקומית ב׳ / ממוצע ארצי</label>
             <Select value={selectedMunicipality2} onValueChange={setSelectedMunicipality2}>
@@ -103,12 +109,12 @@ export default function ComparePage() {
                   📊 ממוצע ארצי
                 </SelectItem>
                 {municipalities.map((muni) => (
-                  <SelectItem 
-                    key={muni.id} 
+                  <SelectItem
+                    key={muni.id}
                     value={muni.id}
                     disabled={muni.id === selectedMunicipality1}
                   >
-                    {muni.name} • {muni.district}
+                    {displayName(muni)} - {muni.branch}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -121,13 +127,17 @@ export default function ComparePage() {
         <>
           {/* Municipalities Info Cards */}
           <div className="grid gap-4 md:grid-cols-2">
-            {/* Municipality 1 Info */}
             <div className="dashboard-card p-6 border-r-4 border-r-primary">
               <div className="flex items-center gap-2 mb-3">
                 <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-bold">
                   א׳
                 </span>
-                <h3 className="text-lg font-semibold">{municipality1.name}</h3>
+                <h3 className="text-lg font-semibold">
+                  {municipality1.name}
+                  {municipality1.entityType === "מועצה אזורית" && (
+                    <span className="mr-1.5 text-sm text-violet-600">(מ.א.)</span>
+                  )}
+                </h3>
               </div>
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
@@ -135,21 +145,20 @@ export default function ComparePage() {
                   <p className="font-bold text-lg">{formatNumber(municipality1.population)}</p>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">מחוז</p>
-                  <p className="font-bold text-lg">{municipality1.district}</p>
+                  <p className="text-muted-foreground">סניף</p>
+                  <p className="font-bold text-lg">{municipality1.branch}</p>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">אזור</p>
-                  <p className="font-medium">{municipality1.region}</p>
+                  <p className="text-muted-foreground">אשכול</p>
+                  <p className="font-medium">{municipality1.cluster ?? "ללא"}</p>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">קוד רשות</p>
-                  <p className="font-medium">{municipality1.code}</p>
+                  <p className="text-muted-foreground">סוג</p>
+                  <p className="font-medium">{municipality1.entityType}</p>
                 </div>
               </div>
             </div>
 
-            {/* Municipality 2 or National Average Info */}
             <div className="dashboard-card p-6 border-r-4 border-r-secondary">
               <div className="flex items-center gap-2 mb-3">
                 <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-secondary-foreground text-sm font-bold">
@@ -164,16 +173,16 @@ export default function ComparePage() {
                     <p className="font-bold text-lg">{formatNumber(municipality2.population)}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">מחוז</p>
-                    <p className="font-bold text-lg">{municipality2.district}</p>
+                    <p className="text-muted-foreground">סניף</p>
+                    <p className="font-bold text-lg">{municipality2.branch}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">אזור</p>
-                    <p className="font-medium">{municipality2.region}</p>
+                    <p className="text-muted-foreground">אשכול</p>
+                    <p className="font-medium">{municipality2.cluster ?? "ללא"}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">קוד רשות</p>
-                    <p className="font-medium">{municipality2.code}</p>
+                    <p className="text-muted-foreground">סוג</p>
+                    <p className="font-medium">{municipality2.entityType}</p>
                   </div>
                 </div>
               ) : (
@@ -184,7 +193,7 @@ export default function ComparePage() {
                   </div>
                   <div>
                     <p className="text-muted-foreground">רשויות</p>
-                    <p className="font-bold text-lg">280</p>
+                    <p className="font-bold text-lg">340</p>
                   </div>
                   <div className="col-span-2">
                     <p className="text-muted-foreground">תיאור</p>
@@ -216,18 +225,10 @@ export default function ComparePage() {
               <table className="w-full">
                 <thead>
                   <tr className="border-b">
-                    <th className="text-right py-3 px-4 font-medium text-muted-foreground">
-                      סוג גמלה
-                    </th>
-                    <th className="text-right py-3 px-4 font-medium text-primary">
-                      {municipality1.name} (%)
-                    </th>
-                    <th className="text-right py-3 px-4 font-medium text-secondary-foreground">
-                      {comparisonName} (%)
-                    </th>
-                    <th className="text-right py-3 px-4 font-medium text-muted-foreground">
-                      הפרש
-                    </th>
+                    <th className="text-right py-3 px-4 font-medium text-muted-foreground">סוג גמלה</th>
+                    <th className="text-right py-3 px-4 font-medium text-primary">{municipality1.name} (%)</th>
+                    <th className="text-right py-3 px-4 font-medium text-secondary-foreground">{comparisonName} (%)</th>
+                    <th className="text-right py-3 px-4 font-medium text-muted-foreground">הפרש</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -235,7 +236,6 @@ export default function ComparePage() {
                     const percent1 = item.data1.recipientPercent;
                     const percent2 = item.data2?.recipientPercent || (item.benefit.nationalRatePer1000 / 10);
                     const diff = percent1 - percent2;
-                    
                     return (
                       <tr key={item.benefit.id} className="border-b hover:bg-muted/50">
                         <td className="py-3 px-4">
@@ -245,14 +245,10 @@ export default function ComparePage() {
                           </div>
                         </td>
                         <td className="py-3 px-4">
-                          <span className="font-bold text-primary text-lg">
-                            {percent1.toFixed(1)}%
-                          </span>
+                          <span className="font-bold text-primary text-lg">{percent1.toFixed(1)}%</span>
                         </td>
                         <td className="py-3 px-4">
-                          <span className="font-medium text-lg">
-                            {percent2.toFixed(1)}%
-                          </span>
+                          <span className="font-medium text-lg">{percent2.toFixed(1)}%</span>
                         </td>
                         <td className="py-3 px-4">
                           <span className={`font-bold ${diff > 0 ? 'text-destructive' : 'text-primary'}`}>
@@ -284,10 +280,7 @@ export default function ComparePage() {
                     const percent2 = item.data2?.recipientPercent || (item.benefit.nationalRatePer1000 / 10);
                     const diff = item.data1.recipientPercent - percent2;
                     return (
-                      <div
-                        key={item.benefit.id}
-                        className="flex items-center justify-between py-2 border-b last:border-0"
-                      >
+                      <div key={item.benefit.id} className="flex items-center justify-between py-2 border-b last:border-0">
                         <span className="flex items-center gap-2">
                           <span>{item.benefit.icon}</span>
                           <span>{item.benefit.name}</span>
@@ -320,10 +313,7 @@ export default function ComparePage() {
                     const percent2 = item.data2?.recipientPercent || (item.benefit.nationalRatePer1000 / 10);
                     const diff = item.data1.recipientPercent - percent2;
                     return (
-                      <div
-                        key={item.benefit.id}
-                        className="flex items-center justify-between py-2 border-b last:border-0"
-                      >
+                      <div key={item.benefit.id} className="flex items-center justify-between py-2 border-b last:border-0">
                         <span className="flex items-center gap-2">
                           <span>{item.benefit.icon}</span>
                           <span>{item.benefit.name}</span>

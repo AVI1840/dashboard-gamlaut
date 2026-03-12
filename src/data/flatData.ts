@@ -1,15 +1,16 @@
 /**
- * BTL Flat Data v3 - Analytical dataset for executive use.
+ * BTL Flat Data v5 - Analytical dataset for executive use.
+ * 340 entities (286 local authorities + 54 regional councils).
  * All computed fields are pre-validated and treated as the single source of truth.
  * DO NOT recompute or transform any statistics.
  */
 
 export interface FlatDataRow {
+  Branch: string;
   Municipality: string;
+  Entity_Type: string; // "רשות מקומית" | "מועצה אזורית"
   Cluster: number | null;
   Pop_2025: number | null;
-  Benefit_Type: string;
-  Benefit: string;
   Rate_2023: number | null;
   Rate_2024: number | null;
   Rate_2025: number | null;
@@ -19,23 +20,28 @@ export interface FlatDataRow {
   Trend: string;
   Z_Score_Cluster: number | null;
   Small_Pop_Flag: boolean;
+  Benefit_Type: string;
+  Benefit: string;
   Cluster_Average_Rate_2025: number | null;
   Gap_from_Cluster_Pct: number | null;
   Operational_Status: string;
+}
+
+function cleanStr(s: string): string {
+  return s.trim().replace(/^"|"$/g, "").replace(/""/g, '"');
 }
 
 // Parse CSV text into FlatDataRow[]
 function parseCSV(csvText: string): FlatDataRow[] {
   const lines = csvText.split("\n");
   const rows: FlatDataRow[] = [];
-  const startIndex = 1; // skip header
 
-  for (let i = startIndex; i < lines.length; i++) {
+  for (let i = 1; i < lines.length; i++) {
     const line = lines[i].trim();
     if (!line) continue;
 
     const cols = splitCSVLine(line);
-    if (cols.length < 17) continue;
+    if (cols.length < 19) continue;
 
     const parseNum = (s: string): number | null => {
       const v = s.trim();
@@ -50,23 +56,25 @@ function parseCSV(csvText: string): FlatDataRow[] {
     };
 
     rows.push({
-      Municipality: cols[0].trim().replace(/^"|"$/g, "").replace(/""/g, '"'),
-      Cluster: parseNum(cols[1]),
-      Pop_2025: parseNum(cols[2]),
-      Benefit_Type: cols[3].trim().replace(/^"|"$/g, ""),
-      Benefit: cols[4].trim().replace(/^"|"$/g, ""),
+      Branch: cleanStr(cols[0]),
+      Municipality: cleanStr(cols[1]),
+      Entity_Type: cleanStr(cols[2]),
+      Cluster: parseNum(cols[3]),
+      Pop_2025: parseNum(cols[4]),
       Rate_2023: parseNum(cols[5]),
       Rate_2024: parseNum(cols[6]),
       Rate_2025: parseNum(cols[7]),
       Change_23_24_Pct: parseNum(cols[8]),
       Change_24_25_Pct: parseNum(cols[9]),
       Cumulative_Change_Pct: parseNum(cols[10]),
-      Trend: cols[11].trim().replace(/^"|"$/g, "") || "N/A",
+      Trend: cleanStr(cols[11]) || "N/A",
       Z_Score_Cluster: parseNum(cols[12]),
       Small_Pop_Flag: parseBool(cols[13]),
-      Cluster_Average_Rate_2025: parseNum(cols[14]),
-      Gap_from_Cluster_Pct: parseNum(cols[15]),
-      Operational_Status: cols[16]?.trim().replace(/^"|"$/g, "") || "⚪ תואם אשכול",
+      Benefit_Type: cleanStr(cols[14]),
+      Benefit: cleanStr(cols[15]),
+      Cluster_Average_Rate_2025: parseNum(cols[16]),
+      Gap_from_Cluster_Pct: parseNum(cols[17]),
+      Operational_Status: cleanStr(cols[18]) || "⚪ תואם אשכול",
     });
   }
 
@@ -107,7 +115,7 @@ export async function loadFlatData(): Promise<FlatDataRow[]> {
   if (_cachedRows) return _cachedRows;
   if (_fetchPromise) return _fetchPromise;
 
-  _fetchPromise = fetch("/btl_flat_data.csv")
+  _fetchPromise = fetch(`${import.meta.env.BASE_URL}btl_flat_data.csv`)
     .then((r) => r.text())
     .then((text) => {
       _cachedRows = parseCSV(text);
@@ -117,11 +125,18 @@ export async function loadFlatData(): Promise<FlatDataRow[]> {
   return _fetchPromise;
 }
 
-// ─── Derived helpers (no recalculation) ─────────────────────────────────────
+// ─── Derived helpers ────────────────────────────────────────────────────────
 
 /** Returns unique benefit types found in the dataset */
 export function getBenefitTypes(rows: FlatDataRow[]): string[] {
   return Array.from(new Set(rows.map((r) => r.Benefit_Type))).sort();
+}
+
+/** Returns unique branch names found in the dataset */
+export function getBranches(rows: FlatDataRow[]): string[] {
+  return Array.from(new Set(rows.map((r) => r.Branch).filter(Boolean))).sort(
+    (a, b) => a.localeCompare(b, "he")
+  );
 }
 
 /** Filter rows by benefit type */
@@ -130,6 +145,15 @@ export function getRowsByBenefit(
   benefitType: string
 ): FlatDataRow[] {
   return rows.filter((r) => r.Benefit_Type === benefitType);
+}
+
+/** Filter rows by branch */
+export function getRowsByBranch(
+  rows: FlatDataRow[],
+  branch: string
+): FlatDataRow[] {
+  if (!branch) return rows;
+  return rows.filter((r) => r.Branch === branch);
 }
 
 /**
@@ -153,7 +177,7 @@ export function getExtremeShifts(
   };
 }
 
-/** Precompute cluster average Rate_2025 from dataset (used only for tooltip display) */
+/** Precompute cluster average Rate_2025 from dataset */
 export function computeClusterAverages(
   rows: FlatDataRow[],
   benefitType: string

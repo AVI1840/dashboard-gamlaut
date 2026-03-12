@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import {
   Table,
   TableBody,
@@ -8,8 +8,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { Municipality, BenefitData, formatNumber } from "@/data/welfareData";
-import { Search, ArrowUpDown, ChevronUp, ChevronDown, ChevronRight } from "lucide-react";
+import { formatNumber } from "@/data/welfareData";
+import { Search, ArrowUpDown, ChevronUp, ChevronDown, ChevronRight, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -17,9 +17,27 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import regionalCouncils from "@/data/regionalCouncilSettlements.json";
+
+/** Generic row shape accepted by the table */
+export interface TableMunicipality {
+  id: string;
+  name: string;
+  population: number;
+  district: string;
+  entityType?: string; // "רשות מקומית" | "מועצה אזורית"
+}
+
+export interface TableBenefitData {
+  recipientPercent: number;
+  recipients?: number;
+  ratePer1000: number;
+  gapPercentage: number;
+  ranking?: number;
+}
 
 interface MunicipalityTableProps {
-  data: Array<{ municipality: Municipality; data: BenefitData }>;
+  data: Array<{ municipality: TableMunicipality; data: TableBenefitData }>;
   showSearch?: boolean;
   maxRows?: number;
   onRowClick?: (municipalityId: string) => void;
@@ -40,6 +58,16 @@ export function MunicipalityTable({
   const [sortField, setSortField] = useState<SortField>("recipientPercent");
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
   const [showDetails, setShowDetails] = useState(false);
+  const [expandedCouncils, setExpandedCouncils] = useState<Set<string>>(new Set());
+
+  const toggleCouncil = (name: string) => {
+    setExpandedCouncils((prev) => {
+      const next = new Set(prev);
+      if (next.has(name)) next.delete(name);
+      else next.add(name);
+      return next;
+    });
+  };
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -69,8 +97,8 @@ export function MunicipalityTable({
         bVal = b.municipality.population;
         break;
       case "recipients":
-        aVal = a.data.recipients;
-        bVal = b.data.recipients;
+        aVal = a.data.recipients ?? 0;
+        bVal = b.data.recipients ?? 0;
         break;
       case "recipientPercent":
         aVal = a.data.recipientPercent;
@@ -85,8 +113,8 @@ export function MunicipalityTable({
         bVal = b.data.gapPercentage;
         break;
       case "ranking":
-        aVal = a.data.ranking;
-        bVal = b.data.ranking;
+        aVal = a.data.ranking ?? 0;
+        bVal = b.data.ranking ?? 0;
         break;
       default:
         return 0;
@@ -114,10 +142,7 @@ export function MunicipalityTable({
     );
   };
 
-  // Format percentage - just the number with % (like Excel column F)
-  const formatPercent = (value: number) => {
-    return `${value.toFixed(1)}%`;
-  };
+  const formatPercent = (value: number) => `${value.toFixed(1)}%`;
 
   return (
     <div className="space-y-3">
@@ -148,58 +173,27 @@ export function MunicipalityTable({
           <TableHeader>
             <TableRow className="bg-muted/50 hover:bg-muted/50">
               <TableHead className="text-right">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 p-0 hover:bg-transparent text-xs"
-                  onClick={() => handleSort("name")}
-                >
+                <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs" onClick={() => handleSort("name")}>
                   שם יישוב
                   <SortIcon field="name" />
                 </Button>
               </TableHead>
               <TableHead className="text-right">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 p-0 hover:bg-transparent text-xs font-bold text-primary"
-                  onClick={() => handleSort("recipientPercent")}
-                >
+                <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs font-bold text-primary" onClick={() => handleSort("recipientPercent")}>
                   אחוז מקבלים
                   <SortIcon field="recipientPercent" />
                 </Button>
               </TableHead>
               {showDetails && (
                 <>
-                  <TableHead className="text-right hidden sm:table-cell">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 p-0 hover:bg-transparent text-xs"
-                      onClick={() => handleSort("recipients")}
-                    >
-                      מקבלים
-                      <SortIcon field="recipients" />
-                    </Button>
-                  </TableHead>
                   <TableHead className="text-right hidden md:table-cell">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 p-0 hover:bg-transparent text-xs"
-                      onClick={() => handleSort("population")}
-                    >
+                    <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs" onClick={() => handleSort("population")}>
                       אוכלוסייה
                       <SortIcon field="population" />
                     </Button>
                   </TableHead>
                   <TableHead className="text-right hidden lg:table-cell">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 p-0 hover:bg-transparent text-xs"
-                      onClick={() => handleSort("gapPercentage")}
-                    >
+                    <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs" onClick={() => handleSort("gapPercentage")}>
                       פער מהממוצע
                       <SortIcon field="gapPercentage" />
                     </Button>
@@ -209,47 +203,80 @@ export function MunicipalityTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {displayData.map((item, index) => (
-              <TableRow
-                key={item.municipality.id}
-                className={cn(
-                  "transition-colors",
-                  onRowClick && "cursor-pointer hover:bg-accent",
-                  index % 2 === 0 ? "bg-background" : "bg-muted/30"
-                )}
-                onClick={() => onRowClick?.(item.municipality.id)}
-              >
-                <TableCell className="py-2">
-                  <span className="font-medium">{item.municipality.name}</span>
-                </TableCell>
-                <TableCell className="py-2">
-                  <span className={cn(
-                    "font-bold text-base",
-                    item.data.recipientPercent > 0 ? "text-destructive" : "text-muted-foreground"
-                  )}>
-                    {formatPercent(item.data.recipientPercent)}
-                  </span>
-                </TableCell>
-                {showDetails && (
-                  <>
-                    <TableCell className="py-2 hidden sm:table-cell text-muted-foreground">
-                      {formatNumber(item.data.recipients)}
-                    </TableCell>
-                    <TableCell className="py-2 hidden md:table-cell text-muted-foreground">
-                      {formatNumber(item.municipality.population)}
-                    </TableCell>
-                    <TableCell className="py-2 hidden lg:table-cell">
-                      <span className={cn(
-                        "text-sm font-medium",
-                        item.data.gapPercentage > 0 ? "text-destructive" : "text-primary"
-                      )}>
-                        {item.data.gapPercentage > 0 ? "+" : ""}{item.data.gapPercentage.toFixed(1)}%
+            {displayData.map((item, index) => {
+              const isRC = item.municipality.entityType === "מועצה אזורית";
+              const children = isRC
+                ? (regionalCouncils as Record<string, string[]>)[item.municipality.name] || []
+                : [];
+              const isExpanded = expandedCouncils.has(item.municipality.name);
+              return (
+                <Fragment key={item.municipality.id}>
+                <TableRow
+                  className={cn(
+                    "transition-colors",
+                    onRowClick && "cursor-pointer hover:bg-accent",
+                    index % 2 === 0 ? "bg-background" : "bg-muted/30"
+                  )}
+                  onClick={() => onRowClick?.(item.municipality.id)}
+                >
+                  <TableCell className="py-2">
+                    {isRC ? (
+                      <button
+                        type="button"
+                        className="inline-flex items-center gap-1 font-medium hover:text-primary transition-colors"
+                        onClick={(e) => { e.stopPropagation(); toggleCouncil(item.municipality.name); }}
+                      >
+                        <ChevronLeft className={cn("h-3.5 w-3.5 transition-transform", isExpanded && "-rotate-90")} />
+                        {item.municipality.name}
+                      </button>
+                    ) : (
+                      <span className="font-medium">{item.municipality.name}</span>
+                    )}
+                    {isRC && (
+                      <span className="mr-1.5 inline-flex items-center rounded-full bg-violet-100 dark:bg-violet-900/40 px-1.5 py-0.5 text-[10px] font-medium text-violet-700 dark:text-violet-300">
+                        מ.א.
                       </span>
-                    </TableCell>
-                  </>
-                )}
-              </TableRow>
-            ))}
+                    )}
+                  </TableCell>
+                  <TableCell className="py-2">
+                    <span className={cn(
+                      "font-bold text-base",
+                      item.data.recipientPercent > 0 ? "text-destructive" : "text-muted-foreground"
+                    )}>
+                      {formatPercent(item.data.recipientPercent)}
+                    </span>
+                  </TableCell>
+                  {showDetails && (
+                    <>
+                      <TableCell className="py-2 hidden md:table-cell text-muted-foreground">
+                        {formatNumber(item.municipality.population)}
+                      </TableCell>
+                      <TableCell className="py-2 hidden lg:table-cell">
+                        <span className={cn(
+                          "text-sm font-medium",
+                          item.data.gapPercentage > 0 ? "text-destructive" : "text-primary"
+                        )}>
+                          {item.data.gapPercentage > 0 ? "+" : ""}{item.data.gapPercentage.toFixed(1)}%
+                        </span>
+                      </TableCell>
+                    </>
+                  )}
+                </TableRow>
+                {isRC && isExpanded && children.length > 0 &&
+                  children.map((child, ci) => (
+                    <TableRow key={`${item.municipality.id}-child-${ci}`} className="bg-violet-50/30 dark:bg-violet-950/10">
+                      <TableCell className="py-1.5 pr-8">
+                        <span className="text-xs text-muted-foreground">↳ {child}</span>
+                      </TableCell>
+                      <TableCell colSpan={showDetails ? 3 : 1} className="py-1.5 text-xs text-muted-foreground">
+                        יישוב במועצה אזורית {item.municipality.name}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                }
+                </Fragment>
+              );
+            })}
           </TableBody>
         </Table>
       </div>
