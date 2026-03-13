@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useLocation } from "react-router-dom";
 
 interface FeedbackModalProps {
   open: boolean;
@@ -14,9 +15,9 @@ interface FeedbackModalProps {
 }
 
 const STORAGE_KEY = "btl-feedback-dashboard-welfare";
-const PROJECT_NAME = "דשבורד פערי גמלאות ברשויות";
+const WEB3FORMS_KEY = "YOUR_ACCESS_KEY_HERE";
 
-type Category = "🐛 באג" | "💡 שיפור" | "📊 נתונים" | "🎨 עיצוב";
+type Category = "באג" | "שיפור" | "נתונים" | "עיצוב";
 type Severity = "קריטי" | "שיפור" | "קטן";
 
 interface FeedbackEntry {
@@ -25,13 +26,48 @@ interface FeedbackEntry {
   severity: Severity | "";
   text: string;
   timestamp: string;
+  synced?: boolean;
+}
+
+const catLabels: Record<Category, string> = {
+  "באג": "🐛 באג",
+  "שיפור": "💡 שיפור",
+  "נתונים": "📊 נתונים",
+  "עיצוב": "🎨 עיצוב",
+};
+
+async function sendToWeb3Forms(entry: FeedbackEntry, page: string): Promise<boolean> {
+  if (!WEB3FORMS_KEY || WEB3FORMS_KEY === "YOUR_ACCESS_KEY_HERE") return false;
+  try {
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
+        subject: "משוב דשבורד גמלאות - " + (entry.category || "כללי"),
+        from_name: "דשבורד פערי גמלאות",
+        category: entry.category || "—",
+        severity: entry.severity || "—",
+        message: entry.text,
+        page: page,
+        timestamp: new Date(entry.timestamp).toLocaleString("he-IL"),
+      }),
+    });
+    const data = await res.json();
+    return data.success === true;
+  } catch {
+    return false;
+  }
 }
 
 export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
+  const location = useLocation();
   const [category, setCategory] = useState<Category | "">("");
   const [severity, setSeverity] = useState<Severity | "">("");
   const [text, setText] = useState("");
   const [items, setItems] = useState<FeedbackEntry[]>([]);
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -43,7 +79,7 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!text.trim()) return;
     const entry: FeedbackEntry = {
       id: Date.now(),
@@ -52,7 +88,13 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
       text: text.trim(),
       timestamp: new Date().toISOString(),
     };
+    setSending(true);
+    const ok = await sendToWeb3Forms(entry, location.pathname);
+    entry.synced = ok;
     save([entry, ...items]);
+    setSending(false);
+    setSent(true);
+    setTimeout(() => setSent(false), 2500);
     setCategory("");
     setSeverity("");
     setText("");
@@ -60,11 +102,12 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
 
   const handleExport = () => {
     if (!items.length) return;
-    const lines = items.map((fb) =>
-      `[${new Date(fb.timestamp).toLocaleString("he-IL")}] [${fb.category || "—"}] [${fb.severity || "—"}] ${fb.text}`
-    );
-    const content = `משובי פיילוט — ${PROJECT_NAME}\n${"=".repeat(50)}\n\n${lines.join("\n\n")}`;
-    navigator.clipboard.writeText(content);
+    const lines = items.map((fb) => {
+      const ts = new Date(fb.timestamp).toLocaleString("he-IL");
+      const cat = fb.category ? catLabels[fb.category] : "—";
+      return "[" + ts + "] [" + cat + "] [" + (fb.severity || "—") + "] " + fb.text;
+    });
+    navigator.clipboard.writeText(lines.join("\n\n"));
   };
 
   const handleDownload = () => {
@@ -74,14 +117,12 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `feedback_pilot_${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = "feedback_pilot_" + new Date().toISOString().slice(0, 10) + ".json";
     a.click();
     URL.revokeObjectURL(url);
   };
 
-  const handleClear = () => {
-    save([]);
-  };
+  const handleClear = () => { save([]); };
 
   const sevColor = (s: Severity | "") =>
     s === "קריטי" ? "border-red-500 bg-red-50 text-red-700" :
@@ -96,27 +137,25 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
         </DialogHeader>
 
         <div className="space-y-4 py-1">
-          {/* Category */}
           <div>
             <p className="text-sm font-medium mb-2 text-right">קטגוריה</p>
             <div className="flex gap-2 flex-wrap justify-end">
-              {(["🐛 באג", "💡 שיפור", "📊 נתונים", "🎨 עיצוב"] as Category[]).map((c) => (
+              {(["באג", "שיפור", "נתונים", "עיצוב"] as Category[]).map((c) => (
                 <button
                   key={c}
                   onClick={() => setCategory(category === c ? "" : c)}
-                  className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${
+                  className={"px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors " + (
                     category === c
                       ? "border-[#1B3A5C] bg-[#1B3A5C] text-white"
                       : "border-gray-300 bg-white text-gray-700 hover:border-[#1B3A5C]"
-                  }`}
+                  )}
                 >
-                  {c}
+                  {catLabels[c]}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Severity */}
           <div>
             <p className="text-sm font-medium mb-2 text-right">חומרה</p>
             <div className="flex gap-2 flex-wrap justify-end">
@@ -124,11 +163,11 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
                 <button
                   key={s}
                   onClick={() => setSeverity(severity === s ? "" : s)}
-                  className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${
+                  className={"px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors " + (
                     severity === s
-                      ? `${sevColor(s)} border-2`
+                      ? sevColor(s) + " border-2"
                       : "border-gray-300 bg-white text-gray-700 hover:border-gray-400"
-                  }`}
+                  )}
                 >
                   {s}
                 </button>
@@ -136,7 +175,6 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
             </div>
           </div>
 
-          {/* Text */}
           <div>
             <p className="text-sm font-medium mb-2 text-right">תיאור</p>
             <Textarea
@@ -150,14 +188,13 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
 
           <Button
             onClick={handleSubmit}
-            disabled={!text.trim()}
+            disabled={!text.trim() || sending}
             className="w-full text-white"
             style={{ backgroundColor: "#1B3A5C" }}
           >
-            שלח משוב
+            {sending ? "שולח..." : sent ? "✓ נשלח בהצלחה" : "שלח משוב"}
           </Button>
 
-          {/* History */}
           {items.length > 0 && (
             <div className="border-t pt-3 space-y-2">
               <div className="flex items-center justify-between">
@@ -186,11 +223,11 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
                     <div className="flex items-center gap-2 mb-1 flex-wrap justify-end">
                       {fb.category && (
                         <span className="text-xs px-2 py-0.5 rounded-full bg-[#1B3A5C]/10 text-[#1B3A5C] font-medium">
-                          {fb.category}
+                          {catLabels[fb.category]}
                         </span>
                       )}
                       {fb.severity && (
-                        <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${sevColor(fb.severity as Severity)}`}>
+                        <span className={"text-xs px-2 py-0.5 rounded-full border font-medium " + sevColor(fb.severity as Severity)}>
                           {fb.severity}
                         </span>
                       )}

@@ -20,7 +20,7 @@ const App = () => (
       <Sonner />
       <ViewModeProvider>
         <BranchFilterProvider>
-          <BrowserRouter>
+          <BrowserRouter basename="/dashboard-gamlaut">
             <DashboardLayout>
               <Routes>
                 <Route path="/" element={<OverviewPage />} />
