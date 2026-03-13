@@ -17,7 +17,7 @@ interface FeedbackModalProps {
 const STORAGE_KEY = "btl-feedback-dashboard-welfare";
 
 // PASTE YOUR GOOGLE APPS SCRIPT URL HERE (see docs/SETUP_FEEDBACK_SHEET.md)
-const GOOGLE_SHEET_URL = "";
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxT0P5RtHmEhT-wzxN4H_CzxqpFsnqjPUs9uiV9V7caxr4rE7qGouDfK6yI5tLjNY1PTw/exec";
 
 type Category = "באג" | "שיפור" | "נתונים" | "עיצוב";
 type Severity = "קריטי" | "שיפור" | "קטן";
