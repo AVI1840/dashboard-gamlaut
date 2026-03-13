@@ -46,6 +46,7 @@ async function sendToSheet(entry: FeedbackEntry, page: string): Promise<boolean>
       mode: "no-cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        app: "דשבורד גמלאות ברשויות",
         category: entry.category ? catLabels[entry.category] : "כללי",
         severity: entry.severity || "—",
         text: entry.text,
