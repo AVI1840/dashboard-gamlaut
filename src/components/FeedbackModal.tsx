@@ -15,7 +15,9 @@ interface FeedbackModalProps {
 }
 
 const STORAGE_KEY = "btl-feedback-dashboard-welfare";
-const WEB3FORMS_KEY = "YOUR_ACCESS_KEY_HERE";
+
+// PASTE YOUR GOOGLE APPS SCRIPT URL HERE (see docs/SETUP_FEEDBACK_SHEET.md)
+const GOOGLE_SHEET_URL = "";
 
 type Category = "באג" | "שיפור" | "נתונים" | "עיצוב";
 type Severity = "קריטי" | "שיפור" | "קטן";
@@ -30,31 +32,27 @@ interface FeedbackEntry {
 }
 
 const catLabels: Record<Category, string> = {
-  "באג": "🐛 באג",
-  "שיפור": "💡 שיפור",
-  "נתונים": "📊 נתונים",
-  "עיצוב": "🎨 עיצוב",
+  "באג": "\uD83D\uDC1B באג",
+  "שיפור": "\uD83D\uDCA1 שיפור",
+  "נתונים": "\uD83D\uDCCA נתונים",
+  "עיצוב": "\uD83C\uDFA8 עיצוב",
 };
 
-async function sendToWeb3Forms(entry: FeedbackEntry, page: string): Promise<boolean> {
-  if (!WEB3FORMS_KEY || WEB3FORMS_KEY === "YOUR_ACCESS_KEY_HERE") return false;
+async function sendToSheet(entry: FeedbackEntry, page: string): Promise<boolean> {
+  if (!GOOGLE_SHEET_URL) return false;
   try {
-    const res = await fetch("https://api.web3forms.com/submit", {
+    await fetch(GOOGLE_SHEET_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        access_key: WEB3FORMS_KEY,
-        subject: "משוב דשבורד גמלאות - " + (entry.category || "כללי"),
-        from_name: "דשבורד פערי גמלאות",
-        category: entry.category || "—",
+        category: entry.category ? catLabels[entry.category] : "כללי",
         severity: entry.severity || "—",
-        message: entry.text,
+        text: entry.text,
         page: page,
-        timestamp: new Date(entry.timestamp).toLocaleString("he-IL"),
       }),
     });
-    const data = await res.json();
-    return data.success === true;
+    return true;
   } catch {
     return false;
   }
@@ -89,7 +87,7 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
       timestamp: new Date().toISOString(),
     };
     setSending(true);
-    const ok = await sendToWeb3Forms(entry, location.pathname);
+    const ok = await sendToSheet(entry, location.pathname);
     entry.synced = ok;
     save([entry, ...items]);
     setSending(false);
@@ -133,7 +131,7 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto" dir="rtl">
         <DialogHeader>
-          <DialogTitle className="text-right text-lg">💬 משוב פיילוט</DialogTitle>
+          <DialogTitle className="text-right text-lg">{"\uD83D\uDCAC"} משוב פיילוט</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 py-1">
@@ -192,8 +190,14 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
             className="w-full text-white"
             style={{ backgroundColor: "#1B3A5C" }}
           >
-            {sending ? "שולח..." : sent ? "✓ נשלח בהצלחה" : "שלח משוב"}
+            {sending ? "שולח..." : sent ? "\u2713 נשלח בהצלחה" : "שלח משוב"}
           </Button>
+
+          {!GOOGLE_SHEET_URL && (
+            <p className="text-xs text-center text-amber-600">
+              {"\u26A0"} המשוב נשמר מקומית בלבד. לריכוז אוטומטי ב-Google Sheet ראה הוראות ב-docs/SETUP_FEEDBACK_SHEET.md
+            </p>
+          )}
 
           {items.length > 0 && (
             <div className="border-t pt-3 space-y-2">
@@ -207,13 +211,13 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
                     onClick={handleExport}
                     className="text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50"
                   >
-                    📋 העתק ללוח
+                    {"\uD83D\uDCCB"} העתק ללוח
                   </button>
                   <button
                     onClick={handleDownload}
                     className="text-xs px-2 py-1 rounded border border-primary/30 bg-primary/5 hover:bg-primary/10 text-primary font-medium"
                   >
-                    💾 שמור קובץ
+                    {"\uD83D\uDCBE"} שמור קובץ
                   </button>
                 </div>
               </div>
@@ -230,6 +234,9 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
                         <span className={"text-xs px-2 py-0.5 rounded-full border font-medium " + sevColor(fb.severity as Severity)}>
                           {fb.severity}
                         </span>
+                      )}
+                      {fb.synced && (
+                        <span className="text-xs text-green-600">{"\u2713"} סונכרן</span>
                       )}
                       <span className="text-xs text-gray-400">
                         {new Date(fb.timestamp).toLocaleString("he-IL")}
