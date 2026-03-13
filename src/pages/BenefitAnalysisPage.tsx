@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+﻿import { useParams, Link } from "react-router-dom";
 import { ArrowRight, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -115,9 +115,9 @@ export default function BenefitAnalysisPage() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <KPICard title="אחוז מקבלים ארצי" value={`${'$'}{(benefit.nationalRatePer1000 / 10).toFixed(1)}%`} subtitle={`מתוך ${'$'}{benefit.targetPopulation}`} variant="primary" />
+        <KPICard title="אחוז מקבלים ארצי" value={`${(benefit.nationalRatePer1000 / 10).toFixed(1)}%`} subtitle={`מתוך ${benefit.targetPopulation}`} variant="primary" />
         <KPICard title="מקבלים ארציים" value={formatNumber(benefit.nationalRecipients)} subtitle="סה״כ מקבלי גמלה" variant="default" />
-        <KPICard title="אחוז ממוצע ברשויות" value={`${'$'}{avgRecipientPercent.toFixed(1)}%`} subtitle={`ממוצע ${'$'}{allData.length} רשויות`} variant={avgRecipientPercent > 5 ? "destructive" : "success"} />
+        <KPICard title="אחוז ממוצע ברשויות" value={`${avgRecipientPercent.toFixed(1)}%`} subtitle={`ממוצע ${allData.length} רשויות`} variant={avgRecipientPercent > 5 ? "destructive" : "success"} />
         <KPICard title="רשויות מעל 5%" value={highRecipientCount} subtitle="רשויות עם אחוז גבוה" variant="warning" />
       </div>
 
