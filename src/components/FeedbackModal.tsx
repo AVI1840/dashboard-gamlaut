@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { useLocation } from "react-router-dom";
 
 interface FeedbackModalProps {
@@ -15,8 +16,8 @@ interface FeedbackModalProps {
 }
 
 const STORAGE_KEY = "btl-feedback-dashboard-welfare";
-
-// PASTE YOUR GOOGLE APPS SCRIPT URL HERE (see docs/SETUP_FEEDBACK_SHEET.md)
+const NAME_KEY = "btl-feedback-user-name";
+const APP_NAME = "דשבורד גמלאות ברשויות";
 const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxT0P5RtHmEhT-wzxN4H_CzxqpFsnqjPUs9uiV9V7caxr4rE7qGouDfK6yI5tLjNY1PTw/exec";
 
 type Category = "באג" | "שיפור" | "נתונים" | "עיצוב";
@@ -24,6 +25,7 @@ type Severity = "קריטי" | "שיפור" | "קטן";
 
 interface FeedbackEntry {
   id: number;
+  name: string;
   category: Category | "";
   severity: Severity | "";
   text: string;
@@ -46,7 +48,8 @@ async function sendToSheet(entry: FeedbackEntry, page: string): Promise<boolean>
       mode: "no-cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        app: "דשבורד גמלאות ברשויות",
+        app: APP_NAME,
+        name: entry.name,
         category: entry.category ? catLabels[entry.category] : "כללי",
         severity: entry.severity || "—",
         text: entry.text,
@@ -61,6 +64,7 @@ async function sendToSheet(entry: FeedbackEntry, page: string): Promise<boolean>
 
 export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
   const location = useLocation();
+  const [name, setName] = useState("");
   const [category, setCategory] = useState<Category | "">("");
   const [severity, setSeverity] = useState<Severity | "">("");
   const [text, setText] = useState("");
@@ -71,6 +75,8 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) setItems(JSON.parse(saved));
+    const savedName = localStorage.getItem(NAME_KEY);
+    if (savedName) setName(savedName);
   }, [open]);
 
   const save = (updated: FeedbackEntry[]) => {
@@ -79,9 +85,11 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
   };
 
   const handleSubmit = async () => {
-    if (!text.trim()) return;
+    if (!text.trim() || !name.trim()) return;
+    localStorage.setItem(NAME_KEY, name.trim());
     const entry: FeedbackEntry = {
       id: Date.now(),
+      name: name.trim(),
       category,
       severity,
       text: text.trim(),
@@ -104,7 +112,7 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
     const lines = items.map((fb) => {
       const ts = new Date(fb.timestamp).toLocaleString("he-IL");
       const cat = fb.category ? catLabels[fb.category] : "—";
-      return "[" + ts + "] [" + cat + "] [" + (fb.severity || "—") + "] " + fb.text;
+      return "[" + ts + "] [" + (fb.name || "—") + "] [" + cat + "] [" + (fb.severity || "—") + "] " + fb.text;
     });
     navigator.clipboard.writeText(lines.join("\n\n"));
   };
@@ -136,6 +144,17 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
         </DialogHeader>
 
         <div className="space-y-4 py-1">
+          <div>
+            <p className="text-sm font-medium mb-2 text-right">שם</p>
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="השם שלך..."
+              className="text-right"
+              dir="rtl"
+            />
+          </div>
+
           <div>
             <p className="text-sm font-medium mb-2 text-right">קטגוריה</p>
             <div className="flex gap-2 flex-wrap justify-end">
@@ -187,18 +206,12 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
 
           <Button
             onClick={handleSubmit}
-            disabled={!text.trim() || sending}
+            disabled={!text.trim() || !name.trim() || sending}
             className="w-full text-white"
             style={{ backgroundColor: "#1B3A5C" }}
           >
             {sending ? "שולח..." : sent ? "\u2713 נשלח בהצלחה" : "שלח משוב"}
           </Button>
-
-          {!GOOGLE_SHEET_URL && (
-            <p className="text-xs text-center text-amber-600">
-              {"\u26A0"} המשוב נשמר מקומית בלבד. לריכוז אוטומטי ב-Google Sheet ראה הוראות ב-docs/SETUP_FEEDBACK_SHEET.md
-            </p>
-          )}
 
           {items.length > 0 && (
             <div className="border-t pt-3 space-y-2">
@@ -226,6 +239,7 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
                 {items.map((fb) => (
                   <div key={fb.id} className="bg-gray-50 rounded-lg p-3 text-right border border-gray-200">
                     <div className="flex items-center gap-2 mb-1 flex-wrap justify-end">
+                      <span className="text-xs font-medium text-gray-700">{fb.name}</span>
                       {fb.category && (
                         <span className="text-xs px-2 py-0.5 rounded-full bg-[#1B3A5C]/10 text-[#1B3A5C] font-medium">
                           {catLabels[fb.category]}
@@ -237,7 +251,7 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
                         </span>
                       )}
                       {fb.synced && (
-                        <span className="text-xs text-green-600">{"\u2713"} סונכרן</span>
+                        <span className="text-xs text-green-600">{"\u2713"}</span>
                       )}
                       <span className="text-xs text-gray-400">
                         {new Date(fb.timestamp).toLocaleString("he-IL")}

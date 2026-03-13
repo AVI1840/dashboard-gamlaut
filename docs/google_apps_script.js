@@ -3,6 +3,8 @@ function doPost(e) {
   var data = JSON.parse(e.postData.contents);
   sheet.appendRow([
     new Date().toLocaleString("he-IL"),
+    data.app || "לא צוין",
+    data.name || "אנונימי",
     data.category || "—",
     data.severity || "—",
     data.text || "",
