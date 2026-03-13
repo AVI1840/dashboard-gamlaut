@@ -51,7 +51,7 @@ export default function OverviewPage() {
       <div>
         <h1 className="text-2xl font-bold text-foreground">סקירה כללית</h1>
         <p className="text-muted-foreground mt-1">
-          ניתוח פערי גמלאות רווחה ברשויות המקומיות בישראל • נתונים: דצמבר 2023 | דצמבר 2024 | דצמבר 2025
+          ניתוח פערי גמלאות רווחה ברשויות המקומיות בישראל • נתונים: דצמבר 2025
         </p>
       </div>
 

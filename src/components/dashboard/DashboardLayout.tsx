@@ -176,21 +176,21 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             </h2>
             <p className="text-xs text-muted-foreground hidden sm:block">מינהל גמלאות | ביטוח לאומי</p>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setFeedbackOpen(true)}
-            className="gap-1 hidden sm:flex border-primary/30 text-primary hover:bg-primary/5"
-          >
-            <MessageCircle className="h-4 w-4" />
-            משוב פיילוט
-          </Button>
           <BranchFilter />
           <Button
-            variant="ghost"
+            variant="default"
+            size="sm"
+            onClick={() => setFeedbackOpen(true)}
+            className="gap-1.5 hidden sm:flex bg-amber-500 hover:bg-amber-600 text-white shadow-md"
+          >
+            <MessageCircle className="h-4 w-4" />
+            משוב פיילוט AI
+          </Button>
+          <Button
+            variant="default"
             size="icon"
             onClick={() => setFeedbackOpen(true)}
-            className="sm:hidden"
+            className="sm:hidden bg-amber-500 hover:bg-amber-600 text-white shadow-md"
             aria-label="משוב פיילוט"
           >
             <MessageCircle className="h-5 w-5" />

@@ -262,18 +262,23 @@ export function MunicipalityTable({
                     </>
                   )}
                 </TableRow>
-                {isRC && isExpanded && children.length > 0 &&
-                  children.map((child, ci) => (
-                    <TableRow key={`${item.municipality.id}-child-${ci}`} className="bg-violet-50/30 dark:bg-violet-950/10">
-                      <TableCell className="py-1.5 pr-8">
-                        <span className="text-xs text-muted-foreground">↳ {child}</span>
-                      </TableCell>
-                      <TableCell colSpan={showDetails ? 3 : 1} className="py-1.5 text-xs text-muted-foreground">
-                        יישוב במועצה אזורית {item.municipality.name}
+                {isRC && isExpanded && children.length > 0 && (
+                  <>
+                    <TableRow className="bg-violet-50/50 dark:bg-violet-950/20">
+                      <TableCell colSpan={showDetails ? 4 : 2} className="py-2 pr-8 text-xs text-violet-600 dark:text-violet-400 font-medium">
+                        📍 {children.length} יישובים במועצה • הנתונים מוצגים ברמת המועצה האזורית
                       </TableCell>
                     </TableRow>
-                  ))
-                }
+                    {children.map((child, ci) => (
+                      <TableRow key={`${item.municipality.id}-child-${ci}`} className="bg-violet-50/30 dark:bg-violet-950/10">
+                        <TableCell className="py-1 pr-10">
+                          <span className="text-xs text-muted-foreground">↳ {child}</span>
+                        </TableCell>
+                        <TableCell colSpan={showDetails ? 3 : 1} className="py-1 text-xs text-muted-foreground" />
+                      </TableRow>
+                    ))}
+                  </>
+                )}
                 </Fragment>
               );
             })}

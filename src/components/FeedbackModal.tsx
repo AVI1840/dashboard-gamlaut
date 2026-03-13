@@ -67,6 +67,18 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
     navigator.clipboard.writeText(content);
   };
 
+  const handleDownload = () => {
+    if (!items.length) return;
+    const jsonContent = JSON.stringify(items, null, 2);
+    const blob = new Blob([jsonContent], { type: "application/json;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `feedback_pilot_${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const handleClear = () => {
     save([]);
   };
@@ -158,7 +170,13 @@ export function FeedbackModal({ open, onClose }: FeedbackModalProps) {
                     onClick={handleExport}
                     className="text-xs px-2 py-1 rounded border border-gray-300 hover:bg-gray-50"
                   >
-                    📋 ייצוא ללוח
+                    📋 העתק ללוח
+                  </button>
+                  <button
+                    onClick={handleDownload}
+                    className="text-xs px-2 py-1 rounded border border-primary/30 bg-primary/5 hover:bg-primary/10 text-primary font-medium"
+                  >
+                    💾 שמור קובץ
                   </button>
                 </div>
               </div>

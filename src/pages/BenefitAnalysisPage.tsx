@@ -1,4 +1,4 @@
-﻿import { useParams, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { ArrowRight, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -23,6 +23,8 @@ const benefitIdToCsvType: Record<string, string> = {
   "disabled-child": "ילד_נכה",
   "mobility": "ניידות",
   "alimony": "מזונות",
+  "work-disability": "נכות_מעבודה",
+  "work-injury": "דמי_פגיעה",
 };
 
 export default function BenefitAnalysisPage() {
@@ -107,7 +109,7 @@ export default function BenefitAnalysisPage() {
               )}
             </h1>
             <p className="text-muted-foreground">{benefit.description}</p>
-            <p className="text-xs text-muted-foreground mt-1">נתונים: דצמבר 2023 | דצמבר 2024 | דצמבר 2025</p>
+            <p className="text-xs text-muted-foreground mt-1">נתונים: דצמבר 2025</p>
           </div>
         </div>
       </div>

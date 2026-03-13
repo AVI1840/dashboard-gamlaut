@@ -290,18 +290,23 @@ export const TrendTable = memo(function TrendTable({ rows }: TrendTableProps) {
                       </>
                     )}
                   </TableRow>
-                  {isRegionalCouncil && isExpanded && councilChildren.length > 0 &&
-                    councilChildren.map((child, ci) => (
-                      <TableRow key={`${row.Municipality}-child-${ci}`} className="bg-violet-50/30 dark:bg-violet-950/10">
-                        <TableCell className="py-1.5 pr-8 sticky right-0 z-10 bg-violet-50/30 dark:bg-violet-950/10">
-                          <span className="text-xs text-muted-foreground">↳ {child}</span>
-                        </TableCell>
-                        <TableCell colSpan={6} className="py-1.5 text-xs text-muted-foreground">
-                          יישוב במועצה אזורית {row.Municipality}
+                  {isRegionalCouncil && isExpanded && councilChildren.length > 0 && (
+                    <>
+                      <TableRow className="bg-violet-50/50 dark:bg-violet-950/20">
+                        <TableCell colSpan={7} className="py-2 pr-8 text-xs text-violet-600 dark:text-violet-400 font-medium">
+                          📍 {councilChildren.length} יישובים במועצה • הנתונים מוצגים ברמת המועצה האזורית
                         </TableCell>
                       </TableRow>
-                    ))
-                  }
+                      {councilChildren.map((child, ci) => (
+                        <TableRow key={`${row.Municipality}-child-${ci}`} className="bg-violet-50/30 dark:bg-violet-950/10">
+                          <TableCell className="py-1 pr-10 sticky right-0 z-10 bg-violet-50/30 dark:bg-violet-950/10">
+                            <span className="text-xs text-muted-foreground">↳ {child}</span>
+                          </TableCell>
+                          <TableCell colSpan={6} className="py-1 text-xs text-muted-foreground" />
+                        </TableRow>
+                      ))}
+                    </>
+                  )}
                   </Fragment>
                 );
               })}
