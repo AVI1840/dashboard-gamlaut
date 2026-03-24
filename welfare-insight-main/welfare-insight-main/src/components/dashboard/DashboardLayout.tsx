@@ -98,7 +98,7 @@ function DesktopSidebar() {
           </div>
           <div>
             <h1 className="text-lg font-bold">דשבורד פערי גמלאות</h1>
-            <p className="text-xs text-white/70">אגף חדשנות דיגיטלית</p>
+            <p className="text-xs text-white/70">אביעד יצחקי, מינהלי גמלאות</p>
           </div>
         </div>
       </div>
@@ -111,7 +111,7 @@ function DesktopSidebar() {
       {/* Footer */}
       <div className="border-t border-white/10 p-4">
         <p className="text-xs text-white/60 text-center">
-          אגף חדשנות דיגיטלית | ביטוח לאומי | v1.0 | מרץ 2026
+          אביעד יצחקי, מינהלי גמלאות, ביטוח לאומי | v1.0 | מרץ 2026
         </p>
       </div>
     </aside>
@@ -136,7 +136,7 @@ function MobileNavigation() {
               <SheetTitle className="text-lg font-bold text-white text-right">
                 דשבורד פערי גמלאות
               </SheetTitle>
-              <p className="text-xs text-white/70 text-right">אגף חדשנות דיגיטלית</p>
+              <p className="text-xs text-white/70 text-right">אביעד יצחקי, מינהלי גמלאות</p>
             </div>
           </div>
         </SheetHeader>
@@ -145,7 +145,7 @@ function MobileNavigation() {
         </nav>
         <div className="absolute bottom-0 left-0 right-0 border-t border-white/10 p-4">
           <p className="text-xs text-white/60 text-center">
-            אגף חדשנות דיגיטלית | ביטוח לאומי | v1.0 | מרץ 2026
+            אביעד יצחקי, מינהלי גמלאות, ביטוח לאומי | v1.0 | מרץ 2026
           </p>
         </div>
       </SheetContent>
@@ -171,7 +171,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             <h2 className="text-base sm:text-lg font-semibold truncate">
               {isMobile ? "פערי גמלאות רווחה" : "ניתוח פערי גמלאות רווחה ברשויות המקומיות"}
             </h2>
-            <p className="text-xs text-muted-foreground hidden sm:block">אגף חדשנות דיגיטלית | ביטוח לאומי</p>
+            <p className="text-xs text-muted-foreground hidden sm:block">אביעד יצחקי, מינהלי גמלאות, ביטוח לאומי</p>
           </div>
           <Button
             variant="outline"
@@ -201,7 +201,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
         {/* Footer */}
         <footer className="border-t border-border px-6 py-3 text-center text-xs text-muted-foreground">
-          אגף חדשנות דיגיטלית | ביטוח לאומי | v1.0 | מרץ 2026
+          אביעד יצחקי, מינהלי גמלאות, ביטוח לאומי | v1.0 | מרץ 2026
         </footer>
       </div>
 

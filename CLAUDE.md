@@ -25,7 +25,7 @@ React 18 + TypeScript + Vite + Tailwind CSS + shadcn/ui + Recharts
 ### מה אסור
 - **אל תשנה** נתונים ב-welfareData.ts או flatData.ts — הם מדויקים מאקסל
 - **אל תשנה** את הקרדיט: "אביעד יצחקי, מינהל גמלאות"
-- **אל תוסיף** Lovable או כל branding חיצוני
+- **אל תוסיף** branding חיצוני
 - **אל תשדרג** ספריות ללא בדיקה
 
 ## Build

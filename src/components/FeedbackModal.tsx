@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 
 interface FeedbackModalProps { open: boolean; onClose: () => void; }
 
-const STORAGE_KEY = "btl-feedback-dashboard-welfare";
+const STORAGE_KEY = "btl-feedback-welfare-insight";
 const APP_NAME = "דשבורד גמלאות ברשויות";
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbwD8CMFoP5XoOwRLwK_OxMMOFKF8fS2CRpbJkNdOHjbnJIepkOLzlGrg3GQNGRqbwB6bA/exec";
 const NAME_KEY = "btl-feedback-user-name";
