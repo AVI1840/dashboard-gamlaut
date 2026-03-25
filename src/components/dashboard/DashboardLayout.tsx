@@ -116,6 +116,7 @@ function DesktopSidebar() {
         <p className="text-xs text-white/60 text-center">
           אביעד יצחקי, מינהל גמלאות | ביטוח לאומי | v1.0 | מרץ 2026
         </p>
+        <p className="text-xs text-white/40 text-center mt-1">עדכון אחרון: 24.03.2026</p>
       </div>
     </aside>
   );
