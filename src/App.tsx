@@ -9,6 +9,7 @@ import { BranchFilterProvider } from "@/context/BranchFilterContext";
 import OverviewPage from "./pages/OverviewPage";
 import BenefitAnalysisPage from "./pages/BenefitAnalysisPage";
 import ComparePage from "./pages/ComparePage";
+import BranchAnalysisPage from "./pages/BranchAnalysisPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
                 <Route path="/" element={<OverviewPage />} />
                 <Route path="/benefit/:benefitId" element={<BenefitAnalysisPage />} />
                 <Route path="/compare" element={<ComparePage />} />
+                <Route path="/branch" element={<BranchAnalysisPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </DashboardLayout>

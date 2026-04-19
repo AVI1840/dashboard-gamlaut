@@ -56,6 +56,7 @@ const navItems = [
     icon: iconMap[b.id] || BarChart3,
   })),
   { path: "/compare", label: "השוואת רשויות", icon: BarChart3, highlight: true },
+  { path: "/branch", label: "ניתוח סניפים", icon: BarChart3, highlight: true },
 ];
 
 function NavigationContent({ onNavigate }: { onNavigate?: () => void }) {
