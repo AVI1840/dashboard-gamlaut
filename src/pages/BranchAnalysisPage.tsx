@@ -24,6 +24,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { loadFlatData, FlatDataRow, getBranches } from "@/data/flatData";
 import { useBranchFilter } from "@/context/BranchFilterContext";
+import { useViewMode } from "@/context/ViewModeContext";
 import { benefitTypes, formatNumber } from "@/data/welfareData";
 
 const benefitIdToCsvType: Record<string, string> = {
@@ -116,6 +117,7 @@ function SortIcon({ field, current, dir }: { field: SortField; current: SortFiel
 export default function BranchAnalysisPage() {
   const [allRows, setAllRows] = useState<FlatDataRow[]>([]);
   const [branches, setBranches] = useState<string[]>([]);
+  const { viewMode } = useViewMode();
   const { selectedBranch: globalBranch, setSelectedBranch: setGlobalBranch } = useBranchFilter();
   const [selectedBranch, setSelectedBranchLocal] = useState("");
   const [compareBranch, setCompareBranch] = useState("");
@@ -229,6 +231,20 @@ export default function BranchAnalysisPage() {
 
   if (loading) {
     return <div className="flex items-center justify-center py-16 text-muted-foreground"><span className="animate-pulse">טוען נתונים...</span></div>;
+  }
+
+  if (viewMode === "trend_23_25") {
+    return (
+      <div className="space-y-8 animate-fade-in">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">ניתוח סניפים</h1>
+          <p className="text-muted-foreground mt-1">דף זה מציג נתוני תמונת מצב דצמבר 2025. לצפייה במגמות, עבור לדף גמלה ספציפית.</p>
+        </div>
+        <div className="dashboard-card p-8 text-center">
+          <p className="text-lg text-muted-foreground">עבור לתצוגת "תמונת מצב 2025" בסרגל העליון כדי להשתמש בדף זה</p>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -418,55 +434,47 @@ export default function BranchAnalysisPage() {
             </TabsContent>
 
             <TabsContent value="outliers">
-              <div className="grid gap-6 md:grid-cols-2">
-                <div className="dashboard-card p-6">
-                  <div className="flex items-center gap-2 mb-4">
-                    <TrendingUp className="h-5 w-5 text-red-600" />
-                    <h3 className="text-lg font-semibold text-red-600">חריגה כלפי מעלה</h3>
-                  </div>
-                  <p className="text-sm text-muted-foreground mb-4">רשויות עם אחוז מקבלים גבוה משמעותית מממוצע הסניף</p>
-                  {outliers.high.length > 0 ? (
-                    <div className="space-y-3">
-                      {outliers.high.map((m) => (
-                        <div key={m.name} className="flex items-center justify-between py-2 border-b last:border-0">
-                          <div>
-                            <span className="font-medium">{m.name}</span>
-                            {m.entityType === "מועצה אזורית" && <span className="text-xs text-violet-600 mr-1"> (מ.א.)</span>}
-                            <span className="text-xs text-muted-foreground mr-2">{" אשכול " + (m.cluster ?? "—")}</span>
-                          </div>
-                          <div className="text-left">
-                            <span className="font-bold text-red-600 text-lg">{m.avgRate.toFixed(1)}%</span>
-                            <span className="text-xs text-red-500 mr-2">{"+" + m.avgGapFromBranch.toFixed(0) + "%"}</span>
-                          </div>
+              <div className="space-y-6">
+                {activeBenefits.map((bt) => {
+                  const label = csvTypeToLabel(bt);
+                  const icon = csvTypeToIcon(bt);
+                  const branchAvg = branchStats?.benefitAverages[bt] ?? 0;
+                  const highMunis = muniRows
+                    .filter((m) => m.gapsFromBranch[bt] !== undefined && m.gapsFromBranch[bt] > 20)
+                    .sort((a, b) => (b.gapsFromBranch[bt] ?? 0) - (a.gapsFromBranch[bt] ?? 0))
+                    .slice(0, 3);
+                  const lowMunis = muniRows
+                    .filter((m) => m.gapsFromBranch[bt] !== undefined && m.gapsFromBranch[bt] < -20)
+                    .sort((a, b) => (a.gapsFromBranch[bt] ?? 0) - (b.gapsFromBranch[bt] ?? 0))
+                    .slice(0, 3);
+                  if (highMunis.length === 0 && lowMunis.length === 0) return null;
+                  return (
+                    <div key={bt} className="dashboard-card p-6">
+                      <h3 className="text-lg font-semibold mb-1">{icon} {label}</h3>
+                      <p className="text-sm text-muted-foreground mb-4">{"ממוצע סניפי: " + branchAvg.toFixed(1) + "%"}</p>
+                      <div className="grid gap-4 md:grid-cols-2">
+                        <div>
+                          <p className="text-sm font-medium text-red-600 mb-2">{"חריגה כלפי מעלה (" + highMunis.length + ")"}</p>
+                          {highMunis.length > 0 ? highMunis.map((m) => (
+                            <div key={m.name} className="flex items-center justify-between py-1.5 border-b last:border-0 text-sm">
+                              <span>{m.name} <span className="text-xs text-muted-foreground">{"אשכול " + (m.cluster ?? "—")}</span></span>
+                              <span className="font-bold text-red-600">{(m.rates[bt] ?? 0).toFixed(1)}% <span className="text-xs font-normal">{"(+" + (m.gapsFromBranch[bt] ?? 0).toFixed(0) + "%)"}</span></span>
+                            </div>
+                          )) : <p className="text-xs text-muted-foreground">אין</p>}
                         </div>
-                      ))}
-                    </div>
-                  ) : <p className="text-muted-foreground text-sm">אין חריגות משמעותיות</p>}
-                </div>
-                <div className="dashboard-card p-6">
-                  <div className="flex items-center gap-2 mb-4">
-                    <TrendingDown className="h-5 w-5 text-blue-600" />
-                    <h3 className="text-lg font-semibold text-blue-600">חריגה כלפי מטה</h3>
-                  </div>
-                  <p className="text-sm text-muted-foreground mb-4">רשויות עם אחוז מקבלים נמוך משמעותית מממוצע הסניף</p>
-                  {outliers.low.length > 0 ? (
-                    <div className="space-y-3">
-                      {outliers.low.map((m) => (
-                        <div key={m.name} className="flex items-center justify-between py-2 border-b last:border-0">
-                          <div>
-                            <span className="font-medium">{m.name}</span>
-                            {m.entityType === "מועצה אזורית" && <span className="text-xs text-violet-600 mr-1"> (מ.א.)</span>}
-                            <span className="text-xs text-muted-foreground mr-2">{" אשכול " + (m.cluster ?? "—")}</span>
-                          </div>
-                          <div className="text-left">
-                            <span className="font-bold text-blue-600 text-lg">{m.avgRate.toFixed(1)}%</span>
-                            <span className="text-xs text-blue-500 mr-2">{m.avgGapFromBranch.toFixed(0) + "%"}</span>
-                          </div>
+                        <div>
+                          <p className="text-sm font-medium text-blue-600 mb-2">{"חריגה כלפי מטה (" + lowMunis.length + ")"}</p>
+                          {lowMunis.length > 0 ? lowMunis.map((m) => (
+                            <div key={m.name} className="flex items-center justify-between py-1.5 border-b last:border-0 text-sm">
+                              <span>{m.name} <span className="text-xs text-muted-foreground">{"אשכול " + (m.cluster ?? "—")}</span></span>
+                              <span className="font-bold text-blue-600">{(m.rates[bt] ?? 0).toFixed(1)}% <span className="text-xs font-normal">{"(" + (m.gapsFromBranch[bt] ?? 0).toFixed(0) + "%)"}</span></span>
+                            </div>
+                          )) : <p className="text-xs text-muted-foreground">אין</p>}
                         </div>
-                      ))}
+                      </div>
                     </div>
-                  ) : <p className="text-muted-foreground text-sm">אין חריגות משמעותיות</p>}
-                </div>
+                  );
+                })}
               </div>
             </TabsContent>
           </Tabs>
