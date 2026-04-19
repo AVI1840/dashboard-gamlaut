@@ -1,6 +1,6 @@
-import { useState, useMemo, useEffect } from "react";
+﻿import React, { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Building2, Users, BarChart3, AlertTriangle, ArrowUpDown, ChevronUp, ChevronDown, TrendingUp, TrendingDown } from "lucide-react";
+import { Building2, Users, BarChart3, AlertTriangle, ArrowUpDown, ChevronUp, ChevronDown, TrendingUp, TrendingDown, Check, ChevronsUpDown } from "lucide-react";
 import { KPICard } from "@/components/dashboard/KPICard";
 import {
   Select,
@@ -19,6 +19,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { loadFlatData, FlatDataRow, getBranches } from "@/data/flatData";
 import { benefitTypes, formatNumber } from "@/data/welfareData";
@@ -36,6 +38,18 @@ const benefitIdToCsvType: Record<string, string> = {
   "work-disability": "נכות_מעבודה",
   "work-injury": "דמי_פגיעה",
 };
+
+const allCsvTypes = Object.values(benefitIdToCsvType);
+
+function csvTypeToLabel(csvType: string): string {
+  const bt = benefitTypes.find((b) => benefitIdToCsvType[b.id] === csvType);
+  return bt ? bt.name : csvType;
+}
+function csvTypeToIcon(csvType: string): string {
+  const bt = benefitTypes.find((b) => benefitIdToCsvType[b.id] === csvType);
+  return bt ? bt.icon : "";
+}
+
 
 interface BranchStats {
   branch: string;
@@ -56,9 +70,8 @@ function computeBranchStats(rows: FlatDataRow[], branch: string): BranchStats {
   const totalPop = Array.from(munis.values()).reduce((s, m) => s + m.pop, 0);
   const clusters = Array.from(munis.values()).filter((m) => m.cluster !== null).map((m) => m.cluster!);
   const avgCluster = clusters.length > 0 ? clusters.reduce((s, c) => s + c, 0) / clusters.length : 0;
-
   const benefitAverages: Record<string, number> = {};
-  for (const bt of Object.values(benefitIdToCsvType)) {
+  for (const bt of allCsvTypes) {
     const btRows = branchRows.filter((r) => r.Benefit_Type === bt && r.Rate_2025 !== null);
     if (btRows.length > 0) {
       benefitAverages[bt] = btRows.reduce((s, r) => s + (r.Rate_2025! / 10), 0) / btRows.length;
@@ -69,7 +82,7 @@ function computeBranchStats(rows: FlatDataRow[], branch: string): BranchStats {
 
 function computeNationalAverages(rows: FlatDataRow[]): Record<string, number> {
   const avgs: Record<string, number> = {};
-  for (const bt of Object.values(benefitIdToCsvType)) {
+  for (const bt of allCsvTypes) {
     const btRows = rows.filter((r) => r.Benefit_Type === bt && r.Rate_2025 !== null);
     if (btRows.length > 0) {
       avgs[bt] = btRows.reduce((s, r) => s + (r.Rate_2025! / 10), 0) / btRows.length;
@@ -78,19 +91,20 @@ function computeNationalAverages(rows: FlatDataRow[]): Record<string, number> {
   return avgs;
 }
 
-interface MuniRow {
+interface MuniMultiRow {
   name: string;
   entityType: string;
   cluster: number | null;
   pop: number;
-  rate: number;
-  branchAvg: number;
-  gapFromBranch: number;
-  gapFromCluster: number | null;
-  status: string;
+  rates: Record<string, number>;
+  gapsFromBranch: Record<string, number>;
+  gapsFromCluster: Record<string, number | null>;
+  statuses: Record<string, string>;
+  avgRate: number;
+  avgGapFromBranch: number;
 }
 
-type SortField = "name" | "pop" | "rate" | "gapFromBranch" | "gapFromCluster";
+type SortField = "name" | "pop" | "avgRate" | "avgGapFromBranch";
 type SortDir = "asc" | "desc";
 
 function SortIcon({ field, current, dir }: { field: SortField; current: SortField; dir: SortDir }) {
@@ -103,10 +117,11 @@ export default function BranchAnalysisPage() {
   const [branches, setBranches] = useState<string[]>([]);
   const [selectedBranch, setSelectedBranch] = useState("");
   const [compareBranch, setCompareBranch] = useState("");
-  const [selectedBenefit, setSelectedBenefit] = useState("נכות");
-  const [sortField, setSortField] = useState<SortField>("gapFromBranch");
+  const [selectedBenefits, setSelectedBenefits] = useState<Set<string>>(new Set(allCsvTypes));
+  const [sortField, setSortField] = useState<SortField>("avgGapFromBranch");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [loading, setLoading] = useState(true);
+  const [benefitPopoverOpen, setBenefitPopoverOpen] = useState(false);
 
   useEffect(() => {
     loadFlatData().then((rows) => {
@@ -118,61 +133,73 @@ export default function BranchAnalysisPage() {
     });
   }, []);
 
-  const nationalAvgs = useMemo(() => computeNationalAverages(allRows), [allRows]);
-
-  const branchStats = useMemo(() => {
-    if (!selectedBranch) return null;
-    return computeBranchStats(allRows, selectedBranch);
-  }, [allRows, selectedBranch]);
-
-  const compareStats = useMemo(() => {
-    if (!compareBranch) return null;
-    return computeBranchStats(allRows, compareBranch);
-  }, [allRows, compareBranch]);
-
-  const muniRows = useMemo((): MuniRow[] => {
-    if (!selectedBranch || !branchStats) return [];
-    const branchRows = allRows.filter((r) => r.Branch === selectedBranch && r.Benefit_Type === selectedBenefit);
-    const branchAvg = branchStats.benefitAverages[selectedBenefit] ?? 0;
-
-    return branchRows.map((r) => {
-      const rate = r.Rate_2025 !== null ? r.Rate_2025 / 10 : (r.Rate_2024 !== null ? r.Rate_2024 / 10 : 0);
-      return {
-        name: r.Municipality,
-        entityType: r.Entity_Type,
-        cluster: r.Cluster,
-        pop: r.Pop_2025 ?? 0,
-        rate,
-        branchAvg,
-        gapFromBranch: branchAvg > 0 ? ((rate - branchAvg) / branchAvg) * 100 : 0,
-        gapFromCluster: r.Gap_from_Cluster_Pct,
-        status: r.Operational_Status || "",
-      };
+  const toggleBenefit = (bt: string) => {
+    setSelectedBenefits((prev) => {
+      const next = new Set(prev);
+      if (next.has(bt)) next.delete(bt); else next.add(bt);
+      return next;
     });
-  }, [allRows, selectedBranch, selectedBenefit, branchStats]);
+  };
+  const toggleAll = () => {
+    if (selectedBenefits.size === allCsvTypes.length) setSelectedBenefits(new Set());
+    else setSelectedBenefits(new Set(allCsvTypes));
+  };
+
+  const nationalAvgs = useMemo(() => computeNationalAverages(allRows), [allRows]);
+  const branchStats = useMemo(() => selectedBranch ? computeBranchStats(allRows, selectedBranch) : null, [allRows, selectedBranch]);
+  const compareStats = useMemo(() => compareBranch && compareBranch !== "__none__" ? computeBranchStats(allRows, compareBranch) : null, [allRows, compareBranch]);
+
+  const activeBenefits = useMemo(() => Array.from(selectedBenefits), [selectedBenefits]);
+
+  const muniRows = useMemo((): MuniMultiRow[] => {
+    if (!selectedBranch || !branchStats || activeBenefits.length === 0) return [];
+    const branchRows = allRows.filter((r) => r.Branch === selectedBranch && selectedBenefits.has(r.Benefit_Type));
+    const muniMap = new Map<string, MuniMultiRow>();
+
+    for (const r of branchRows) {
+      if (!muniMap.has(r.Municipality)) {
+        muniMap.set(r.Municipality, {
+          name: r.Municipality, entityType: r.Entity_Type, cluster: r.Cluster,
+          pop: r.Pop_2025 ?? 0, rates: {}, gapsFromBranch: {}, gapsFromCluster: {}, statuses: {},
+          avgRate: 0, avgGapFromBranch: 0,
+        });
+      }
+      const m = muniMap.get(r.Municipality)!;
+      const rate = r.Rate_2025 !== null ? r.Rate_2025 / 10 : (r.Rate_2024 !== null ? r.Rate_2024 / 10 : 0);
+      const branchAvg = branchStats.benefitAverages[r.Benefit_Type] ?? 0;
+      m.rates[r.Benefit_Type] = rate;
+      m.gapsFromBranch[r.Benefit_Type] = branchAvg > 0 ? ((rate - branchAvg) / branchAvg) * 100 : 0;
+      m.gapsFromCluster[r.Benefit_Type] = r.Gap_from_Cluster_Pct;
+      m.statuses[r.Benefit_Type] = r.Operational_Status || "";
+    }
+
+    for (const m of muniMap.values()) {
+      const rateVals = Object.values(m.rates);
+      const gapVals = Object.values(m.gapsFromBranch);
+      m.avgRate = rateVals.length > 0 ? rateVals.reduce((s, v) => s + v, 0) / rateVals.length : 0;
+      m.avgGapFromBranch = gapVals.length > 0 ? gapVals.reduce((s, v) => s + v, 0) / gapVals.length : 0;
+    }
+    return Array.from(muniMap.values());
+  }, [allRows, selectedBranch, branchStats, activeBenefits, selectedBenefits]);
 
   const sortedMunis = useMemo(() => {
     return [...muniRows].sort((a, b) => {
-      let av: number | string | null, bv: number | string | null;
+      let av: number | string, bv: number | string;
       switch (sortField) {
         case "name": av = a.name; bv = b.name; break;
         case "pop": av = a.pop; bv = b.pop; break;
-        case "rate": av = a.rate; bv = b.rate; break;
-        case "gapFromBranch": av = Math.abs(a.gapFromBranch); bv = Math.abs(b.gapFromBranch); break;
-        case "gapFromCluster": av = a.gapFromCluster !== null ? Math.abs(a.gapFromCluster) : null; bv = b.gapFromCluster !== null ? Math.abs(b.gapFromCluster) : null; break;
+        case "avgRate": av = a.avgRate; bv = b.avgRate; break;
+        case "avgGapFromBranch": av = Math.abs(a.avgGapFromBranch); bv = Math.abs(b.avgGapFromBranch); break;
         default: return 0;
       }
-      if (av === null && bv === null) return 0;
-      if (av === null) return 1;
-      if (bv === null) return -1;
       if (typeof av === "string") return sortDir === "asc" ? av.localeCompare(bv as string, "he") : (bv as string).localeCompare(av, "he");
       return sortDir === "asc" ? (av as number) - (bv as number) : (bv as number) - (av as number);
     });
   }, [muniRows, sortField, sortDir]);
 
   const outliers = useMemo(() => {
-    const high = muniRows.filter((m) => m.gapFromBranch > 20).sort((a, b) => b.gapFromBranch - a.gapFromBranch).slice(0, 5);
-    const low = muniRows.filter((m) => m.gapFromBranch < -20).sort((a, b) => a.gapFromBranch - b.gapFromBranch).slice(0, 5);
+    const high = muniRows.filter((m) => m.avgGapFromBranch > 20).sort((a, b) => b.avgGapFromBranch - a.avgGapFromBranch).slice(0, 5);
+    const low = muniRows.filter((m) => m.avgGapFromBranch < -20).sort((a, b) => a.avgGapFromBranch - b.avgGapFromBranch).slice(0, 5);
     return { high, low };
   }, [muniRows]);
 
@@ -181,7 +208,10 @@ export default function BranchAnalysisPage() {
     else { setSortField(field); setSortDir(field === "name" ? "asc" : "desc"); }
   };
 
-  const benefitLabel = benefitTypes.find((b) => benefitIdToCsvType[b.id] === selectedBenefit)?.name || selectedBenefit;
+  const benefitCountLabel = selectedBenefits.size === allCsvTypes.length ? "כל הגמלאות" :
+    selectedBenefits.size === 0 ? "בחר גמלאות..." :
+    selectedBenefits.size === 1 ? csvTypeToLabel(activeBenefits[0]) :
+    selectedBenefits.size + " גמלאות נבחרו";
 
   if (loading) {
     return <div className="flex items-center justify-center py-16 text-muted-foreground"><span className="animate-pulse">טוען נתונים...</span></div>;
@@ -189,7 +219,6 @@ export default function BranchAnalysisPage() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      {/* Header */}
       <div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
           <Link to="/" className="hover:text-foreground transition-colors">סקירה כללית</Link>
@@ -200,28 +229,44 @@ export default function BranchAnalysisPage() {
         <p className="text-muted-foreground mt-1">השוואת רשויות בתוך הסניף, זיהוי חריגות, והשוואה בין סניפים</p>
       </div>
 
-      {/* Branch + Benefit selectors */}
+      {/* Selectors */}
       <div className="dashboard-card p-6">
         <div className="grid gap-4 md:grid-cols-3">
           <div>
             <label className="block text-sm font-medium mb-2">סניף</label>
             <Select value={selectedBranch} onValueChange={setSelectedBranch}>
               <SelectTrigger><SelectValue placeholder="בחר סניף..." /></SelectTrigger>
-              <SelectContent>
-                {branches.map((b) => <SelectItem key={b} value={b}>{b}</SelectItem>)}
-              </SelectContent>
+              <SelectContent>{branches.map((b) => <SelectItem key={b} value={b}>{b}</SelectItem>)}</SelectContent>
             </Select>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">סוג גמלה</label>
-            <Select value={selectedBenefit} onValueChange={setSelectedBenefit}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {benefitTypes.map((b) => (
-                  <SelectItem key={b.id} value={benefitIdToCsvType[b.id]}>{b.icon} {b.name}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <label className="block text-sm font-medium mb-2">סוגי גמלאות</label>
+            <Popover open={benefitPopoverOpen} onOpenChange={setBenefitPopoverOpen}>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="w-full justify-between text-right font-normal">
+                  {benefitCountLabel}
+                  <ChevronsUpDown className="h-4 w-4 opacity-50 mr-2" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-64 p-2" align="start">
+                <div className="space-y-1">
+                  <button onClick={toggleAll} className="flex items-center gap-2 w-full px-2 py-1.5 rounded hover:bg-muted text-sm font-medium">
+                    <Checkbox checked={selectedBenefits.size === allCsvTypes.length} />
+                    <span>בחר הכל</span>
+                  </button>
+                  <div className="border-t my-1" />
+                  {benefitTypes.map((bt) => {
+                    const csvType = benefitIdToCsvType[bt.id];
+                    return (
+                      <button key={bt.id} onClick={() => toggleBenefit(csvType)} className="flex items-center gap-2 w-full px-2 py-1.5 rounded hover:bg-muted text-sm">
+                        <Checkbox checked={selectedBenefits.has(csvType)} />
+                        <span>{bt.icon} {bt.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
           <div>
             <label className="block text-sm font-medium mb-2">השוואה לסניף</label>
@@ -238,37 +283,27 @@ export default function BranchAnalysisPage() {
 
       {branchStats && (
         <>
-          {/* KPI Cards */}
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <KPICard title="רשויות בסניף" value={branchStats.muniCount} subtitle={"סניף " + selectedBranch} icon={Building2} variant="primary" />
             <KPICard title="אוכלוסייה" value={formatNumber(branchStats.totalPop)} subtitle="תושבים בסניף" icon={Users} variant="default" />
-            <KPICard
-              title={"ממוצע סניפי — " + benefitLabel}
-              value={(branchStats.benefitAverages[selectedBenefit] ?? 0).toFixed(1) + "%"}
-              subtitle={"ארצי: " + (nationalAvgs[selectedBenefit] ?? 0).toFixed(1) + "%"}
-              icon={BarChart3}
-              variant={(branchStats.benefitAverages[selectedBenefit] ?? 0) > (nationalAvgs[selectedBenefit] ?? 0) * 1.1 ? "destructive" : "success"}
-            />
+            <KPICard title="גמלאות בניתוח" value={activeBenefits.length} subtitle={"מתוך " + allCsvTypes.length + " סוגים"} icon={BarChart3} variant="success" />
             <KPICard title="ממוצע אשכול" value={branchStats.avgCluster.toFixed(1)} subtitle="אשכול סוציו-אקונומי" variant="warning" />
           </div>
 
-          {/* Compare branch KPIs */}
-          {compareStats && compareBranch && compareBranch !== "__none__" && (
+          {compareStats && compareBranch !== "__none__" && (
             <div className="dashboard-card p-6">
-              <h3 className="text-lg font-semibold mb-4">השוואה: {selectedBranch} מול {compareBranch}</h3>
+              <h3 className="text-lg font-semibold mb-4">{"השוואה: " + selectedBranch + " מול " + compareBranch}</h3>
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-right py-2 px-3 text-sm font-medium text-muted-foreground">גמלה</th>
-                      <th className="text-right py-2 px-3 text-sm font-medium text-primary">{selectedBranch}</th>
-                      <th className="text-right py-2 px-3 text-sm font-medium text-violet-600">{compareBranch}</th>
-                      <th className="text-right py-2 px-3 text-sm font-medium">ארצי</th>
-                      <th className="text-right py-2 px-3 text-sm font-medium text-muted-foreground">הפרש</th>
-                    </tr>
-                  </thead>
+                  <thead><tr className="border-b">
+                    <th className="text-right py-2 px-3 text-sm font-medium text-muted-foreground">גמלה</th>
+                    <th className="text-right py-2 px-3 text-sm font-medium text-primary">{selectedBranch}</th>
+                    <th className="text-right py-2 px-3 text-sm font-medium text-violet-600">{compareBranch}</th>
+                    <th className="text-right py-2 px-3 text-sm font-medium">ארצי</th>
+                    <th className="text-right py-2 px-3 text-sm font-medium text-muted-foreground">הפרש</th>
+                  </tr></thead>
                   <tbody>
-                    {benefitTypes.map((bt) => {
+                    {benefitTypes.filter((bt) => selectedBenefits.has(benefitIdToCsvType[bt.id])).map((bt) => {
                       const csvType = benefitIdToCsvType[bt.id];
                       const v1 = branchStats.benefitAverages[csvType] ?? 0;
                       const v2 = compareStats.benefitAverages[csvType] ?? 0;
@@ -297,74 +332,66 @@ export default function BranchAnalysisPage() {
               <TabsTrigger value="table">טבלת רשויות</TabsTrigger>
               <TabsTrigger value="outliers">חריגות</TabsTrigger>
             </TabsList>
-
-            {/* Municipalities Table */}
             <TabsContent value="table">
               <div className="dashboard-card p-6">
-                <h3 className="text-lg font-semibold mb-2">רשויות בסניף {selectedBranch} — {benefitLabel}</h3>
-                <p className="text-sm text-muted-foreground mb-4">ממוצע סניפי: {(branchStats.benefitAverages[selectedBenefit] ?? 0).toFixed(1)}% | ארצי: {(nationalAvgs[selectedBenefit] ?? 0).toFixed(1)}%</p>
+                <h3 className="text-lg font-semibold mb-2">{"רשויות בסניף " + selectedBranch}</h3>
+                <p className="text-sm text-muted-foreground mb-4">{benefitCountLabel}</p>
                 <div className="rounded-lg border bg-card overflow-hidden">
                   <div className="overflow-x-auto">
                     <Table>
                       <TableHeader>
                         <TableRow className="bg-muted/50 hover:bg-muted/50">
-                          <TableHead className="text-right">
-                            <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs" onClick={() => handleSort("name")}>
-                              רשות <SortIcon field="name" current={sortField} dir={sortDir} />
-                            </Button>
+                          <TableHead className="text-right sticky right-0 bg-muted/50 z-10 min-w-[100px]">
+                            <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs" onClick={() => handleSort("name")}>רשות <SortIcon field="name" current={sortField} dir={sortDir} /></Button>
                           </TableHead>
                           <TableHead className="text-right">אשכול</TableHead>
                           <TableHead className="text-right">
-                            <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs" onClick={() => handleSort("pop")}>
-                              אוכלוסייה <SortIcon field="pop" current={sortField} dir={sortDir} />
-                            </Button>
+                            <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs" onClick={() => handleSort("pop")}>אוכלוסייה <SortIcon field="pop" current={sortField} dir={sortDir} /></Button>
                           </TableHead>
-                          <TableHead className="text-right">
-                            <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs font-bold text-primary" onClick={() => handleSort("rate")}>
-                              אחוז מקבלים <SortIcon field="rate" current={sortField} dir={sortDir} />
-                            </Button>
-                          </TableHead>
-                          <TableHead className="text-right">
-                            <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs" onClick={() => handleSort("gapFromBranch")}>
-                              פער מסניף <SortIcon field="gapFromBranch" current={sortField} dir={sortDir} />
-                            </Button>
-                          </TableHead>
-                          <TableHead className="text-right">
-                            <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs" onClick={() => handleSort("gapFromCluster")}>
-                              פער מאשכול <SortIcon field="gapFromCluster" current={sortField} dir={sortDir} />
-                            </Button>
-                          </TableHead>
-                          <TableHead className="text-right min-w-[120px]">סטטוס</TableHead>
+                          {activeBenefits.map((bt) => (
+                            <TableHead key={bt} className="text-right text-xs min-w-[80px]">{csvTypeToIcon(bt)} {csvTypeToLabel(bt)}</TableHead>
+                          ))}
+                          {activeBenefits.length > 1 && (
+                            <React.Fragment>
+                              <TableHead className="text-right">
+                                <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs font-bold text-primary" onClick={() => handleSort("avgRate")}>ממוצע <SortIcon field="avgRate" current={sortField} dir={sortDir} /></Button>
+                              </TableHead>
+                              <TableHead className="text-right">
+                                <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs" onClick={() => handleSort("avgGapFromBranch")}>פער ממוצע <SortIcon field="avgGapFromBranch" current={sortField} dir={sortDir} /></Button>
+                              </TableHead>
+                            </React.Fragment>
+                          )}
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         {sortedMunis.map((m, idx) => {
-                          const isOutlier = Math.abs(m.gapFromBranch) > 20;
+                          const isOutlier = Math.abs(m.avgGapFromBranch) > 20;
                           return (
-                            <TableRow key={m.name + idx} className={cn(
-                              isOutlier ? "bg-amber-50/60 dark:bg-amber-950/20" : idx % 2 === 0 ? "bg-background" : "bg-muted/30"
-                            )}>
-                              <TableCell className="py-2 font-medium">
+                            <TableRow key={m.name} className={cn(isOutlier ? "bg-amber-50/60 dark:bg-amber-950/20" : idx % 2 === 0 ? "bg-background" : "bg-muted/30")}>
+                              <TableCell className={cn("py-2 font-medium sticky right-0 z-10", isOutlier ? "bg-amber-50/60 dark:bg-amber-950/20" : idx % 2 === 0 ? "bg-background" : "bg-muted/30")}>
                                 {isOutlier && <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5 mb-0.5" />}
                                 {m.name}
-                                {m.entityType === "מועצה אזורית" && (
-                                  <span className="mr-1.5 inline-flex items-center rounded-full bg-violet-100 dark:bg-violet-900/40 px-1.5 py-0.5 text-[10px] font-medium text-violet-700 dark:text-violet-300">מ.א.</span>
-                                )}
+                                {m.entityType === "מועצה אזורית" && <span className="mr-1.5 inline-flex items-center rounded-full bg-violet-100 dark:bg-violet-900/40 px-1.5 py-0.5 text-[10px] font-medium text-violet-700 dark:text-violet-300">מ.א.</span>}
                               </TableCell>
                               <TableCell className="py-2 text-sm text-muted-foreground">{m.cluster ?? "—"}</TableCell>
                               <TableCell className="py-2 text-sm">{formatNumber(m.pop)}</TableCell>
-                              <TableCell className="py-2 text-sm font-bold">{m.rate.toFixed(1)}%</TableCell>
-                              <TableCell className={cn("py-2 text-sm font-semibold",
-                                m.gapFromBranch > 15 ? "text-red-600" : m.gapFromBranch < -15 ? "text-blue-600" : "text-muted-foreground"
-                              )}>
-                                {m.gapFromBranch > 0 ? "+" : ""}{m.gapFromBranch.toFixed(1)}%
-                              </TableCell>
-                              <TableCell className={cn("py-2 text-sm font-semibold",
-                                (m.gapFromCluster ?? 0) > 15 ? "text-red-600" : (m.gapFromCluster ?? 0) < -15 ? "text-blue-600" : "text-muted-foreground"
-                              )}>
-                                {m.gapFromCluster !== null ? ((m.gapFromCluster > 0 ? "+" : "") + m.gapFromCluster.toFixed(1) + "%") : "—"}
-                              </TableCell>
-                              <TableCell className="py-2 text-xs">{m.status}</TableCell>
+                              {activeBenefits.map((bt) => {
+                                const rate = m.rates[bt];
+                                const gap = m.gapsFromBranch[bt];
+                                return (
+                                  <TableCell key={bt} className="py-2 text-sm tabular-nums">
+                                    {rate !== undefined ? <span className={cn("font-semibold", gap > 15 ? "text-red-600" : gap < -15 ? "text-blue-600" : "")}>{rate.toFixed(1)}%</span> : "—"}
+                                  </TableCell>
+                                );
+                              })}
+                              {activeBenefits.length > 1 && (
+                                <React.Fragment>
+                                  <TableCell className="py-2 text-sm font-bold">{m.avgRate.toFixed(1)}%</TableCell>
+                                  <TableCell className={cn("py-2 text-sm font-semibold", m.avgGapFromBranch > 15 ? "text-red-600" : m.avgGapFromBranch < -15 ? "text-blue-600" : "text-muted-foreground")}>
+                                    {m.avgGapFromBranch > 0 ? "+" : ""}{m.avgGapFromBranch.toFixed(1)}%
+                                  </TableCell>
+                                </React.Fragment>
+                              )}
                             </TableRow>
                           );
                         })}
@@ -372,11 +399,10 @@ export default function BranchAnalysisPage() {
                     </Table>
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground mt-2 text-left">{sortedMunis.length} רשויות בסניף</p>
+                <p className="text-sm text-muted-foreground mt-2 text-left">{sortedMunis.length + " רשויות בסניף"}</p>
               </div>
             </TabsContent>
 
-            {/* Outliers Tab */}
             <TabsContent value="outliers">
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="dashboard-card p-6">
@@ -384,93 +410,48 @@ export default function BranchAnalysisPage() {
                     <TrendingUp className="h-5 w-5 text-red-600" />
                     <h3 className="text-lg font-semibold text-red-600">חריגה כלפי מעלה</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-4">רשויות עם אחוז מקבלים גבוה משמעותית מממוצע הסניף ({benefitLabel})</p>
+                  <p className="text-sm text-muted-foreground mb-4">רשויות עם אחוז מקבלים גבוה משמעותית מממוצע הסניף</p>
                   {outliers.high.length > 0 ? (
                     <div className="space-y-3">
                       {outliers.high.map((m) => (
                         <div key={m.name} className="flex items-center justify-between py-2 border-b last:border-0">
                           <div>
                             <span className="font-medium">{m.name}</span>
-                            {m.entityType === "מועצה אזורית" && <span className="text-xs text-violet-600 mr-1">(מ.א.)</span>}
-                            <span className="text-xs text-muted-foreground mr-2">אשכול {m.cluster ?? "—"}</span>
+                            {m.entityType === "מועצה אזורית" && <span className="text-xs text-violet-600 mr-1"> (מ.א.)</span>}
+                            <span className="text-xs text-muted-foreground mr-2">{" אשכול " + (m.cluster ?? "—")}</span>
                           </div>
                           <div className="text-left">
-                            <span className="font-bold text-red-600 text-lg">{m.rate.toFixed(1)}%</span>
-                            <span className="text-xs text-red-500 mr-2">+{m.gapFromBranch.toFixed(0)}% מהסניף</span>
+                            <span className="font-bold text-red-600 text-lg">{m.avgRate.toFixed(1)}%</span>
+                            <span className="text-xs text-red-500 mr-2">{"+" + m.avgGapFromBranch.toFixed(0) + "%"}</span>
                           </div>
                         </div>
                       ))}
                     </div>
-                  ) : (
-                    <p className="text-muted-foreground text-sm">אין חריגות משמעותיות כלפי מעלה</p>
-                  )}
+                  ) : <p className="text-muted-foreground text-sm">אין חריגות משמעותיות</p>}
                 </div>
-
                 <div className="dashboard-card p-6">
                   <div className="flex items-center gap-2 mb-4">
                     <TrendingDown className="h-5 w-5 text-blue-600" />
                     <h3 className="text-lg font-semibold text-blue-600">חריגה כלפי מטה</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-4">רשויות עם אחוז מקבלים נמוך משמעותית מממוצע הסניף ({benefitLabel})</p>
+                  <p className="text-sm text-muted-foreground mb-4">רשויות עם אחוז מקבלים נמוך משמעותית מממוצע הסניף</p>
                   {outliers.low.length > 0 ? (
                     <div className="space-y-3">
                       {outliers.low.map((m) => (
                         <div key={m.name} className="flex items-center justify-between py-2 border-b last:border-0">
                           <div>
                             <span className="font-medium">{m.name}</span>
-                            {m.entityType === "מועצה אזורית" && <span className="text-xs text-violet-600 mr-1">(מ.א.)</span>}
-                            <span className="text-xs text-muted-foreground mr-2">אשכול {m.cluster ?? "—"}</span>
+                            {m.entityType === "מועצה אזורית" && <span className="text-xs text-violet-600 mr-1"> (מ.א.)</span>}
+                            <span className="text-xs text-muted-foreground mr-2">{" אשכול " + (m.cluster ?? "—")}</span>
                           </div>
                           <div className="text-left">
-                            <span className="font-bold text-blue-600 text-lg">{m.rate.toFixed(1)}%</span>
-                            <span className="text-xs text-blue-500 mr-2">{m.gapFromBranch.toFixed(0)}% מהסניף</span>
+                            <span className="font-bold text-blue-600 text-lg">{m.avgRate.toFixed(1)}%</span>
+                            <span className="text-xs text-blue-500 mr-2">{m.avgGapFromBranch.toFixed(0) + "%"}</span>
                           </div>
                         </div>
                       ))}
                     </div>
-                  ) : (
-                    <p className="text-muted-foreground text-sm">אין חריגות משמעותיות כלפי מטה</p>
-                  )}
-                </div>
-              </div>
-
-              {/* Cluster outliers */}
-              <div className="dashboard-card p-6 mt-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <AlertTriangle className="h-5 w-5 text-amber-600" />
-                  <h3 className="text-lg font-semibold">חריגות מאשכול סוציו-אקונומי</h3>
-                </div>
-                <p className="text-sm text-muted-foreground mb-4">רשויות שהאחוז שלהן חורג משמעותית מהממוצע של האשכול הסוציו-אקונומי שלהן</p>
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b">
-                        <th className="text-right py-2 px-3 text-sm font-medium">רשות</th>
-                        <th className="text-right py-2 px-3 text-sm font-medium">אשכול</th>
-                        <th className="text-right py-2 px-3 text-sm font-medium">אחוז מקבלים</th>
-                        <th className="text-right py-2 px-3 text-sm font-medium">פער מאשכול</th>
-                        <th className="text-right py-2 px-3 text-sm font-medium">סטטוס</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {muniRows
-                        .filter((m) => m.gapFromCluster !== null && Math.abs(m.gapFromCluster) > 15)
-                        .sort((a, b) => Math.abs(b.gapFromCluster!) - Math.abs(a.gapFromCluster!))
-                        .map((m) => (
-                          <tr key={m.name} className="border-b hover:bg-muted/50">
-                            <td className="py-2 px-3 text-sm font-medium">{m.name}</td>
-                            <td className="py-2 px-3 text-sm">{m.cluster}</td>
-                            <td className="py-2 px-3 text-sm font-bold">{m.rate.toFixed(1)}%</td>
-                            <td className={cn("py-2 px-3 text-sm font-bold",
-                              m.gapFromCluster! > 0 ? "text-red-600" : "text-blue-600"
-                            )}>
-                              {m.gapFromCluster! > 0 ? "+" : ""}{m.gapFromCluster!.toFixed(1)}%
-                            </td>
-                            <td className="py-2 px-3 text-xs">{m.status}</td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                  ) : <p className="text-muted-foreground text-sm">אין חריגות משמעותיות</p>}
                 </div>
               </div>
             </TabsContent>
