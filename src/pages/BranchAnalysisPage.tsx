@@ -233,20 +233,6 @@ export default function BranchAnalysisPage() {
     return <div className="flex items-center justify-center py-16 text-muted-foreground"><span className="animate-pulse">טוען נתונים...</span></div>;
   }
 
-  if (viewMode === "trend_23_25") {
-    return (
-      <div className="space-y-8 animate-fade-in">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">ניתוח סניפים</h1>
-          <p className="text-muted-foreground mt-1">דף זה מציג נתוני תמונת מצב דצמבר 2025. לצפייה במגמות, עבור לדף גמלה ספציפית.</p>
-        </div>
-        <div className="dashboard-card p-8 text-center">
-          <p className="text-lg text-muted-foreground">עבור לתצוגת "תמונת מצב 2025" בסרגל העליון כדי להשתמש בדף זה</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-8 animate-fade-in">
       <div>
@@ -371,26 +357,26 @@ export default function BranchAnalysisPage() {
                     <Table>
                       <TableHeader>
                         <TableRow className="bg-muted/50 hover:bg-muted/50">
-                          <TableHead className="text-right sticky right-0 bg-muted/50 z-10 min-w-[100px]">
+                          <TableHead className="text-right min-w-[100px]">
                             <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs" onClick={() => handleSort("name")}>רשות <SortIcon field="name" current={sortField} dir={sortDir} /></Button>
                           </TableHead>
                           <TableHead className="text-right">אשכול</TableHead>
                           <TableHead className="text-right">
                             <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs" onClick={() => handleSort("pop")}>אוכלוסייה <SortIcon field="pop" current={sortField} dir={sortDir} /></Button>
                           </TableHead>
-                          {activeBenefits.map((bt) => (
-                            <TableHead key={bt} className="text-right text-xs min-w-[80px]">{csvTypeToIcon(bt)} {csvTypeToLabel(bt)}</TableHead>
-                          ))}
                           {activeBenefits.length > 1 && (
                             <React.Fragment>
-                              <TableHead className="text-right">
+                              <TableHead className="text-right bg-primary/5">
                                 <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs font-bold text-primary" onClick={() => handleSort("avgRate")}>ממוצע <SortIcon field="avgRate" current={sortField} dir={sortDir} /></Button>
                               </TableHead>
-                              <TableHead className="text-right">
-                                <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs" onClick={() => handleSort("avgGapFromBranch")}>פער ממוצע <SortIcon field="avgGapFromBranch" current={sortField} dir={sortDir} /></Button>
+                              <TableHead className="text-right bg-primary/5">
+                                <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs font-bold" onClick={() => handleSort("avgGapFromBranch")}>פער <SortIcon field="avgGapFromBranch" current={sortField} dir={sortDir} /></Button>
                               </TableHead>
                             </React.Fragment>
                           )}
+                          {activeBenefits.map((bt) => (
+                            <TableHead key={bt} className="text-right text-xs min-w-[80px]">{csvTypeToIcon(bt)} {csvTypeToLabel(bt)}</TableHead>
+                          ))}
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -398,13 +384,21 @@ export default function BranchAnalysisPage() {
                           const isOutlier = Math.abs(m.avgGapFromBranch) > 20;
                           return (
                             <TableRow key={m.name} className={cn(isOutlier ? "bg-amber-50/60 dark:bg-amber-950/20" : idx % 2 === 0 ? "bg-background" : "bg-muted/30")}>
-                              <TableCell className={cn("py-2 font-medium sticky right-0 z-10", isOutlier ? "bg-amber-50/60 dark:bg-amber-950/20" : idx % 2 === 0 ? "bg-background" : "bg-muted/30")}>
+                              <TableCell className="py-2 font-medium">
                                 {isOutlier && <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5 mb-0.5" />}
                                 {m.name}
                                 {m.entityType === "מועצה אזורית" && <span className="mr-1.5 inline-flex items-center rounded-full bg-violet-100 dark:bg-violet-900/40 px-1.5 py-0.5 text-[10px] font-medium text-violet-700 dark:text-violet-300">מ.א.</span>}
                               </TableCell>
                               <TableCell className="py-2 text-sm text-muted-foreground">{m.cluster ?? "—"}</TableCell>
                               <TableCell className="py-2 text-sm">{formatNumber(m.pop)}</TableCell>
+                              {activeBenefits.length > 1 && (
+                                <React.Fragment>
+                                  <TableCell className="py-2 text-sm font-bold bg-primary/5">{m.avgRate.toFixed(1)}%</TableCell>
+                                  <TableCell className={cn("py-2 text-sm font-semibold bg-primary/5", m.avgGapFromBranch > 15 ? "text-red-600" : m.avgGapFromBranch < -15 ? "text-blue-600" : "text-muted-foreground")}>
+                                    {m.avgGapFromBranch > 0 ? "+" : ""}{m.avgGapFromBranch.toFixed(1)}%
+                                  </TableCell>
+                                </React.Fragment>
+                              )}
                               {activeBenefits.map((bt) => {
                                 const rate = m.rates[bt];
                                 const gap = m.gapsFromBranch[bt];
@@ -414,14 +408,6 @@ export default function BranchAnalysisPage() {
                                   </TableCell>
                                 );
                               })}
-                              {activeBenefits.length > 1 && (
-                                <React.Fragment>
-                                  <TableCell className="py-2 text-sm font-bold">{m.avgRate.toFixed(1)}%</TableCell>
-                                  <TableCell className={cn("py-2 text-sm font-semibold", m.avgGapFromBranch > 15 ? "text-red-600" : m.avgGapFromBranch < -15 ? "text-blue-600" : "text-muted-foreground")}>
-                                    {m.avgGapFromBranch > 0 ? "+" : ""}{m.avgGapFromBranch.toFixed(1)}%
-                                  </TableCell>
-                                </React.Fragment>
-                              )}
                             </TableRow>
                           );
                         })}
@@ -434,47 +420,57 @@ export default function BranchAnalysisPage() {
             </TabsContent>
 
             <TabsContent value="outliers">
-              <div className="space-y-6">
-                {activeBenefits.map((bt) => {
-                  const label = csvTypeToLabel(bt);
-                  const icon = csvTypeToIcon(bt);
-                  const branchAvg = branchStats?.benefitAverages[bt] ?? 0;
-                  const highMunis = muniRows
-                    .filter((m) => m.gapsFromBranch[bt] !== undefined && m.gapsFromBranch[bt] > 20)
-                    .sort((a, b) => (b.gapsFromBranch[bt] ?? 0) - (a.gapsFromBranch[bt] ?? 0))
-                    .slice(0, 3);
-                  const lowMunis = muniRows
-                    .filter((m) => m.gapsFromBranch[bt] !== undefined && m.gapsFromBranch[bt] < -20)
-                    .sort((a, b) => (a.gapsFromBranch[bt] ?? 0) - (b.gapsFromBranch[bt] ?? 0))
-                    .slice(0, 3);
-                  if (highMunis.length === 0 && lowMunis.length === 0) return null;
-                  return (
-                    <div key={bt} className="dashboard-card p-6">
-                      <h3 className="text-lg font-semibold mb-1">{icon} {label}</h3>
-                      <p className="text-sm text-muted-foreground mb-4">{"ממוצע סניפי: " + branchAvg.toFixed(1) + "%"}</p>
-                      <div className="grid gap-4 md:grid-cols-2">
-                        <div>
-                          <p className="text-sm font-medium text-red-600 mb-2">{"חריגה כלפי מעלה (" + highMunis.length + ")"}</p>
-                          {highMunis.length > 0 ? highMunis.map((m) => (
-                            <div key={m.name} className="flex items-center justify-between py-1.5 border-b last:border-0 text-sm">
-                              <span>{m.name} <span className="text-xs text-muted-foreground">{"אשכול " + (m.cluster ?? "—")}</span></span>
-                              <span className="font-bold text-red-600">{(m.rates[bt] ?? 0).toFixed(1)}% <span className="text-xs font-normal">{"(+" + (m.gapsFromBranch[bt] ?? 0).toFixed(0) + "%)"}</span></span>
-                            </div>
-                          )) : <p className="text-xs text-muted-foreground">אין</p>}
-                        </div>
-                        <div>
-                          <p className="text-sm font-medium text-blue-600 mb-2">{"חריגה כלפי מטה (" + lowMunis.length + ")"}</p>
-                          {lowMunis.length > 0 ? lowMunis.map((m) => (
-                            <div key={m.name} className="flex items-center justify-between py-1.5 border-b last:border-0 text-sm">
-                              <span>{m.name} <span className="text-xs text-muted-foreground">{"אשכול " + (m.cluster ?? "—")}</span></span>
-                              <span className="font-bold text-blue-600">{(m.rates[bt] ?? 0).toFixed(1)}% <span className="text-xs font-normal">{"(" + (m.gapsFromBranch[bt] ?? 0).toFixed(0) + "%)"}</span></span>
-                            </div>
-                          )) : <p className="text-xs text-muted-foreground">אין</p>}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+              <div className="dashboard-card p-6">
+                <h3 className="text-lg font-semibold mb-2">חריגות לפי גמלה — רשויות עם פער מעל 20% מממוצע הסניף</h3>
+                <p className="text-sm text-muted-foreground mb-4">{"סניף " + selectedBranch + " | " + benefitCountLabel}</p>
+                <div className="rounded-lg border bg-card overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow className="bg-muted/50 hover:bg-muted/50">
+                          <TableHead className="text-right min-w-[100px]">רשות</TableHead>
+                          <TableHead className="text-right">אשכול</TableHead>
+                          {activeBenefits.map((bt) => (
+                            <TableHead key={bt} className="text-right text-xs min-w-[90px]">{csvTypeToIcon(bt)} {csvTypeToLabel(bt)}</TableHead>
+                          ))}
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {muniRows
+                          .filter((m) => activeBenefits.some((bt) => m.gapsFromBranch[bt] !== undefined && Math.abs(m.gapsFromBranch[bt]) > 20))
+                          .sort((a, b) => Math.abs(b.avgGapFromBranch) - Math.abs(a.avgGapFromBranch))
+                          .map((m, idx) => (
+                            <TableRow key={m.name} className={idx % 2 === 0 ? "bg-background" : "bg-muted/30"}>
+                              <TableCell className="py-2 font-medium">
+                                {m.name}
+                                {m.entityType === "מועצה אזורית" && <span className="mr-1 text-[10px] text-violet-600">(מ.א.)</span>}
+                              </TableCell>
+                              <TableCell className="py-2 text-sm text-muted-foreground">{m.cluster ?? "—"}</TableCell>
+                              {activeBenefits.map((bt) => {
+                                const gap = m.gapsFromBranch[bt];
+                                const rate = m.rates[bt];
+                                if (gap === undefined || rate === undefined) return <TableCell key={bt} className="py-2 text-xs text-muted-foreground">—</TableCell>;
+                                const isHigh = gap > 20;
+                                const isLow = gap < -20;
+                                return (
+                                  <TableCell key={bt} className="py-2 text-xs tabular-nums">
+                                    <div className={cn("font-semibold", isHigh ? "text-red-600" : isLow ? "text-blue-600" : "text-muted-foreground")}>
+                                      {rate.toFixed(1)}%
+                                    </div>
+                                    {(isHigh || isLow) && (
+                                      <div className={cn("text-[10px]", isHigh ? "text-red-400" : "text-blue-400")}>
+                                        {gap > 0 ? "+" : ""}{gap.toFixed(0)}%
+                                      </div>
+                                    )}
+                                  </TableCell>
+                                );
+                              })}
+                            </TableRow>
+                          ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </div>
               </div>
             </TabsContent>
           </Tabs>
