@@ -23,6 +23,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { loadFlatData, FlatDataRow, getBranches } from "@/data/flatData";
+import { useBranchFilter } from "@/context/BranchFilterContext";
 import { benefitTypes, formatNumber } from "@/data/welfareData";
 
 const benefitIdToCsvType: Record<string, string> = {
@@ -115,7 +116,8 @@ function SortIcon({ field, current, dir }: { field: SortField; current: SortFiel
 export default function BranchAnalysisPage() {
   const [allRows, setAllRows] = useState<FlatDataRow[]>([]);
   const [branches, setBranches] = useState<string[]>([]);
-  const [selectedBranch, setSelectedBranch] = useState("");
+  const { selectedBranch: globalBranch, setSelectedBranch: setGlobalBranch } = useBranchFilter();
+  const [selectedBranch, setSelectedBranchLocal] = useState("");
   const [compareBranch, setCompareBranch] = useState("");
   const [selectedBenefits, setSelectedBenefits] = useState<Set<string>>(new Set(allCsvTypes));
   const [sortField, setSortField] = useState<SortField>("avgGapFromBranch");
@@ -123,15 +125,27 @@ export default function BranchAnalysisPage() {
   const [loading, setLoading] = useState(true);
   const [benefitPopoverOpen, setBenefitPopoverOpen] = useState(false);
 
+  const setSelectedBranch = (branch: string) => {
+    setSelectedBranchLocal(branch);
+    setGlobalBranch(branch);
+  };
+
   useEffect(() => {
     loadFlatData().then((rows) => {
       setAllRows(rows);
       const b = getBranches(rows);
       setBranches(b);
-      if (b.length > 0) setSelectedBranch(b[0]);
+      const initial = globalBranch && b.includes(globalBranch) ? globalBranch : b[0] || "";
+      setSelectedBranchLocal(initial);
       setLoading(false);
     });
   }, []);
+
+  useEffect(() => {
+    if (globalBranch && branches.includes(globalBranch) && globalBranch !== selectedBranch) {
+      setSelectedBranchLocal(globalBranch);
+    }
+  }, [globalBranch, branches]);
 
   const toggleBenefit = (bt: string) => {
     setSelectedBenefits((prev) => {
