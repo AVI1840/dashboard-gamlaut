@@ -10,6 +10,7 @@ import OverviewPage from "./pages/OverviewPage";
 import BenefitAnalysisPage from "./pages/BenefitAnalysisPage";
 import ComparePage from "./pages/ComparePage";
 import BranchAnalysisPage from "./pages/BranchAnalysisPage";
+import DepartmentsPage from "./pages/DepartmentsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
                 <Route path="/benefit/:benefitId" element={<BenefitAnalysisPage />} />
                 <Route path="/compare" element={<ComparePage />} />
                 <Route path="/branch" element={<BranchAnalysisPage />} />
+                <Route path="/departments" element={<DepartmentsPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </DashboardLayout>

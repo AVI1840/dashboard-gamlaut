@@ -9,9 +9,10 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { formatNumber } from "@/data/welfareData";
-import { Search, ArrowUpDown, ChevronUp, ChevronDown, ChevronRight, ChevronLeft } from "lucide-react";
+import { Search, ArrowUpDown, ChevronUp, ChevronDown, ChevronRight, ChevronLeft, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { exportToExcel } from "@/lib/exportToExcel";
 import {
   Collapsible,
   CollapsibleContent,
@@ -144,6 +145,25 @@ export function MunicipalityTable({
 
   const formatPercent = (value: number) => `${value.toFixed(1)}%`;
 
+  const handleExport = () => {
+    const exportData = sortedData.map((item) => ({
+      name: item.municipality.name,
+      population: item.municipality.population,
+      recipients: item.data.recipients ?? 0,
+      recipientPercent: item.data.recipientPercent,
+      ratePer1000: item.data.ratePer1000,
+      gapPercentage: item.data.gapPercentage,
+    }));
+    exportToExcel(exportData, [
+      { header: "רשות", key: "name" },
+      { header: "אוכלוסייה", key: "population" },
+      { header: "מקבלים", key: "recipients" },
+      { header: "אחוז מקבלים", key: "recipientPercent" },
+      { header: "שיעור ל-1000", key: "ratePer1000" },
+      { header: "פער מהממוצע %", key: "gapPercentage" },
+    ], "נתוני_רשויות");
+  };
+
   return (
     <div className="space-y-3">
       {showSearch && (
@@ -157,6 +177,10 @@ export function MunicipalityTable({
               className="pr-10"
             />
           </div>
+          <Button variant="outline" size="sm" className="gap-1.5" onClick={handleExport}>
+            <Download className="h-4 w-4" />
+            <span className="hidden sm:inline">ייצוא</span>
+          </Button>
           <Collapsible open={showDetails} onOpenChange={setShowDetails}>
             <CollapsibleTrigger asChild>
               <Button variant="outline" size="sm" className="gap-1">
@@ -182,6 +206,12 @@ export function MunicipalityTable({
                 <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs font-bold text-primary" onClick={() => handleSort("recipientPercent")}>
                   אחוז מקבלים
                   <SortIcon field="recipientPercent" />
+                </Button>
+              </TableHead>
+              <TableHead className="text-right">
+                <Button variant="ghost" size="sm" className="h-8 p-0 hover:bg-transparent text-xs" onClick={() => handleSort("recipients")}>
+                  מס׳ מקבלים
+                  <SortIcon field="recipients" />
                 </Button>
               </TableHead>
               {showDetails && (
@@ -246,6 +276,9 @@ export function MunicipalityTable({
                       {formatPercent(item.data.recipientPercent)}
                     </span>
                   </TableCell>
+                  <TableCell className="py-2 text-sm tabular-nums">
+                    {formatNumber(item.data.recipients ?? 0)}
+                  </TableCell>
                   {showDetails && (
                     <>
                       <TableCell className="py-2 hidden md:table-cell text-muted-foreground">
@@ -265,7 +298,7 @@ export function MunicipalityTable({
                 {isRC && isExpanded && children.length > 0 && (
                   <>
                     <TableRow className="bg-violet-50/50 dark:bg-violet-950/20">
-                      <TableCell colSpan={showDetails ? 4 : 2} className="py-2 pr-8 text-xs text-violet-600 dark:text-violet-400 font-medium">
+                      <TableCell colSpan={showDetails ? 5 : 3} className="py-2 pr-8 text-xs text-violet-600 dark:text-violet-400 font-medium">
                         📍 {children.length} יישובים במועצה • הנתונים מוצגים ברמת המועצה האזורית
                       </TableCell>
                     </TableRow>
@@ -274,7 +307,7 @@ export function MunicipalityTable({
                         <TableCell className="py-1 pr-10">
                           <span className="text-xs text-muted-foreground">↳ {child}</span>
                         </TableCell>
-                        <TableCell colSpan={showDetails ? 3 : 1} className="py-1 text-xs text-muted-foreground" />
+                        <TableCell colSpan={showDetails ? 4 : 2} className="py-1 text-xs text-muted-foreground" />
                       </TableRow>
                     ))}
                   </>

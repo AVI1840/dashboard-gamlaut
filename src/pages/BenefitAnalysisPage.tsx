@@ -116,7 +116,7 @@ export default function BenefitAnalysisPage() {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <KPICard title="אחוז מקבלים ארצי" value={`${(benefit.nationalRatePer1000 / 10).toFixed(1)}%`} subtitle={`מתוך ${benefit.targetPopulation}`} variant="primary" />
-        <KPICard title="מקבלים ארציים" value={formatNumber(benefit.nationalRecipients)} subtitle="סה״כ מקבלי גמלה" variant="default" />
+        <KPICard title="מקבלים" value={formatNumber(allData.reduce((sum, d) => sum + (d.data.recipients ?? 0), 0) || benefit.nationalRecipients)} subtitle="סה״כ מקבלי גמלה" variant="default" />
         <KPICard title="אחוז ממוצע ברשויות" value={`${avgRecipientPercent.toFixed(1)}%`} subtitle={`ממוצע ${allData.length} רשויות`} variant={avgRecipientPercent > 5 ? "destructive" : "success"} />
         <KPICard title="רשויות מעל 5%" value={highRecipientCount} subtitle="רשויות עם אחוז גבוה" variant="warning" />
       </div>

@@ -5,15 +5,27 @@
     <title>דשבורד פערי גמלאות</title>
     <script>
       // SPA redirect for GitHub Pages
-      var pathSegmentsToKeep = 1;
+      // Handles /dashboard-gamlaut/branch, /dashboard-gamlaut/compare, etc.
+      var base = '/dashboard-gamlaut/';
       var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
+      var path = l.pathname;
+      
+      // If path starts with base, extract the sub-path
+      if (path.indexOf(base) === 0) {
+        var subPath = path.slice(base.length);
+        if (subPath) {
+          l.replace(
+            l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+            base + '?/' + subPath.replace(/&/g, '~and~') +
+            (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+            l.hash
+          );
+        } else {
+          l.replace(l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + base);
+        }
+      } else {
+        l.replace(l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + base);
+      }
     </script>
   </head>
   <body></body>

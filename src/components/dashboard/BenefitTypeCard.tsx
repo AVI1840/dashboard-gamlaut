@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { BenefitType, formatNumber } from "@/data/welfareData";
 import { cn } from "@/lib/utils";
 import { ArrowLeft } from "lucide-react";
+import { useSnapshotData } from "@/hooks/useSnapshotData";
+import { useBranchFilter } from "@/context/BranchFilterContext";
 
 interface BenefitTypeCardProps {
   benefit: BenefitType;
@@ -9,6 +11,16 @@ interface BenefitTypeCardProps {
 }
 
 export function BenefitTypeCard({ benefit, className }: BenefitTypeCardProps) {
+  const { benefitData } = useSnapshotData();
+  const { selectedBranch } = useBranchFilter();
+
+  // Compute recipients from CSV data (responds to branch filter)
+  const benefitEntries = benefitData[benefit.id] ? Object.values(benefitData[benefit.id]) : [];
+  const totalRecipients = benefitEntries.reduce((sum, e) => sum + (e.recipients ?? 0), 0);
+  const avgRate = benefitEntries.length > 0
+    ? benefitEntries.reduce((sum, e) => sum + e.ratePer1000, 0) / benefitEntries.length
+    : benefit.nationalRatePer1000;
+
   return (
     <Link
       to={`/benefit/${benefit.id}`}
@@ -33,13 +45,15 @@ export function BenefitTypeCard({ benefit, className }: BenefitTypeCardProps) {
       <div className="grid grid-cols-2 gap-4 pt-2 border-t">
         <div>
           <p className="text-2xl font-bold text-foreground">
-            {formatNumber(benefit.nationalRecipients)}
+            {formatNumber(totalRecipients || benefit.nationalRecipients)}
           </p>
-          <p className="text-xs text-muted-foreground">מקבלים</p>
+          <p className="text-xs text-muted-foreground">
+            {selectedBranch ? "מקבלים בסניף" : "מקבלים"}
+          </p>
         </div>
         <div>
           <p className="text-2xl font-bold text-foreground">
-            {benefit.nationalRatePer1000.toFixed(1)}
+            {avgRate.toFixed(1)}
           </p>
           <p className="text-xs text-muted-foreground">ל-1000 {benefit.targetPopulation}</p>
         </div>

@@ -24,6 +24,7 @@ export interface CsvBenefitData {
   municipalityId: string;
   ratePer1000: number;
   recipientPercent: number;
+  recipients: number;
   gapFromAverage: number;
   gapPercentage: number;
   ranking: number;
@@ -108,11 +109,15 @@ function buildSnapshot(rows: FlatDataRow[]): NonNullable<typeof _cache> {
     // Use Rate_2025 as primary, fall back to Rate_2024 for regional councils
     const rate = row.Rate_2025 ?? row.Rate_2024 ?? 0;
     const ratePer1000 = rate; // CSV rates are already per-1000
+    const population = row.Pop_2025 ?? 0;
+    // Compute estimated recipients: rate per 1000 * population / 1000
+    const recipients = Math.round(ratePer1000 * population / 1000);
 
     benefitData[routeId][id] = {
       municipalityId: id,
       ratePer1000,
       recipientPercent: rate / 10, // convert per-1000 to percent
+      recipients,
       gapFromAverage: row.Gap_from_Cluster_Pct ?? 0,
       gapPercentage: row.Gap_from_Cluster_Pct ?? 0,
       ranking: 0, // will be computed below

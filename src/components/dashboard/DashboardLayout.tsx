@@ -57,6 +57,7 @@ const navItems = [
   })),
   { path: "/compare", label: "השוואת רשויות", icon: BarChart3, highlight: true },
   { path: "/branch", label: "ניתוח סניפים", icon: BarChart3, highlight: true },
+  { path: "/departments", label: "מבט אגפי", icon: Users, highlight: true },
 ];
 
 function NavigationContent({ onNavigate }: { onNavigate?: () => void }) {

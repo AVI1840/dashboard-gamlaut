@@ -1,10 +1,14 @@
+import { useMemo, useEffect } from "react";
 import { Users, TrendingUp, Building2, BarChart3 } from "lucide-react";
 import { KPICard } from "@/components/dashboard/KPICard";
 import { MunicipalityTable } from "@/components/dashboard/MunicipalityTable";
 import { BenefitTypeCard } from "@/components/dashboard/BenefitTypeCard";
+import { GapMap } from "@/components/dashboard/GapMap";
 import { TrendPanel } from "@/components/dashboard/TrendPanel";
 import { useViewMode } from "@/context/ViewModeContext";
+import { useBranchFilter } from "@/context/BranchFilterContext";
 import { useSnapshotData, getTopByGap } from "@/hooks/useSnapshotData";
+import { trackVisit } from "@/data/visitTracker";
 import {
   nationalStats,
   benefitTypes,
@@ -14,13 +18,26 @@ import {
 
 export default function OverviewPage() {
   const { viewMode } = useViewMode();
+  const { selectedBranch } = useBranchFilter();
   const { municipalities, benefitData, loading } = useSnapshotData();
 
+  useEffect(() => {
+    trackVisit(selectedBranch, "/");
+  }, [selectedBranch]);
+
   const topMunicipalitiesByDisability = getTopByGap(benefitData, municipalities, "disability", 10);
-  const totalRecipients = benefitTypes.reduce(
-    (sum, b) => sum + b.nationalRecipients,
-    0
-  );
+
+  // Compute total recipients from CSV data (responds to branch filter)
+  const { totalRecipients, totalPopulation } = useMemo(() => {
+    let recipients = 0;
+    for (const routeId of Object.keys(benefitData)) {
+      for (const entry of Object.values(benefitData[routeId])) {
+        recipients += entry.recipients ?? 0;
+      }
+    }
+    const pop = municipalities.reduce((sum, m) => sum + m.population, 0);
+    return { totalRecipients: recipients, totalPopulation: pop };
+  }, [benefitData, municipalities]);
 
   // Trend mode – render the flat-data driven panel
   if (viewMode === "trend_23_25") {
@@ -58,23 +75,23 @@ export default function OverviewPage() {
       {/* KPI Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <KPICard
-          title="אוכלוסייה כוללת"
-          value={formatNumber(nationalStats.totalPopulation)}
-          subtitle="תושבים בישראל"
+          title="אוכלוסייה"
+          value={formatNumber(totalPopulation || nationalStats.totalPopulation)}
+          subtitle={selectedBranch ? `סניף ${selectedBranch}` : "תושבים בישראל"}
           icon={Users}
           variant="primary"
         />
         <KPICard
           title="רשויות מקומיות"
           value={formatNumber(municipalities.length || nationalStats.totalMunicipalities)}
-          subtitle="בניתוח"
+          subtitle={selectedBranch ? `בסניף ${selectedBranch}` : "בניתוח"}
           icon={Building2}
           variant="default"
         />
         <KPICard
           title="סה״כ מקבלי גמלאות"
           value={formatNumber(totalRecipients)}
-          subtitle="בכל סוגי הגמלאות"
+          subtitle={selectedBranch ? `בסניף ${selectedBranch}` : "בכל סוגי הגמלאות"}
           icon={TrendingUp}
           variant="success"
         />
@@ -112,6 +129,17 @@ export default function OverviewPage() {
           showSearch={false}
           maxRows={10}
         />
+      </div>
+
+      {/* Gap Map */}
+      <div className="dashboard-card p-6">
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold">מפת פערים</h2>
+          <p className="text-sm text-muted-foreground">
+            פיזור גיאוגרפי של פערי גמלאות לפי רשות מקומית
+          </p>
+        </div>
+        <GapMap />
       </div>
 
       {/* Quick Stats */}
