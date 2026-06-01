@@ -193,7 +193,8 @@ export function MunicipalityTable({
       )}
 
       <div className="rounded-lg border bg-card overflow-hidden">
-        <Table>
+        <div className="overflow-x-auto">
+        <Table className="table-fixed w-full">
           <TableHeader>
             <TableRow className="bg-muted/50 hover:bg-muted/50">
               <TableHead className="text-right">
@@ -317,6 +318,7 @@ export function MunicipalityTable({
             })}
           </TableBody>
         </Table>
+        </div>
       </div>
 
       {maxRows && sortedData.length > maxRows && (

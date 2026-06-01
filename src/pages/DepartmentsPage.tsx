@@ -15,6 +15,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const benefitIdToCsvType: Record<string, string> = {
   "old-age": "זקנה",
@@ -51,6 +59,8 @@ export default function DepartmentsPage() {
   const [loading, setLoading] = useState(true);
   const { selectedBranch } = useBranchFilter();
   const [visitSummary, setVisitSummary] = useState(getVisitSummary());
+  const [expandedDept, setExpandedDept] = useState<string | null>(null);
+  const [gapDirection, setGapDirection] = useState<"top" | "bottom">("top");
 
   useEffect(() => {
     trackVisit(selectedBranch, "/departments");
@@ -143,6 +153,30 @@ export default function DepartmentsPage() {
     ? departments.reduce((s, d) => s + d.avgGap, 0) / departments.length
     : 0;
   const worstDept = departments[0];
+
+  // Top/Bottom 10 gaps for expanded department
+  const topBottomGaps = useMemo(() => {
+    if (!expandedDept || !allRows.length) return [];
+    const rows = selectedBranch
+      ? allRows.filter((r) => r.Branch === selectedBranch)
+      : allRows;
+    const btRows = rows.filter((r) => r.Benefit_Type === expandedDept && r.Gap_from_Cluster_Pct !== null);
+    
+    const sorted = [...btRows].sort((a, b) => {
+      if (gapDirection === "top") return (b.Gap_from_Cluster_Pct ?? 0) - (a.Gap_from_Cluster_Pct ?? 0);
+      return (a.Gap_from_Cluster_Pct ?? 0) - (b.Gap_from_Cluster_Pct ?? 0);
+    });
+    
+    return sorted.slice(0, 10).map((r) => ({
+      name: r.Municipality,
+      branch: r.Branch,
+      cluster: r.Cluster,
+      pop: r.Pop_2025 ?? 0,
+      rate: (r.Rate_2025 ?? 0) / 10,
+      gap: r.Gap_from_Cluster_Pct ?? 0,
+      status: r.Operational_Status,
+    }));
+  }, [allRows, expandedDept, gapDirection, selectedBranch]);
 
   if (loading) {
     return (
@@ -333,6 +367,78 @@ export default function DepartmentsPage() {
             </Table>
           </div>
         </div>
+      </div>
+
+      {/* Top/Bottom 10 Gaps per Department */}
+      <div className="dashboard-card p-6">
+        <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
+          <h2 className="text-lg font-semibold">10 רשויות עם הפער הגדול/הקטן ביותר</h2>
+          <div className="flex items-center gap-3">
+            <Select value={expandedDept || "__none__"} onValueChange={(v) => setExpandedDept(v === "__none__" ? null : v)}>
+              <SelectTrigger className="w-44">
+                <SelectValue placeholder="בחר גמלה..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__none__">בחר גמלה...</SelectItem>
+                {benefitTypes.map((bt) => (
+                  <SelectItem key={bt.id} value={benefitIdToCsvType[bt.id]}>
+                    {bt.icon} {bt.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Tabs value={gapDirection} onValueChange={(v) => setGapDirection(v as "top" | "bottom")}>
+              <TabsList className="h-9">
+                <TabsTrigger value="top" className="text-xs">⬆️ למעלה</TabsTrigger>
+                <TabsTrigger value="bottom" className="text-xs">⬇️ למטה</TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
+        </div>
+
+        {!expandedDept && (
+          <p className="text-sm text-muted-foreground text-center py-8">בחר סוג גמלה כדי לראות את 10 הרשויות עם הפער הגדול/הקטן ביותר</p>
+        )}
+
+        {expandedDept && topBottomGaps.length > 0 && (
+          <div className="rounded-lg border bg-card overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-muted/50 hover:bg-muted/50">
+                  <TableHead className="text-right w-10">#</TableHead>
+                  <TableHead className="text-right min-w-[120px]">רשות</TableHead>
+                  <TableHead className="text-right">סניף</TableHead>
+                  <TableHead className="text-right">אשכול</TableHead>
+                  <TableHead className="text-right">אוכלוסייה</TableHead>
+                  <TableHead className="text-right">שיעור</TableHead>
+                  <TableHead className="text-right font-bold">פער מאשכול</TableHead>
+                  <TableHead className="text-right">סטטוס</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {topBottomGaps.map((row, idx) => (
+                  <TableRow key={row.name + idx} className={idx % 2 === 0 ? "bg-background" : "bg-muted/30"}>
+                    <TableCell className="py-2 text-sm text-muted-foreground font-mono">{idx + 1}</TableCell>
+                    <TableCell className="py-2 font-medium">{row.name}</TableCell>
+                    <TableCell className="py-2 text-sm text-muted-foreground">{row.branch}</TableCell>
+                    <TableCell className="py-2 text-sm">{row.cluster ?? "—"}</TableCell>
+                    <TableCell className="py-2 text-sm tabular-nums">{formatNumber(row.pop)}</TableCell>
+                    <TableCell className="py-2 text-sm">{row.rate.toFixed(1)}%</TableCell>
+                    <TableCell className="py-2">
+                      <span className={cn(
+                        "font-bold",
+                        row.gap > 20 ? "text-red-600" : row.gap > 0 ? "text-orange-500" : "text-blue-600"
+                      )}>
+                        {row.gap > 0 ? "+" : ""}{row.gap.toFixed(1)}%
+                      </span>
+                    </TableCell>
+                    <TableCell className="py-2 text-xs">{row.status}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        )}
       </div>
 
       {/* Visit stats by branch */}

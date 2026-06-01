@@ -1,5 +1,5 @@
-import { useMemo, useState, useCallback } from "react";
-import { MapContainer, TileLayer, CircleMarker, Tooltip as MapTooltip } from "react-leaflet";
+import { useMemo, useState } from "react";
+import { MapContainer, TileLayer, CircleMarker, Tooltip as MapTooltip, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useSnapshotData } from "@/hooks/useSnapshotData";
 import { useBranchFilter } from "@/context/BranchFilterContext";
@@ -503,24 +503,45 @@ export function GapMap({ className }: GapMapProps) {
                   opacity={0.95}
                   className="custom-tooltip"
                 >
-                  <div className="text-right min-w-[180px] p-1" dir="rtl">
-                    <p className="font-bold text-sm border-b pb-1 mb-1">{item.name}</p>
-                    <p className="text-xs text-gray-500 mb-1.5">{item.branch}</p>
-                    <div className="grid grid-cols-2 gap-x-3 gap-y-0.5 text-xs">
-                      <span className="text-gray-500">אוכלוסייה:</span>
-                      <span className="font-medium">{formatNumber(item.population)}</span>
-                      <span className="text-gray-500">מקבלים:</span>
-                      <span className="font-medium">{formatNumber(item.recipients)}</span>
-                      <span className="text-gray-500">שיעור:</span>
-                      <span className="font-medium">{item.rate.toFixed(1)}%</span>
-                      <span className="text-gray-500">פער מאשכול:</span>
-                      <span className={cn("font-bold", item.gap > 0 ? "text-red-600" : "text-blue-600")}>
-                        {item.gap > 0 ? "+" : ""}{item.gap.toFixed(1)}%
-                      </span>
-                    </div>
-                    <p className="text-[10px] text-gray-400 mt-1.5 border-t pt-1">{benefitLabel}</p>
+                  <div className="text-right min-w-[160px] p-0.5" dir="rtl">
+                    <p className="font-bold text-sm">{item.name}</p>
+                    <p className="text-xs text-gray-500">{item.branch} • {formatNumber(item.population)} תושבים</p>
+                    <p className={cn("text-sm font-bold mt-0.5", item.gap > 0 ? "text-red-600" : "text-blue-600")}>
+                      פער: {item.gap > 0 ? "+" : ""}{item.gap.toFixed(1)}%
+                    </p>
                   </div>
                 </MapTooltip>
+                <Popup maxWidth={320} className="municipality-popup">
+                  <div className="text-right min-w-[280px]" dir="rtl">
+                    <div className="border-b pb-2 mb-2">
+                      <p className="font-bold text-base">{item.name}</p>
+                      <p className="text-xs text-gray-500">{item.branch} • אשכול {municipalities.find(m => m.id === item.id)?.cluster ?? "—"} • {formatNumber(item.population)} תושבים</p>
+                    </div>
+                    <p className="text-xs font-semibold text-gray-700 mb-1.5">פירוט גמלאות — פער מממוצע האשכול:</p>
+                    <div className="space-y-1">
+                      {benefitTypes.map((bt) => {
+                        const entry = benefitData[bt.id]?.[item.id];
+                        if (!entry || entry.ratePer1000 === 0) return null;
+                        return (
+                          <div key={bt.id} className="flex items-center justify-between text-xs py-0.5 border-b border-gray-100 last:border-0">
+                            <span className="text-gray-600">{bt.icon} {bt.name}</span>
+                            <div className="flex items-center gap-3">
+                              <span className="text-gray-800 font-medium">{entry.recipientPercent.toFixed(1)}%</span>
+                              <span className={cn(
+                                "font-bold min-w-[50px] text-left",
+                                entry.gapPercentage > 15 ? "text-red-600" :
+                                entry.gapPercentage > 0 ? "text-orange-500" :
+                                "text-blue-600"
+                              )}>
+                                {entry.gapPercentage > 0 ? "+" : ""}{entry.gapPercentage.toFixed(1)}%
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </Popup>
               </CircleMarker>
             );
           })}

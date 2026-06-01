@@ -173,6 +173,15 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Top bar */}
         <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-card px-4 sm:px-6 shadow-sm">
           <MobileNavigation />
+          {/* BTL Logo - links to home */}
+          <Link to="/" className="flex items-center gap-2 shrink-0" title="חזרה לדף הבית">
+            <img
+              src="https://www.btl.gov.il/SiteAssets/logo.png"
+              alt="ביטוח לאומי"
+              className="h-9 w-auto"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+            />
+          </Link>
           <div className="flex-1 min-w-0">
             <h2 className="text-base sm:text-lg font-semibold truncate">
               {isMobile ? "פערי גמלאות רווחה" : "ניתוח פערי גמלאות רווחה ברשויות המקומיות"}
