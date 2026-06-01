@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
+import { useMemo, useState, useCallback } from "react";
+import { MapContainer, TileLayer, CircleMarker, Tooltip as MapTooltip } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useSnapshotData } from "@/hooks/useSnapshotData";
 import { useBranchFilter } from "@/context/BranchFilterContext";
@@ -14,7 +14,6 @@ import {
 import { cn } from "@/lib/utils";
 
 // Approximate coordinates for Israeli municipalities
-// Source: CBS (Central Bureau of Statistics) settlement coordinates
 const MUNICIPALITY_COORDS: Record<string, [number, number]> = {
   "ירושלים": [31.7683, 35.2137],
   "תל אביב -יפו": [32.0853, 34.7818],
@@ -172,27 +171,176 @@ const MUNICIPALITY_COORDS: Record<string, [number, number]> = {
   "עין קנייא": [33.2500, 35.7667],
   "ג'ש (גוש חלב)": [33.0333, 35.4500],
   "ראש פינה": [32.9667, 35.5333],
+  "נס ציונה": [31.9292, 34.7953],
+  "גדרה": [31.8125, 34.7792],
+  "גן יבנה": [31.7833, 34.7083],
+  "באר יעקב": [31.9417, 34.8333],
+  "שוהם": [31.9917, 34.9417],
+  "אזור": [32.0250, 34.7917],
+  "סביון": [32.0500, 34.8500],
+  "גני תקווה": [32.0583, 34.8750],
+  "יהוד-מונוסון": [32.0333, 34.8833],
+  "כפר שמריהו": [32.1833, 34.8000],
+  "כוכב יאיר": [32.2167, 34.9667],
+  "צור יצחק": [32.2333, 34.9500],
+  "אלפי מנשה": [32.1667, 35.0667],
+  "קדומים": [32.2833, 35.1500],
+  "קרני שומרון": [32.1833, 35.1000],
+  "צופים": [32.1500, 35.0833],
+  "עמנואל": [32.1500, 35.1500],
+  "אלון מורה": [32.2167, 35.3167],
+  "ברכה": [32.1833, 35.2833],
+  "יצהר": [32.1500, 35.2500],
+  "יקיר": [32.1167, 35.1333],
+  "רבבה": [32.1333, 35.1500],
+  "ברוכין": [32.1000, 35.1167],
+  "ברקן": [32.1000, 35.1000],
+  "עלי זהב": [32.1000, 35.0500],
+  "פדואל": [32.0833, 35.0667],
+  "מתן": [32.1500, 34.9833],
+  "אורנית": [32.1333, 35.0333],
+  "אלקנה": [32.1167, 35.0500],
+  "שער שומרון": [32.2000, 35.0833],
+  "כפר ברא": [32.1000, 34.9667],
+  "בית אריה-עופרים": [32.0333, 35.0833],
+  "גני מודיעין": [31.9500, 35.0333],
+  "חשמונאים": [31.9333, 35.0167],
+  "טלמון": [31.9500, 35.1000],
+  "כפר האורנים": [31.9167, 35.0167],
+  "לפיד": [31.8833, 35.0000],
+  "מבוא חורון": [31.8667, 35.0500],
+  "מתתיהו": [31.9500, 35.0833],
+  "ניל\"י": [31.9333, 35.0500],
+  "נעלה": [31.9500, 35.0667],
+  "אחיעזר": [31.9333, 34.8833],
+  "בית דגן": [31.9833, 34.8333],
+  "בית חשמונאי": [31.9000, 34.9000],
+  "ברקת": [31.9667, 34.9167],
+  "גזר": [31.8833, 34.9333],
+  "כפר חב\"ד": [31.9833, 34.8500],
+  "נוף איילון": [31.8833, 34.9667],
+  "נחל שורק": [31.7500, 34.8500],
+  "קריית עקרון": [31.8667, 34.8167],
+  "מזכרת בתיה": [31.8500, 34.8333],
+  "מרכז שפירא": [31.7000, 34.7167],
+  "יד בנימין": [31.7833, 34.7667],
+  "באר טוביה": [31.7167, 34.7333],
+  "אבן שמואל": [31.5500, 34.7333],
+  "לכיש": [31.5833, 34.8333],
+  "שפיר": [31.7333, 34.7500],
+  "גבעת ברנר": [31.8667, 34.7833],
+  "בני עי\"ש": [31.7833, 34.7500],
+  "חריש": [32.4583, 35.0417],
+  "אליכין": [32.4000, 34.9333],
+  "בנימינה-גבעת עדה": [32.5167, 34.9500],
+  "בסמ\"ה": [32.4500, 35.0667],
+  "ג'ת": [32.4333, 35.0833],
+  "זכרון יעקב": [32.5667, 34.9500],
+  "זמר": [32.3833, 35.0167],
+  "כפר קרע": [32.5000, 35.0833],
+  "מייסר": [32.4667, 35.0500],
+  "מעגן מיכאל": [32.5667, 34.9167],
+  "מעלה עירון": [32.4833, 35.0833],
+  "עראבה": [32.8500, 35.3333],
+  "ערערה": [32.5000, 35.0667],
+  "עתלית": [32.6833, 34.9333],
+  "פוריידיס": [32.6000, 34.9500],
+  "קיסריה": [32.5000, 34.8833],
+  "קציר": [32.4833, 35.0833],
+  "נופית": [32.7333, 35.0167],
+  "קריית טבעון": [32.7333, 35.1167],
+  "רמת ישי": [32.7000, 35.1667],
+  "שמשית": [32.6833, 35.1833],
+  "גן נר": [32.5833, 35.3667],
+  "כפר כמא": [32.7167, 35.4500],
+  "כפר מצר": [32.7000, 35.2000],
+  "מוקייבלה": [32.5833, 35.2333],
+  "נאעורה": [32.6167, 35.2500],
+  "ניין": [32.6333, 35.3333],
+  "סולם": [32.6167, 35.3167],
+  "שבלי - אום אל-גנם": [32.7000, 35.2333],
+  "אחוזת ברק": [32.5833, 35.2833],
+  "בית אל": [31.9500, 35.2333],
+  "גבע בנימין": [31.9167, 35.2500],
+  "הר אדר": [31.8167, 35.1333],
+  "כוכב השחר": [31.9833, 35.3167],
+  "כוכב יעקב": [31.8500, 35.2333],
+  "כפר אדומים": [31.8000, 35.3333],
+  "מעלה מכמש": [31.8833, 35.2833],
+  "מצפה יריחו": [31.8333, 35.4167],
+  "נווה דניאל": [31.6833, 35.1333],
+  "נוקדים": [31.6500, 35.1667],
+  "עין נקובא": [31.7833, 35.1333],
+  "עלי": [32.0667, 35.2667],
+  "עפרה": [31.9667, 35.2667],
+  "פסגות": [31.9333, 35.2500],
+  "צור הדסה": [31.7167, 35.1167],
+  "קריית יערים": [31.8000, 35.1000],
+  "שילה": [32.0500, 35.2833],
+  "תל ציון": [31.8667, 35.2333],
+  "מעלה אפרים": [32.0833, 35.3667],
+  "טירה": [32.2333, 34.9500],
+  "תקוע": [31.6333, 35.2167],
+  "אבן יהודה": [32.2833, 34.8833],
+  "אבני חפץ": [32.3167, 35.1167],
+  "בית יצחק-שער חפר": [32.3500, 34.8833],
+  "בת חפר": [32.3333, 34.9000],
+  "פרדסייה": [32.3000, 34.9000],
+  "צור משה": [32.3000, 34.9167],
+  "תל מונד": [32.2500, 34.9167],
 };
 
 // Israel center
-const ISRAEL_CENTER: [number, number] = [31.5, 34.9];
+const ISRAEL_CENTER: [number, number] = [31.5, 35.0];
 const ISRAEL_ZOOM = 8;
 
-function getGapColor(gap: number): string {
-  if (gap > 30) return "#dc2626"; // red-600
-  if (gap > 15) return "#ea580c"; // orange-600
-  if (gap > 0) return "#f59e0b"; // amber-500
-  if (gap > -15) return "#22c55e"; // green-500
-  return "#3b82f6"; // blue-500
+// Continuous color scale for heatmap effect
+function getHeatColor(gap: number): string {
+  // Normalize gap to 0-1 range (clamped between -50 and +80)
+  const normalized = Math.max(0, Math.min(1, (gap + 50) / 130));
+  
+  // Blue → Green → Yellow → Orange → Red
+  if (normalized < 0.25) {
+    // Blue to Cyan
+    const t = normalized / 0.25;
+    return `rgb(${Math.round(30 + t * 0)}, ${Math.round(100 + t * 155)}, ${Math.round(200 - t * 0)})`;
+  } else if (normalized < 0.45) {
+    // Cyan to Green
+    const t = (normalized - 0.25) / 0.2;
+    return `rgb(${Math.round(30 + t * 0)}, ${Math.round(200 + t * 55)}, ${Math.round(200 - t * 130)})`;
+  } else if (normalized < 0.55) {
+    // Green to Yellow
+    const t = (normalized - 0.45) / 0.1;
+    return `rgb(${Math.round(30 + t * 220)}, ${Math.round(200 + t * 55)}, ${Math.round(70 - t * 40)})`;
+  } else if (normalized < 0.7) {
+    // Yellow to Orange
+    const t = (normalized - 0.55) / 0.15;
+    return `rgb(${Math.round(250 - t * 10)}, ${Math.round(220 - t * 100)}, ${Math.round(30)})`;
+  } else {
+    // Orange to Red
+    const t = (normalized - 0.7) / 0.3;
+    return `rgb(${Math.round(240 - t * 40)}, ${Math.round(120 - t * 100)}, ${Math.round(30 + t * 10)})`;
+  }
 }
 
 function getRadius(population: number): number {
-  if (population > 200000) return 14;
-  if (population > 100000) return 11;
-  if (population > 50000) return 9;
-  if (population > 20000) return 7;
-  if (population > 10000) return 5;
-  return 4;
+  if (population > 200000) return 16;
+  if (population > 100000) return 13;
+  if (population > 50000) return 10;
+  if (population > 20000) return 8;
+  if (population > 10000) return 6;
+  return 5;
+}
+
+interface MapDataItem {
+  id: string;
+  name: string;
+  coords: [number, number];
+  population: number;
+  gap: number;
+  rate: number;
+  recipients: number;
+  branch: string;
 }
 
 interface GapMapProps {
@@ -202,9 +350,49 @@ interface GapMapProps {
 export function GapMap({ className }: GapMapProps) {
   const { municipalities, benefitData, loading } = useSnapshotData();
   const { selectedBranch } = useBranchFilter();
-  const [selectedBenefit, setSelectedBenefit] = useState("disability");
+  const [selectedBenefit, setSelectedBenefit] = useState("__all__");
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  const mapData = useMemo(() => {
+  const mapData = useMemo((): MapDataItem[] => {
+    if (selectedBenefit === "__all__") {
+      // Average gap across all benefit types
+      return municipalities
+        .map((m) => {
+          const coords = MUNICIPALITY_COORDS[m.name];
+          if (!coords) return null;
+
+          let totalGap = 0;
+          let totalRate = 0;
+          let totalRecipients = 0;
+          let count = 0;
+
+          for (const routeId of Object.keys(benefitData)) {
+            const entry = benefitData[routeId]?.[m.id];
+            if (entry && entry.ratePer1000 > 0) {
+              totalGap += entry.gapPercentage;
+              totalRate += entry.recipientPercent;
+              totalRecipients += entry.recipients ?? 0;
+              count++;
+            }
+          }
+
+          if (count === 0) return null;
+
+          return {
+            id: m.id,
+            name: m.name,
+            coords,
+            population: m.population,
+            gap: totalGap / count,
+            rate: totalRate / count,
+            recipients: totalRecipients,
+            branch: m.branch,
+          };
+        })
+        .filter(Boolean) as MapDataItem[];
+    }
+
+    // Single benefit type
     const data = benefitData[selectedBenefit];
     if (!data) return [];
 
@@ -212,111 +400,143 @@ export function GapMap({ className }: GapMapProps) {
       .map((m) => {
         const coords = MUNICIPALITY_COORDS[m.name];
         if (!coords) return null;
-        const benefitEntry = data[m.id];
-        if (!benefitEntry) return null;
+        const entry = data[m.id];
+        if (!entry || entry.ratePer1000 === 0) return null;
 
         return {
           id: m.id,
           name: m.name,
           coords,
           population: m.population,
-          gap: benefitEntry.gapPercentage,
-          rate: benefitEntry.recipientPercent,
-          recipients: benefitEntry.recipients ?? 0,
+          gap: entry.gapPercentage,
+          rate: entry.recipientPercent,
+          recipients: entry.recipients ?? 0,
           branch: m.branch,
         };
       })
-      .filter(Boolean) as Array<{
-        id: string;
-        name: string;
-        coords: [number, number];
-        population: number;
-        gap: number;
-        rate: number;
-        recipients: number;
-        branch: string;
-      }>;
+      .filter(Boolean) as MapDataItem[];
   }, [municipalities, benefitData, selectedBenefit]);
+
+  const benefitLabel = selectedBenefit === "__all__"
+    ? "כל הגמלאות (ממוצע)"
+    : benefitTypes.find((b) => b.id === selectedBenefit)?.name || "";
 
   if (loading) {
     return (
-      <div className={cn("flex items-center justify-center h-[400px] bg-muted/30 rounded-lg", className)}>
+      <div className={cn("flex items-center justify-center h-[500px] bg-muted/30 rounded-lg", className)}>
         <span className="animate-pulse text-muted-foreground">טוען מפה...</span>
       </div>
     );
   }
 
   return (
-    <div className={cn("space-y-3", className)}>
-      <div className="flex items-center justify-between flex-wrap gap-2">
-        <Select value={selectedBenefit} onValueChange={setSelectedBenefit}>
-          <SelectTrigger className="w-48">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {benefitTypes.map((bt) => (
-              <SelectItem key={bt.id} value={bt.id}>
-                {bt.icon} {bt.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+    <div className={cn("space-y-4", className)}>
+      {/* Controls */}
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div className="flex items-center gap-3">
+          <label className="text-sm font-medium">סוג גמלה:</label>
+          <Select value={selectedBenefit} onValueChange={setSelectedBenefit}>
+            <SelectTrigger className="w-52">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="__all__">🔥 כל הגמלאות (ממוצע)</SelectItem>
+              {benefitTypes.map((bt) => (
+                <SelectItem key={bt.id} value={bt.id}>
+                  {bt.icon} {bt.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-        {/* Legend */}
-        <div className="flex items-center gap-3 text-xs">
-          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-red-600 inline-block" /> &gt;30%</span>
-          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-orange-600 inline-block" /> 15-30%</span>
-          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-amber-500 inline-block" /> 0-15%</span>
-          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-green-500 inline-block" /> מתחת לממוצע</span>
+        {/* Color scale legend */}
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-muted-foreground">מתחת לממוצע</span>
+          <div className="flex h-4 rounded-full overflow-hidden border" style={{ width: "120px" }}>
+            {Array.from({ length: 20 }).map((_, i) => (
+              <div
+                key={i}
+                className="flex-1"
+                style={{ backgroundColor: getHeatColor(-50 + (i * 130) / 20) }}
+              />
+            ))}
+          </div>
+          <span className="text-xs text-muted-foreground">מעל הממוצע</span>
         </div>
       </div>
 
-      <div className="rounded-lg overflow-hidden border" style={{ height: "450px" }}>
+      {/* Map */}
+      <div className="rounded-xl overflow-hidden border shadow-sm" style={{ height: "520px" }}>
         <MapContainer
           center={ISRAEL_CENTER}
           zoom={ISRAEL_ZOOM}
           style={{ height: "100%", width: "100%" }}
           scrollWheelZoom={true}
+          zoomControl={true}
         >
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
+            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           />
-          {mapData.map((item) => (
-            <CircleMarker
-              key={item.id}
-              center={item.coords}
-              radius={getRadius(item.population)}
-              pathOptions={{
-                color: getGapColor(item.gap),
-                fillColor: getGapColor(item.gap),
-                fillOpacity: 0.7,
-                weight: 1,
-              }}
-            >
-              <Popup>
-                <div className="text-right min-w-[160px]" dir="rtl">
-                  <p className="font-bold text-sm">{item.name}</p>
-                  <p className="text-xs text-gray-500">{item.branch}</p>
-                  <div className="mt-1 space-y-0.5 text-xs">
-                    <p>אוכלוסייה: {formatNumber(item.population)}</p>
-                    <p>מקבלים: {formatNumber(item.recipients)}</p>
-                    <p>שיעור: {item.rate.toFixed(1)}%</p>
-                    <p className={cn("font-bold", item.gap > 0 ? "text-red-600" : "text-blue-600")}>
-                      פער: {item.gap > 0 ? "+" : ""}{item.gap.toFixed(1)}%
-                    </p>
+          {mapData.map((item) => {
+            const isHovered = hoveredId === item.id;
+            return (
+              <CircleMarker
+                key={item.id}
+                center={item.coords}
+                radius={isHovered ? getRadius(item.population) + 3 : getRadius(item.population)}
+                pathOptions={{
+                  color: isHovered ? "#1B3A5C" : "rgba(255,255,255,0.8)",
+                  fillColor: getHeatColor(item.gap),
+                  fillOpacity: isHovered ? 0.95 : 0.8,
+                  weight: isHovered ? 2.5 : 1,
+                }}
+                eventHandlers={{
+                  mouseover: () => setHoveredId(item.id),
+                  mouseout: () => setHoveredId(null),
+                }}
+              >
+                <MapTooltip
+                  direction="top"
+                  offset={[0, -8]}
+                  opacity={0.95}
+                  className="custom-tooltip"
+                >
+                  <div className="text-right min-w-[180px] p-1" dir="rtl">
+                    <p className="font-bold text-sm border-b pb-1 mb-1">{item.name}</p>
+                    <p className="text-xs text-gray-500 mb-1.5">{item.branch}</p>
+                    <div className="grid grid-cols-2 gap-x-3 gap-y-0.5 text-xs">
+                      <span className="text-gray-500">אוכלוסייה:</span>
+                      <span className="font-medium">{formatNumber(item.population)}</span>
+                      <span className="text-gray-500">מקבלים:</span>
+                      <span className="font-medium">{formatNumber(item.recipients)}</span>
+                      <span className="text-gray-500">שיעור:</span>
+                      <span className="font-medium">{item.rate.toFixed(1)}%</span>
+                      <span className="text-gray-500">פער מאשכול:</span>
+                      <span className={cn("font-bold", item.gap > 0 ? "text-red-600" : "text-blue-600")}>
+                        {item.gap > 0 ? "+" : ""}{item.gap.toFixed(1)}%
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-gray-400 mt-1.5 border-t pt-1">{benefitLabel}</p>
                   </div>
-                </div>
-              </Popup>
-            </CircleMarker>
-          ))}
+                </MapTooltip>
+              </CircleMarker>
+            );
+          })}
         </MapContainer>
       </div>
 
-      <p className="text-xs text-muted-foreground text-center">
-        {mapData.length} רשויות על המפה • גודל העיגול = אוכלוסייה • צבע = פער מאשכול
-        {selectedBranch && ` • סניף: ${selectedBranch}`}
-      </p>
+      {/* Stats bar */}
+      <div className="flex items-center justify-between text-xs text-muted-foreground px-1">
+        <span>
+          {mapData.length} רשויות על המפה
+          {selectedBranch && ` • סניף: ${selectedBranch}`}
+        </span>
+        <span>
+          גודל = אוכלוסייה • צבע = פער מממוצע האשכול • {benefitLabel}
+        </span>
+      </div>
     </div>
   );
 }
