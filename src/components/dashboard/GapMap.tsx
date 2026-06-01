@@ -294,33 +294,14 @@ const MUNICIPALITY_COORDS: Record<string, [number, number]> = {
 const ISRAEL_CENTER: [number, number] = [31.5, 35.0];
 const ISRAEL_ZOOM = 8;
 
-// Continuous color scale for heatmap effect
-function getHeatColor(gap: number): string {
-  // Normalize gap to 0-1 range (clamped between -50 and +80)
-  const normalized = Math.max(0, Math.min(1, (gap + 50) / 130));
-  
-  // Blue → Green → Yellow → Orange → Red
-  if (normalized < 0.25) {
-    // Blue to Cyan
-    const t = normalized / 0.25;
-    return `rgb(${Math.round(30 + t * 0)}, ${Math.round(100 + t * 155)}, ${Math.round(200 - t * 0)})`;
-  } else if (normalized < 0.45) {
-    // Cyan to Green
-    const t = (normalized - 0.25) / 0.2;
-    return `rgb(${Math.round(30 + t * 0)}, ${Math.round(200 + t * 55)}, ${Math.round(200 - t * 130)})`;
-  } else if (normalized < 0.55) {
-    // Green to Yellow
-    const t = (normalized - 0.45) / 0.1;
-    return `rgb(${Math.round(30 + t * 220)}, ${Math.round(200 + t * 55)}, ${Math.round(70 - t * 40)})`;
-  } else if (normalized < 0.7) {
-    // Yellow to Orange
-    const t = (normalized - 0.55) / 0.15;
-    return `rgb(${Math.round(250 - t * 10)}, ${Math.round(220 - t * 100)}, ${Math.round(30)})`;
-  } else {
-    // Orange to Red
-    const t = (normalized - 0.7) / 0.3;
-    return `rgb(${Math.round(240 - t * 40)}, ${Math.round(120 - t * 100)}, ${Math.round(30 + t * 10)})`;
-  }
+// Traffic light colors: Green (below average) → Yellow (near average) → Red (above average)
+function getTrafficColor(gap: number): string {
+  if (gap <= -20) return "#16a34a"; // green-600 — well below cluster avg
+  if (gap <= -5) return "#4ade80";  // green-400
+  if (gap <= 5) return "#facc15";   // yellow-400 — near cluster avg
+  if (gap <= 15) return "#fb923c";  // orange-400
+  if (gap <= 30) return "#ef4444";  // red-500
+  return "#991b1b";                  // red-800 — far above cluster avg
 }
 
 function getRadius(population: number): number {
@@ -350,49 +331,10 @@ interface GapMapProps {
 export function GapMap({ className }: GapMapProps) {
   const { municipalities, benefitData, loading } = useSnapshotData();
   const { selectedBranch } = useBranchFilter();
-  const [selectedBenefit, setSelectedBenefit] = useState("__all__");
+  const [selectedBenefit, setSelectedBenefit] = useState("disability");
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const mapData = useMemo((): MapDataItem[] => {
-    if (selectedBenefit === "__all__") {
-      // Average gap across all benefit types
-      return municipalities
-        .map((m) => {
-          const coords = MUNICIPALITY_COORDS[m.name];
-          if (!coords) return null;
-
-          let totalGap = 0;
-          let totalRate = 0;
-          let totalRecipients = 0;
-          let count = 0;
-
-          for (const routeId of Object.keys(benefitData)) {
-            const entry = benefitData[routeId]?.[m.id];
-            if (entry && entry.ratePer1000 > 0) {
-              totalGap += entry.gapPercentage;
-              totalRate += entry.recipientPercent;
-              totalRecipients += entry.recipients ?? 0;
-              count++;
-            }
-          }
-
-          if (count === 0) return null;
-
-          return {
-            id: m.id,
-            name: m.name,
-            coords,
-            population: m.population,
-            gap: totalGap / count,
-            rate: totalRate / count,
-            recipients: totalRecipients,
-            branch: m.branch,
-          };
-        })
-        .filter(Boolean) as MapDataItem[];
-    }
-
-    // Single benefit type
     const data = benefitData[selectedBenefit];
     if (!data) return [];
 
@@ -417,9 +359,7 @@ export function GapMap({ className }: GapMapProps) {
       .filter(Boolean) as MapDataItem[];
   }, [municipalities, benefitData, selectedBenefit]);
 
-  const benefitLabel = selectedBenefit === "__all__"
-    ? "כל הגמלאות (ממוצע)"
-    : benefitTypes.find((b) => b.id === selectedBenefit)?.name || "";
+  const benefitLabel = benefitTypes.find((b) => b.id === selectedBenefit)?.name || "";
 
   if (loading) {
     return (
@@ -430,17 +370,16 @@ export function GapMap({ className }: GapMapProps) {
   }
 
   return (
-    <div className={cn("space-y-4", className)}>
-      {/* Controls */}
-      <div className="flex items-center justify-between flex-wrap gap-3">
+    <div className={cn("space-y-3", className)}>
+      {/* Controls - ABOVE the map with high z-index */}
+      <div className="relative z-[1000] flex items-center justify-between flex-wrap gap-3 bg-card p-3 rounded-lg border">
         <div className="flex items-center gap-3">
-          <label className="text-sm font-medium">סוג גמלה:</label>
+          <label className="text-sm font-medium whitespace-nowrap">סוג גמלה:</label>
           <Select value={selectedBenefit} onValueChange={setSelectedBenefit}>
             <SelectTrigger className="w-52">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="__all__">🔥 כל הגמלאות (ממוצע)</SelectItem>
+            <SelectContent className="z-[1100]">
               {benefitTypes.map((bt) => (
                 <SelectItem key={bt.id} value={bt.id}>
                   {bt.icon} {bt.name}
@@ -450,20 +389,19 @@ export function GapMap({ className }: GapMapProps) {
           </Select>
         </div>
 
-        {/* Color scale legend */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground">מתחת לממוצע</span>
-          <div className="flex h-4 rounded-full overflow-hidden border" style={{ width: "120px" }}>
-            {Array.from({ length: 20 }).map((_, i) => (
-              <div
-                key={i}
-                className="flex-1"
-                style={{ backgroundColor: getHeatColor(-50 + (i * 130) / 20) }}
-              />
-            ))}
-          </div>
-          <span className="text-xs text-muted-foreground">מעל הממוצע</span>
+        {/* Traffic light legend */}
+        <div className="flex items-center gap-2 text-xs">
+          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full inline-block" style={{backgroundColor:"#16a34a"}} /> מתחת</span>
+          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full inline-block" style={{backgroundColor:"#facc15"}} /> תואם</span>
+          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full inline-block" style={{backgroundColor:"#ef4444"}} /> מעל</span>
+          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full inline-block" style={{backgroundColor:"#991b1b"}} /> חריג</span>
+          <span className="text-muted-foreground mr-1">(ביחס לממוצע האשכול)</span>
         </div>
+      </div>
+
+      {/* Explanation banner */}
+      <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg px-4 py-2 text-xs text-blue-800 dark:text-blue-300">
+        💡 הצבעים מייצגים את <strong>הפער מממוצע האשכול הסוציו-אקונומי</strong> של הרשות. ירוק = שיעור מקבלים נמוך מהצפוי באשכול. אדום = שיעור גבוה מהצפוי. לחצו על רשות לפירוט מלא.
       </div>
 
       {/* Map */}
@@ -487,10 +425,10 @@ export function GapMap({ className }: GapMapProps) {
                 center={item.coords}
                 radius={isHovered ? getRadius(item.population) + 3 : getRadius(item.population)}
                 pathOptions={{
-                  color: isHovered ? "#1B3A5C" : "rgba(255,255,255,0.8)",
-                  fillColor: getHeatColor(item.gap),
+                  color: isHovered ? "#1B3A5C" : "rgba(255,255,255,0.9)",
+                  fillColor: getTrafficColor(item.gap),
                   fillOpacity: isHovered ? 0.95 : 0.8,
-                  weight: isHovered ? 2.5 : 1,
+                  weight: isHovered ? 2.5 : 1.5,
                 }}
                 eventHandlers={{
                   mouseover: () => setHoveredId(item.id),
@@ -503,36 +441,39 @@ export function GapMap({ className }: GapMapProps) {
                   opacity={0.95}
                   className="custom-tooltip"
                 >
-                  <div className="text-right min-w-[160px] p-0.5" dir="rtl">
+                  <div className="text-right min-w-[170px] p-0.5" dir="rtl">
                     <p className="font-bold text-sm">{item.name}</p>
                     <p className="text-xs text-gray-500">{item.branch} • {formatNumber(item.population)} תושבים</p>
-                    <p className={cn("text-sm font-bold mt-0.5", item.gap > 0 ? "text-red-600" : "text-blue-600")}>
-                      פער: {item.gap > 0 ? "+" : ""}{item.gap.toFixed(1)}%
+                    <p className="text-xs mt-0.5">שיעור: <strong>{item.rate.toFixed(1)}%</strong> • מקבלים: <strong>{formatNumber(item.recipients)}</strong></p>
+                    <p className={cn("text-sm font-bold mt-0.5", item.gap > 0 ? "text-red-600" : "text-green-600")}>
+                      פער מאשכול: {item.gap > 0 ? "+" : ""}{item.gap.toFixed(1)}%
                     </p>
                   </div>
                 </MapTooltip>
-                <Popup maxWidth={320} className="municipality-popup">
-                  <div className="text-right min-w-[280px]" dir="rtl">
+                <Popup maxWidth={340} className="municipality-popup">
+                  <div className="text-right min-w-[290px]" dir="rtl">
                     <div className="border-b pb-2 mb-2">
                       <p className="font-bold text-base">{item.name}</p>
-                      <p className="text-xs text-gray-500">{item.branch} • אשכול {municipalities.find(m => m.id === item.id)?.cluster ?? "—"} • {formatNumber(item.population)} תושבים</p>
+                      <p className="text-xs text-gray-500">
+                        סניף: {item.branch} • אשכול: {municipalities.find(m => m.id === item.id)?.cluster ?? "—"} • {formatNumber(item.population)} תושבים
+                      </p>
                     </div>
-                    <p className="text-xs font-semibold text-gray-700 mb-1.5">פירוט גמלאות — פער מממוצע האשכול:</p>
-                    <div className="space-y-1">
+                    <p className="text-xs font-semibold text-gray-700 mb-2">
+                      פירוט כל הגמלאות — פער מממוצע האשכול הרלוונטי:
+                    </p>
+                    <div className="space-y-0.5">
                       {benefitTypes.map((bt) => {
                         const entry = benefitData[bt.id]?.[item.id];
                         if (!entry || entry.ratePer1000 === 0) return null;
+                        const gapColor = entry.gapPercentage > 15 ? "text-red-600" :
+                          entry.gapPercentage > 0 ? "text-orange-500" :
+                          entry.gapPercentage > -15 ? "text-green-600" : "text-blue-600";
                         return (
-                          <div key={bt.id} className="flex items-center justify-between text-xs py-0.5 border-b border-gray-100 last:border-0">
-                            <span className="text-gray-600">{bt.icon} {bt.name}</span>
-                            <div className="flex items-center gap-3">
-                              <span className="text-gray-800 font-medium">{entry.recipientPercent.toFixed(1)}%</span>
-                              <span className={cn(
-                                "font-bold min-w-[50px] text-left",
-                                entry.gapPercentage > 15 ? "text-red-600" :
-                                entry.gapPercentage > 0 ? "text-orange-500" :
-                                "text-blue-600"
-                              )}>
+                          <div key={bt.id} className="flex items-center justify-between text-xs py-1 border-b border-gray-100 last:border-0">
+                            <span className="text-gray-700">{bt.icon} {bt.name}</span>
+                            <div className="flex items-center gap-2">
+                              <span className="text-gray-600">{entry.recipientPercent.toFixed(1)}%</span>
+                              <span className={cn("font-bold min-w-[55px] text-left", gapColor)}>
                                 {entry.gapPercentage > 0 ? "+" : ""}{entry.gapPercentage.toFixed(1)}%
                               </span>
                             </div>
@@ -540,6 +481,9 @@ export function GapMap({ className }: GapMapProps) {
                         );
                       })}
                     </div>
+                    <p className="text-[10px] text-gray-400 mt-2 pt-1 border-t">
+                      * הפער מחושב ביחס לממוצע הרשויות באותו אשכול סוציו-אקונומי
+                    </p>
                   </div>
                 </Popup>
               </CircleMarker>
@@ -555,7 +499,7 @@ export function GapMap({ className }: GapMapProps) {
           {selectedBranch && ` • סניף: ${selectedBranch}`}
         </span>
         <span>
-          גודל = אוכלוסייה • צבע = פער מממוצע האשכול • {benefitLabel}
+          גודל = אוכלוסייה • צבע = פער מאשכול • {benefitLabel}
         </span>
       </div>
     </div>
