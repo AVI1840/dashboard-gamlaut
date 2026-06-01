@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40" fill="none">
+  <!-- BTL Shield shape -->
+  <path d="M8 4h24c2 0 4 2 4 4v20c0 4-6 8-14 10C14 36 8 32 8 28V8c0-2 2-4 4-4z" fill="#1B3A5C"/>
+  <path d="M20 10c5 0 9 4 9 9s-4 9-9 9-9-4-9-9 4-9 9-9z" fill="white" opacity="0.2"/>
+  <!-- Hebrew text: ביטוח לאומי -->
+  <text x="44" y="18" font-family="Heebo, Arial, sans-serif" font-size="11" font-weight="700" fill="#1B3A5C" text-anchor="start">ביטוח</text>
+  <text x="44" y="33" font-family="Heebo, Arial, sans-serif" font-size="11" font-weight="700" fill="#1B3A5C" text-anchor="start">לאומי</text>
+  <!-- Star of David simplified -->
+  <path d="M20 13l2.5 4.5h-5L20 13z" fill="white"/>
+  <path d="M20 25l-2.5-4.5h5L20 25z" fill="white"/>
+</svg>

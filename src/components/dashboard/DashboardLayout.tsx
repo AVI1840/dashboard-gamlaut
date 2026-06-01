@@ -174,12 +174,11 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-card px-4 sm:px-6 shadow-sm">
           <MobileNavigation />
           {/* BTL Logo - links to home */}
-          <Link to="/" className="flex items-center gap-2 shrink-0" title="חזרה לדף הבית">
+          <Link to="/" className="flex items-center gap-2 shrink-0 hover:opacity-80 transition-opacity" title="חזרה לדף הבית">
             <img
-              src="https://www.btl.gov.il/SiteAssets/logo.png"
-              alt="ביטוח לאומי"
-              className="h-9 w-auto"
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+              src={`${import.meta.env.BASE_URL}btl-logo.svg`}
+              alt="ביטוח לאומי — חזרה לדף הבית"
+              className="h-10 w-auto"
             />
           </Link>
           <div className="flex-1 min-w-0">
