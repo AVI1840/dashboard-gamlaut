@@ -176,8 +176,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           {/* BTL Logo - links to home */}
           <Link to="/" className="flex items-center gap-2 shrink-0 hover:opacity-80 transition-opacity" title="חזרה לדף הבית">
             <img
-              src={`${import.meta.env.BASE_URL}btl-logo.svg`}
-              alt="ביטוח לאומי — חזרה לדף הבית"
+              src={`${import.meta.env.BASE_URL}btl-logo.png`}
+              alt="המוסד לביטוח לאומי — חזרה לדף הבית"
               className="h-10 w-auto"
             />
           </Link>
