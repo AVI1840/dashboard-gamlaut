@@ -81,7 +81,13 @@ export default function BenefitAnalysisPage() {
   const topByGap = getTopByGap(benefitData, municipalities, benefit.id, 20);
   const avgRecipientPercent = allData.length > 0
     ? allData.reduce((sum, item) => sum + item.data.recipientPercent, 0) / allData.length : 0;
-  const highRecipientCount = allData.filter((d) => d.data.recipientPercent > 5).length;
+  
+  // Top 10 and bottom 10 by gap from cluster
+  const sortedByGap = [...allData].sort((a, b) => b.data.gapPercentage - a.data.gapPercentage);
+  const top10 = sortedByGap.slice(0, 10);
+  const bottom10 = sortedByGap.slice(-10).reverse();
+  const top10AvgGap = top10.length > 0 ? top10.reduce((s, d) => s + d.data.gapPercentage, 0) / top10.length : 0;
+  
   const isOldAge = benefit.id === "old-age";
 
   return (
@@ -118,7 +124,7 @@ export default function BenefitAnalysisPage() {
         <KPICard title="אחוז מקבלים ארצי" value={`${(benefit.nationalRatePer1000 / 10).toFixed(1)}%`} subtitle={`מתוך ${benefit.targetPopulation}`} variant="primary" />
         <KPICard title="מקבלים" value={formatNumber(allData.reduce((sum, d) => sum + (d.data.recipients ?? 0), 0) || benefit.nationalRecipients)} subtitle="סה״כ מקבלי גמלה" variant="default" />
         <KPICard title="אחוז ממוצע ברשויות" value={`${avgRecipientPercent.toFixed(1)}%`} subtitle={`ממוצע ${allData.length} רשויות`} variant={avgRecipientPercent > 5 ? "destructive" : "success"} />
-        <KPICard title="רשויות מעל 5%" value={highRecipientCount} subtitle="רשויות עם אחוז גבוה" variant="warning" />
+        <KPICard title="עשירון עליון" value={`+${top10AvgGap.toFixed(0)}%`} subtitle="ממוצע פער 10 הגבוהות" variant="warning" />
       </div>
 
       <Tabs defaultValue="table" className="space-y-4">
@@ -154,9 +160,18 @@ export default function BenefitAnalysisPage() {
         </TabsContent>
       </Tabs>
 
-      <div className="dashboard-card p-6">
-        <h3 className="text-lg font-semibold mb-4">טבלת סיכום - 10 הראשונות</h3>
-        <MunicipalityTable data={topByGap.slice(0, 10)} showSearch={false} />
+      {/* Top 10 and Bottom 10 by gap from cluster */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        <div className="dashboard-card p-6">
+          <h3 className="text-lg font-semibold mb-2 text-red-700">⬆️ עשירון עליון — 10 רשויות עם הפער הגבוה ביותר</h3>
+          <p className="text-xs text-muted-foreground mb-3">פער חיובי = שיעור מקבלים מעל ממוצע האשכול</p>
+          <MunicipalityTable data={top10} showSearch={false} />
+        </div>
+        <div className="dashboard-card p-6">
+          <h3 className="text-lg font-semibold mb-2 text-blue-700">⬇️ עשירון תחתון — 10 רשויות עם הפער הנמוך ביותר</h3>
+          <p className="text-xs text-muted-foreground mb-3">פער שלילי = שיעור מקבלים מתחת לממוצע האשכול</p>
+          <MunicipalityTable data={bottom10} showSearch={false} />
+        </div>
       </div>
     </div>
   );
