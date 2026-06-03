@@ -87,6 +87,7 @@ export default function BenefitAnalysisPage() {
   const top10 = sortedByGap.slice(0, 10);
   const bottom10 = sortedByGap.slice(-10).reverse();
   const top10AvgGap = top10.length > 0 ? top10.reduce((s, d) => s + d.data.gapPercentage, 0) / top10.length : 0;
+  const top10AvgRate = top10.length > 0 ? top10.reduce((s, d) => s + d.data.recipientPercent, 0) / top10.length : 0;
   
   const isOldAge = benefit.id === "old-age";
 
@@ -124,7 +125,7 @@ export default function BenefitAnalysisPage() {
         <KPICard title="אחוז מקבלים ארצי" value={`${(benefit.nationalRatePer1000 / 10).toFixed(1)}%`} subtitle={`מתוך ${benefit.targetPopulation}`} variant="primary" />
         <KPICard title="מקבלים" value={formatNumber(allData.reduce((sum, d) => sum + (d.data.recipients ?? 0), 0) || benefit.nationalRecipients)} subtitle="סה״כ מקבלי גמלה" variant="default" />
         <KPICard title="אחוז ממוצע ברשויות" value={`${avgRecipientPercent.toFixed(1)}%`} subtitle={`ממוצע ${allData.length} רשויות`} variant={avgRecipientPercent > 5 ? "destructive" : "success"} />
-        <KPICard title="עשירון עליון" value={`+${top10AvgGap.toFixed(0)}%`} subtitle="ממוצע פער 10 הגבוהות" variant="warning" />
+        <KPICard title="עשירון עליון" value={`${top10AvgRate.toFixed(1)}%`} subtitle={`ממוצע שיעור (פער: +${top10AvgGap.toFixed(0)}%)`} variant="warning" />
       </div>
 
       <Tabs defaultValue="table" className="space-y-4">
