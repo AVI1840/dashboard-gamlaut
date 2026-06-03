@@ -1,11 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40" fill="none">
-  <!-- BTL Shield shape -->
-  <path d="M8 4h24c2 0 4 2 4 4v20c0 4-6 8-14 10C14 36 8 32 8 28V8c0-2 2-4 4-4z" fill="#1B3A5C"/>
-  <path d="M20 10c5 0 9 4 9 9s-4 9-9 9-9-4-9-9 4-9 9-9z" fill="white" opacity="0.2"/>
-  <!-- Hebrew text: ביטוח לאומי -->
-  <text x="44" y="18" font-family="Heebo, Arial, sans-serif" font-size="11" font-weight="700" fill="#1B3A5C" text-anchor="start">ביטוח</text>
-  <text x="44" y="33" font-family="Heebo, Arial, sans-serif" font-size="11" font-weight="700" fill="#1B3A5C" text-anchor="start">לאומי</text>
-  <!-- Star of David simplified -->
-  <path d="M20 13l2.5 4.5h-5L20 13z" fill="white"/>
-  <path d="M20 25l-2.5-4.5h5L20 25z" fill="white"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
+  <!-- Blue circle background -->
+  <circle cx="30" cy="30" r="26" fill="#2563A0"/>
+  <!-- Menorah/hands symbol (simplified) -->
+  <g fill="white">
+    <!-- Central stem -->
+    <rect x="28.5" y="14" width="3" height="18" rx="1"/>
+    <!-- Left branches -->
+    <path d="M22 16c2 0 4 2 5 5l1 4h-2l-1-3.5c-0.5-2-2-3.5-3.5-3.5" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M18 18c2 0 4 3 5 6l1 4h-2l-1-3.5c-0.5-2-2-4-3.5-4" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- Right branches -->
+    <path d="M38 16c-2 0-4 2-5 5l-1 4h2l1-3.5c0.5-2 2-3.5 3.5-3.5" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M42 18c-2 0-4 3-5 6l-1 4h2l1-3.5c0.5-2 2-4 3.5-4" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- Base/hands -->
+    <path d="M20 34h20c1 0 2 0.5 2 1.5v2c0 1-1 2-2 2H20c-1 0-2-1-2-2v-2c0-1 1-1.5 2-1.5z"/>
+    <path d="M24 39.5h12v3c0 1-1 2-3 2h-6c-2 0-3-1-3-2v-3z"/>
+  </g>
+  <!-- Hebrew text -->
+  <text x="66" y="24" font-family="Heebo, Arial, sans-serif" font-size="14" font-weight="700" fill="#2563A0">המוסד</text>
+  <text x="66" y="44" font-family="Heebo, Arial, sans-serif" font-size="14" font-weight="700" fill="#2563A0">לביטוח לאומי</text>
 </svg>

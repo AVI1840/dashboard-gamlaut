@@ -81,15 +81,24 @@ export default function DepartmentsPage() {
       ? allRows.filter((r) => r.Branch === selectedBranch)
       : allRows;
 
+    // Target population ratios for computing recipients
+    const targetPopRatio: Record<string, number> = {
+      "זקנה": 0.1297, "סיעוד": 0.1297,
+      "אבטלה": 0.5458, "הבטחת_הכנסה": 0.5458, "נכות_מעבודה": 0.5458, "דמי_פגיעה": 0.5458,
+      "ילד_נכה": 0.3248,
+      "נכות": 1.0, "ניידות": 1.0, "מזונות": 1.0, "ילדים": 1.0,
+    };
+
     return benefitTypes.map((bt) => {
       const csvType = benefitIdToCsvType[bt.id];
       const btRows = rows.filter((r) => r.Benefit_Type === csvType);
 
-      // Total recipients (rate * pop / 1000)
+      // Total recipients: rate per 1000 * (pop * target ratio) / 1000
       let totalRecipients = 0;
+      const ratio = targetPopRatio[csvType] ?? 1.0;
       const rateRows = btRows.filter((r) => r.Rate_2025 !== null && r.Pop_2025 !== null);
       for (const r of rateRows) {
-        totalRecipients += Math.round((r.Rate_2025! * (r.Pop_2025 ?? 0)) / 1000);
+        totalRecipients += Math.round((r.Rate_2025! * (r.Pop_2025 ?? 0) * ratio) / 1000);
       }
 
       // Average rate
@@ -267,7 +276,7 @@ export default function DepartmentsPage() {
             {/* Stats */}
             <div className="grid grid-cols-2 gap-3 pt-3 border-t">
               <div>
-                <p className="text-xs text-muted-foreground">רשויות קריטיות</p>
+                <p className="text-xs text-muted-foreground">עשירון עליון (10 גבוהות)</p>
                 <p className={cn(
                   "text-lg font-bold",
                   dept.criticalMunis > 5 ? "text-red-600" : dept.criticalMunis > 0 ? "text-orange-600" : "text-green-600"

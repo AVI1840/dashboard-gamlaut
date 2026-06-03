@@ -79,6 +79,23 @@ function buildSnapshot(rows: FlatDataRow[]): NonNullable<typeof _cache> {
   const muniMap = new Map<string, CsvMunicipality>();
   const benefitData: Record<string, Record<string, CsvBenefitData>> = {};
 
+  // Target population ratios for computing recipients from rates.
+  // Rate is per 1000 of TARGET population, not total population.
+  // These ratios represent what fraction of total pop is the target group.
+  const targetPopRatio: Record<string, number> = {
+    "זקנה": 0.1297,      // 65+ ≈ 12.97% of population
+    "סיעוד": 0.1297,     // 65+
+    "אבטלה": 0.5458,     // 18-64 ≈ 54.58%
+    "הבטחת_הכנסה": 0.5458, // 18-64
+    "נכות_מעבודה": 0.5458, // 18-64
+    "דמי_פגיעה": 0.5458,  // 18-64
+    "ילד_נכה": 0.3248,   // 0-17 ≈ 32.48%
+    "נכות": 1.0,          // כלל האוכלוסייה
+    "ניידות": 1.0,        // כלל האוכלוסייה
+    "מזונות": 1.0,        // כלל האוכלוסייה
+    "ילדים": 1.0,         // כלל האוכלוסייה (families with children)
+  };
+
   // Initialize benefit data maps
   for (const routeId of Object.values(csvTypeToRouteId)) {
     benefitData[routeId] = {};
@@ -108,10 +125,11 @@ function buildSnapshot(rows: FlatDataRow[]): NonNullable<typeof _cache> {
 
     // Use Rate_2025 as primary, fall back to Rate_2024 for regional councils
     const rate = row.Rate_2025 ?? row.Rate_2024 ?? 0;
-    const ratePer1000 = rate; // CSV rates are already per-1000
+    const ratePer1000 = rate; // CSV rates are already per-1000 of target population
     const population = row.Pop_2025 ?? 0;
-    // Compute estimated recipients: rate per 1000 * population / 1000
-    const recipients = Math.round(ratePer1000 * population / 1000);
+    // Compute recipients: rate per 1000 * (population * target ratio) / 1000
+    const ratio = targetPopRatio[row.Benefit_Type] ?? 1.0;
+    const recipients = Math.round(ratePer1000 * population * ratio / 1000);
 
     benefitData[routeId][id] = {
       municipalityId: id,
